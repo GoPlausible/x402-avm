@@ -1,6 +1,6 @@
-# x402 Extensions
+# x402 Extensions with Algorand Integration
 
-Optional extensions that enhance the x402 payment protocol with additional functionality.
+Optional extensions that enhance the x402 payment protocol with additional functionality, including first-class Algorand (AVM) support.
 
 ## Installation
 
@@ -24,8 +24,8 @@ routes = {
         "accepts": {
             "scheme": "exact",
             "price": "$0.001",
-            "network": "eip155:84532",
-            "payTo": "0x...",
+            "network": "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+            "payTo": "ALGO_ADDRESS...",
         },
         "extensions": {
             **declare_discovery_extension(

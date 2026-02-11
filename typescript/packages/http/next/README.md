@@ -17,11 +17,11 @@ Page routes are protected using the `paymentProxy`. Create a proxy (middleware) 
 ```typescript
 import { paymentProxy, x402ResourceServer } from "@x402-avm/next";
 import { HTTPFacilitatorClient } from "@x402-avm/core/server";
-import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
 
-const facilitatorClient = new HTTPFacilitatorClient({ url: "https://facilitator.x402.org" });
+const facilitatorClient = new HTTPFacilitatorClient({ url: "https://facilitator.goplausible.xyz" });
 const resourceServer = new x402ResourceServer(facilitatorClient)
-  .register("eip155:84532", new ExactEvmScheme());
+  .register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme());
 
 export const proxy = paymentProxy(
   {
@@ -29,8 +29,8 @@ export const proxy = paymentProxy(
       accepts: {
         scheme: "exact",
         price: "$0.01",
-        network: "eip155:84532",
-        payTo: "0xYourAddress",
+        network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+        payTo: "YOUR_ALGORAND_ADDRESS",
       },
       description: "Access to protected content",
     },
@@ -63,8 +63,8 @@ export const GET = withX402(
     accepts: {
       scheme: "exact",
       price: "$0.01",
-      network: "eip155:84532",
-      payTo: "0xYourAddress",
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: "YOUR_ALGORAND_ADDRESS",
     },
     description: "Access to API endpoint",
   },
@@ -145,8 +145,8 @@ const routes: RoutesConfig = {
     accepts: {
       scheme: "exact",
       price: "$0.10",
-      network: "eip155:84532",
-      payTo: "0xYourAddress",
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: "YOUR_ALGORAND_ADDRESS",
       maxTimeoutSeconds: 60,
     },
     description: "Premium API access",
@@ -161,19 +161,26 @@ const routes: RoutesConfig = {
 ```typescript
 import { paymentProxy, x402ResourceServer } from "@x402-avm/next";
 import { HTTPFacilitatorClient } from "@x402-avm/core/server";
-import { registerExactEvmScheme } from "@x402-avm/evm/exact/server";
-import { registerExactSvmScheme } from "@x402-avm/svm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/server";
 
 const facilitatorClient = new HTTPFacilitatorClient({ url: facilitatorUrl });
-const server = new x402ResourceServer(facilitatorClient);
-
-registerExactEvmScheme(server);
-registerExactSvmScheme(server);
+const server = new x402ResourceServer(facilitatorClient)
+  .register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme())
+  .register("eip155:84532", new ExactEvmScheme())
+  .register("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1", new ExactSvmScheme());
 
 export const middleware = paymentProxy(
   {
     "/protected": {
       accepts: [
+        {
+          scheme: "exact",
+          price: "$0.001",
+          network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+          payTo: avmAddress,
+        },
         {
           scheme: "exact",
           price: "$0.001",
@@ -199,10 +206,12 @@ export const middleware = paymentProxy(
 
 ```typescript
 import { createPaywall } from "@x402-avm/paywall";
+import { avmPaywall } from "@x402-avm/paywall/avm";
 import { evmPaywall } from "@x402-avm/paywall/evm";
 import { svmPaywall } from "@x402-avm/paywall/svm";
 
 const paywall = createPaywall()
+  .withNetwork(avmPaywall)
   .withNetwork(evmPaywall)
   .withNetwork(svmPaywall)
   .withConfig({

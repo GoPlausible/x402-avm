@@ -35,7 +35,7 @@ npm install @x402-avm/core @x402-avm/evm @x402-avm/svm @x402-avm/avm @x402-avm/e
 ### Python
 
 ```shell
-pip install x402
+pip install x402-avm
 ```
 
 ### Go

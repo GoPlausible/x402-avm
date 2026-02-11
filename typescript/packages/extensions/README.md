@@ -42,8 +42,8 @@ const resources = {
     accepts: { 
       scheme: "exact", 
       price: "$0.001", 
-      network: "eip155:84532", 
-      payTo: "0xYourAddress" 
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: "YOUR_ALGORAND_ADDRESS"
     },
     extensions: {
       ...declareDiscoveryExtension({
@@ -81,8 +81,8 @@ const resources = {
     accepts: { 
       scheme: "exact", 
       price: "$0.01", 
-      network: "eip155:84532", 
-      payTo: "0xYourAddress" 
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: "YOUR_ALGORAND_ADDRESS"
     },
     extensions: {
       ...declareDiscoveryExtension({
@@ -119,8 +119,8 @@ const resources = {
     accepts: { 
       scheme: "exact", 
       price: "$0.05", 
-      network: "eip155:84532", 
-      payTo: "0xYourAddress" 
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: "YOUR_ALGORAND_ADDRESS"
     },
     extensions: {
       ...declareDiscoveryExtension({
@@ -159,8 +159,8 @@ const resources = {
     accepts: { 
       scheme: "exact", 
       price: "$0.001", 
-      network: "eip155:84532", 
-      payTo: "0xYourAddress" 
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: "YOUR_ALGORAND_ADDRESS"
     },
     extensions: {
       ...declareDiscoveryExtension({
@@ -187,13 +187,13 @@ const resources = {
 
 ```typescript
 import { paymentProxy, x402ResourceServer } from "@x402-avm/next";
-import { HTTPFacilitatorClient } from "@x402-avm/core/http";
-import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
 import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 
-const facilitatorClient = new HTTPFacilitatorClient({ url: "https://facilitator.x402.org" });
+const facilitatorClient = new HTTPFacilitatorClient({ url: "https://facilitator.goplausible.xyz" });
 const resourceServer = new x402ResourceServer(facilitatorClient)
-  .register("eip155:84532", new ExactEvmScheme());
+  .register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme());
 
 export const proxy = paymentProxy(
   {
@@ -201,8 +201,8 @@ export const proxy = paymentProxy(
       accepts: {
         scheme: "exact",
         price: "$0.001",
-        network: "eip155:84532",
-        payTo: "0xYourAddress",
+        network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+        payTo: "YOUR_ALGORAND_ADDRESS",
       },
       extensions: {
         ...declareDiscoveryExtension({
@@ -296,7 +296,7 @@ import { x402ResourceServer } from "@x402-avm/core/server";
 
 // The extension helper automatically extracts discovery info
 const resourceServer = new x402ResourceServer(facilitatorClient)
-  .register("eip155:84532", new ExactEvmScheme())
+  .register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme())
   .registerExtension(bazaarResourceServerExtension);
 ```
 

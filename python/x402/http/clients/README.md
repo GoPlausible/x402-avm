@@ -1,6 +1,6 @@
-# x402 HTTP Clients
+# x402 HTTP Clients with Algorand Integration
 
-HTTP client wrappers with automatic 402 payment handling.
+HTTP client wrappers with automatic 402 payment handling, including first-class Algorand (AVM) support.
 
 ## httpx (Async)
 
@@ -13,11 +13,11 @@ uv add x402-avm[httpx]
 ```python
 from x402 import x402Client
 from x402.http.clients import x402_httpx_transport
-from x402.mechanisms.evm.exact import ExactEvmScheme
+from x402.mechanisms.avm.exact import ExactAvmScheme
 import httpx
 
 client = x402Client()
-client.register("eip155:*", ExactEvmScheme(signer=signer))
+client.register("algorand:*", ExactAvmScheme(signer=avm_signer))
 
 async with httpx.AsyncClient(
     transport=x402_httpx_transport(client)
@@ -43,8 +43,8 @@ from x402.http.clients import wrapHttpxWithPaymentFromConfig
 config = x402ClientConfig(
     schemes=[
         SchemeRegistration(
-            network="eip155:*",
-            client=ExactEvmScheme(signer=signer),
+            network="algorand:*",
+            client=ExactAvmScheme(signer=avm_signer),
         ),
     ],
 )
@@ -73,11 +73,11 @@ uv add x402-avm[requests]
 ```python
 from x402 import x402ClientSync
 from x402.http.clients import wrapRequestsWithPayment
-from x402.mechanisms.evm.exact import ExactEvmScheme
+from x402.mechanisms.avm.exact import ExactAvmScheme
 import requests
 
 client = x402ClientSync()
-client.register("eip155:*", ExactEvmScheme(signer=signer))
+client.register("algorand:*", ExactAvmScheme(signer=avm_signer))
 
 session = wrapRequestsWithPayment(requests.Session(), client)
 response = session.get("https://api.example.com/paid")
@@ -112,6 +112,21 @@ response = session.get("https://api.example.com/paid")
 from x402.http.clients import wrapRequestsWithPaymentFromConfig
 
 session = wrapRequestsWithPaymentFromConfig(requests.Session(), config)
+```
+
+## Multi-Chain Registration
+
+Register multiple blockchain mechanisms:
+
+```python
+from x402.mechanisms.avm.exact import ExactAvmScheme
+from x402.mechanisms.evm.exact import ExactEvmScheme
+from x402.mechanisms.svm.exact import ExactSvmScheme
+
+client = x402Client()
+client.register("algorand:*", ExactAvmScheme(signer=avm_signer))
+client.register("eip155:*", ExactEvmScheme(signer=evm_signer))
+client.register("solana:*", ExactSvmScheme(signer=svm_signer))
 ```
 
 ## Sync/Async Matching

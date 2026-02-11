@@ -30,6 +30,7 @@
     }
   ],
   "repository": "https://github.com/GoPlausible/x402-avm",
+  "homepage": "https://x402.goplausible.xyz",
   "description": "x402 Payment Protocol Extensions with Algorand integration - Extensions SDK",
   "devDependencies": {
     "@eslint/js": "^9.24.0",

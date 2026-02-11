@@ -13,13 +13,13 @@ pnpm install @x402-avm/core
 ### Client Usage
 
 ```typescript
-import { x402Client } from '@x402-avm/core/client';
-import { x402HTTPClient } from '@x402-avm/core/http';
-import { ExactEvmScheme } from '@x402-avm/evm/exact/client';
+import { x402Client } from "@x402-avm/core/client";
+import { x402HTTPClient } from "@x402-avm/core/http";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
 
 // Create core client and register payment schemes
 const coreClient = new x402Client()
-  .register('eip155:*', new ExactEvmScheme(evmSigner));
+  .register("algorand:*", new ExactAvmScheme(avmSigner));
 
 // Wrap with HTTP client for header encoding/decoding
 const client = new x402HTTPClient(coreClient);
@@ -52,33 +52,33 @@ if (response.status === 402) {
 ### Server Usage
 
 ```typescript
-import { x402ResourceServer, HTTPFacilitatorClient } from '@x402-avm/core/server';
-import { x402HTTPResourceServer } from '@x402-avm/core/http';
-import { ExactEvmScheme } from '@x402-avm/evm/exact/server';
+import { x402ResourceServer, HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { x402HTTPResourceServer } from "@x402-avm/core/http";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
 
 // Connect to facilitator
 const facilitatorClient = new HTTPFacilitatorClient({
-  url: 'https://x402.org/facilitator',
+  url: "https://facilitator.goplausible.xyz",
 });
 
 // Create resource server with payment schemes
 const resourceServer = new x402ResourceServer(facilitatorClient)
-  .register('eip155:*', new ExactEvmScheme());
+  .register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme());
 
 // Initialize (fetches supported kinds from facilitator)
 await resourceServer.initialize();
 
 // Configure routes with payment requirements
 const routes = {
-  'GET /api/data': {
+  "GET /api/data": {
     accepts: {
-      scheme: 'exact',
-      network: 'eip155:8453',
-      payTo: '0xYourAddress',
-      price: '$0.01',
+      scheme: "exact",
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: avmAddress,
+      price: "$0.01",
     },
-    description: 'Premium data access',
-    mimeType: 'application/json',
+    description: "Premium data access",
+    mimeType: "application/json",
   },
 };
 
@@ -89,16 +89,13 @@ const httpServer = new x402HTTPResourceServer(resourceServer, routes);
 ### Facilitator Usage
 
 ```typescript
-import { x402Facilitator } from '@x402-avm/core/facilitator';
-import { registerExactEvmScheme } from '@x402-avm/evm/exact/facilitator';
+import { x402Facilitator } from "@x402-avm/core/facilitator";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/facilitator";
 
 const facilitator = new x402Facilitator();
 
-// Register scheme implementations using helper
-registerExactEvmScheme(facilitator, {
-  signer: evmSigner,
-  networks: 'eip155:84532',
-});
+// Register Algorand scheme implementation
+facilitator.register("algorand:*", new ExactAvmScheme(avmSigner));
 
 // Verify payment
 const verifyResult = await facilitator.verify(paymentPayload, paymentRequirements);
@@ -117,31 +114,37 @@ Routes use the `accepts` field to define payment options:
 ```typescript
 const routes = {
   // Single payment option
-  'GET /api/data': {
+  "GET /api/data": {
     accepts: {
-      scheme: 'exact',
-      network: 'eip155:8453',
-      payTo: '0xAddress',
-      price: '$0.01',
+      scheme: "exact",
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: avmAddress,
+      price: "$0.01",
     },
-    description: 'Data endpoint',
-    mimeType: 'application/json',
+    description: "Data endpoint",
+    mimeType: "application/json",
   },
-  
-  // Multiple payment options (EVM + SVM)
-  'POST /api/*': {
+
+  // Multiple payment options (AVM + EVM + SVM)
+  "POST /api/*": {
     accepts: [
       {
-        scheme: 'exact',
-        network: 'eip155:8453',
-        payTo: evmAddress,
-        price: '$0.05',
+        scheme: "exact",
+        network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+        payTo: avmAddress,
+        price: "$0.05",
       },
       {
-        scheme: 'exact',
-        network: 'solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp',
+        scheme: "exact",
+        network: "eip155:8453",
+        payTo: evmAddress,
+        price: "$0.05",
+      },
+      {
+        scheme: "exact",
+        network: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
         payTo: svmAddress,
-        price: '$0.05',
+        price: "$0.05",
       },
     ],
   },
@@ -155,12 +158,13 @@ Use `fromConfig()` for declarative setup:
 ```typescript
 const client = x402Client.fromConfig({
   schemes: [
-    { network: 'eip155:8453', client: new ExactEvmScheme(evmSigner) },
-    { network: 'solana:mainnet', client: new ExactSvmScheme(svmSigner) },
+    { network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", client: new ExactAvmScheme(avmSigner) },
+    { network: "eip155:8453", client: new ExactEvmScheme(evmSigner) },
+    { network: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp", client: new ExactSvmScheme(svmSigner) },
   ],
   policies: [
     // Filter by max price
-    (version, reqs) => reqs.filter(r => BigInt(r.amount) < BigInt('1000000')),
+    (version, reqs) => reqs.filter(r => BigInt(r.amount) < BigInt("1000000")),
   ],
 });
 ```
@@ -228,17 +232,17 @@ facilitator
 Register handlers for network families using wildcards:
 
 ```typescript
-// All EVM networks
-server.register('eip155:*', new ExactEvmScheme());
+// All Algorand networks
+server.register("algorand:*", new ExactAvmScheme());
 
 // Specific network takes precedence
-server.register('eip155:8453', new ExactEvmScheme());
+server.register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme());
 ```
 
 ## Types
 
 ```typescript
-type Network = `${string}:${string}`; // e.g., "eip155:8453"
+type Network = `${string}:${string}`; // e.g., "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI="
 
 type PaymentRequirements = {
   scheme: string;
@@ -281,14 +285,14 @@ For framework-specific middleware, use:
 
 For blockchain-specific implementations:
 
+- `@x402-avm/avm` - Algorand blockchain
 - `@x402-avm/evm` - Ethereum and EVM-compatible chains
 - `@x402-avm/svm` - Solana blockchain
-- `@x402-avm/avm` - Algorand blockchain
 
 ## Examples
 
-See the [examples directory](https://github.com/coinbase/x402/tree/main/examples/typescript) for complete examples.
+See the [examples directory](https://github.com/GoPlausible/x402-avm/tree/main/examples/typescript) for complete examples.
 
 ## Contributing
 
-Contributions welcome! See [Contributing Guide](https://github.com/coinbase/x402/blob/main/CONTRIBUTING.md).
+Contributions welcome! See [Contributing Guide](https://github.com/GoPlausible/x402-avm/blob/main/CONTRIBUTING.md).

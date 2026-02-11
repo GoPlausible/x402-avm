@@ -1,6 +1,6 @@
-# x402 Python SDK
+# x402 Python SDK with Algorand Integration
 
-Core implementation of the x402 payment protocol. Provides transport-agnostic client, server, and facilitator components with both async and sync variants.
+Core implementation of the x402 payment protocol with first-class Algorand (AVM) support. Provides transport-agnostic client, server, and facilitator components with both async and sync variants.
 
 ## Installation
 
@@ -16,12 +16,12 @@ uv add x402-avm[fastapi]    # FastAPI middleware
 uv add x402-avm[flask]      # Flask middleware
 
 # Blockchain mechanisms (pick one or more)
+uv add x402-avm[avm]        # Algorand
 uv add x402-avm[evm]        # EVM/Ethereum
 uv add x402-avm[svm]        # Solana
-uv add x402-avm[avm]        # Algorand
 
 # Multiple extras
-uv add x402-avm[fastapi,httpx,evm]
+uv add x402-avm[fastapi,httpx,avm]
 
 # Everything
 uv add x402-avm[all]
@@ -33,10 +33,10 @@ uv add x402-avm[all]
 
 ```python
 from x402 import x402Client
-from x402.mechanisms.evm.exact import ExactEvmScheme
+from x402.mechanisms.avm.exact import ExactAvmScheme
 
 client = x402Client()
-client.register("eip155:*", ExactEvmScheme(signer=my_signer))
+client.register("algorand:*", ExactAvmScheme(signer=my_avm_signer))
 
 # Create payment from 402 response
 payload = await client.create_payment_payload(payment_required)
@@ -46,10 +46,10 @@ payload = await client.create_payment_payload(payment_required)
 
 ```python
 from x402 import x402ClientSync
-from x402.mechanisms.evm.exact import ExactEvmScheme
+from x402.mechanisms.avm.exact import ExactAvmScheme
 
 client = x402ClientSync()
-client.register("eip155:*", ExactEvmScheme(signer=my_signer))
+client.register("algorand:*", ExactAvmScheme(signer=my_avm_signer))
 
 payload = client.create_payment_payload(payment_required)
 ```
@@ -58,19 +58,18 @@ payload = client.create_payment_payload(payment_required)
 
 ```python
 from x402 import x402ResourceServer, ResourceConfig
-from x402.http import HTTPFacilitatorClient
-from x402.mechanisms.evm.exact import ExactEvmServerScheme
+from x402.http import HTTPFacilitatorClient, FacilitatorConfig
+from x402.mechanisms.avm.exact import ExactAvmServerScheme
 
-facilitator = HTTPFacilitatorClient(url="https://x402.org/facilitator")
+facilitator = HTTPFacilitatorClient(FacilitatorConfig(url="https://x402.org/facilitator"))
 server = x402ResourceServer(facilitator)
-server.register("eip155:*", ExactEvmServerScheme())
-server.initialize()
+server.register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", ExactAvmServerScheme())
 
 # Build requirements
 config = ResourceConfig(
     scheme="exact",
-    network="eip155:8453",
-    pay_to="0x...",
+    network="algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+    pay_to="ALGO_ADDRESS...",
     price="$0.01",
 )
 requirements = server.build_payment_requirements(config)
@@ -82,14 +81,13 @@ result = await server.verify_payment(payload, requirements[0])
 ### Server (Sync)
 
 ```python
-from x402 import x402ResourceServerSync, ResourceConfig
-from x402.http import HTTPFacilitatorClientSync
-from x402.mechanisms.evm.exact import ExactEvmServerScheme
+from x402 import x402ResourceServerSync
+from x402.http import HTTPFacilitatorClientSync, FacilitatorConfig
+from x402.mechanisms.avm.exact import ExactAvmServerScheme
 
-facilitator = HTTPFacilitatorClientSync(url="https://x402.org/facilitator")
+facilitator = HTTPFacilitatorClientSync(FacilitatorConfig(url="https://x402.org/facilitator"))
 server = x402ResourceServerSync(facilitator)
-server.register("eip155:*", ExactEvmServerScheme())
-server.initialize()
+server.register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", ExactAvmServerScheme())
 
 result = server.verify_payment(payload, requirements[0])
 ```
@@ -98,12 +96,13 @@ result = server.verify_payment(payload, requirements[0])
 
 ```python
 from x402 import x402Facilitator
-from x402.mechanisms.evm.exact import ExactEvmFacilitatorScheme
+from x402.mechanisms.avm.exact import ExactAvmFacilitatorScheme
+from x402.mechanisms.avm import ALGORAND_TESTNET_CAIP2
 
 facilitator = x402Facilitator()
 facilitator.register(
-    ["eip155:8453", "eip155:84532"],
-    ExactEvmFacilitatorScheme(wallet=wallet),
+    [ALGORAND_TESTNET_CAIP2],
+    ExactAvmFacilitatorScheme(signer=my_avm_facilitator_signer),
 )
 
 result = await facilitator.verify(payload, requirements)
@@ -115,15 +114,32 @@ if result.is_valid:
 
 ```python
 from x402 import x402FacilitatorSync
-from x402.mechanisms.evm.exact import ExactEvmFacilitatorScheme
+from x402.mechanisms.avm.exact import ExactAvmFacilitatorScheme
+from x402.mechanisms.avm import ALGORAND_TESTNET_CAIP2
 
 facilitator = x402FacilitatorSync()
 facilitator.register(
-    ["eip155:8453", "eip155:84532"],
-    ExactEvmFacilitatorScheme(wallet=wallet),
+    [ALGORAND_TESTNET_CAIP2],
+    ExactAvmFacilitatorScheme(signer=my_avm_facilitator_signer),
 )
 
 result = facilitator.verify(payload, requirements)
+```
+
+## Multi-Chain Registration
+
+Register multiple blockchain mechanisms together:
+
+```python
+from x402 import x402Client
+from x402.mechanisms.avm.exact import ExactAvmScheme
+from x402.mechanisms.evm.exact import ExactEvmScheme
+from x402.mechanisms.svm.exact import ExactSvmScheme
+
+client = x402Client()
+client.register("algorand:*", ExactAvmScheme(signer=avm_signer))
+client.register("eip155:*", ExactEvmScheme(signer=evm_signer))
+client.register("solana:*", ExactSvmScheme(signer=svm_signer))
 ```
 
 ## Async vs Sync
@@ -157,10 +173,11 @@ from x402 import x402Client, x402ClientConfig, SchemeRegistration
 
 config = x402ClientConfig(
     schemes=[
-        SchemeRegistration(network="eip155:*", client=ExactEvmScheme(signer)),
-        SchemeRegistration(network="solana:*", client=ExactSvmScheme(signer)),
+        SchemeRegistration(network="algorand:*", client=ExactAvmScheme(avm_signer)),
+        SchemeRegistration(network="eip155:*", client=ExactEvmScheme(evm_signer)),
+        SchemeRegistration(network="solana:*", client=ExactSvmScheme(svm_signer)),
     ],
-    policies=[prefer_network("eip155:8453")],
+    policies=[prefer_network("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=")],
 )
 client = x402Client.from_config(config)
 ```
@@ -172,7 +189,7 @@ Filter or prioritize payment requirements:
 ```python
 from x402 import prefer_network, prefer_scheme, max_amount
 
-client.register_policy(prefer_network("eip155:8453"))
+client.register_policy(prefer_network("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI="))
 client.register_policy(prefer_scheme("exact"))
 client.register_policy(max_amount(1_000_000))  # 1 USDC max
 ```
@@ -228,11 +245,14 @@ facilitator.on_settle_failure(...)
 Register handlers for network families using wildcards:
 
 ```python
-# All EVM networks
-client.register("eip155:*", ExactEvmScheme(signer))
+# All Algorand networks
+client.register("algorand:*", ExactAvmScheme(signer))
 
 # Specific network (takes precedence)
-client.register("eip155:8453", CustomScheme())
+client.register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", TestnetScheme())
+
+# All EVM networks
+client.register("eip155:*", ExactEvmScheme(signer))
 ```
 
 ## HTTP Headers
@@ -255,11 +275,11 @@ client.register("eip155:8453", CustomScheme())
 ## Related Modules
 
 - `x402.http` - HTTP clients, middleware, and facilitator client
+- `x402.mechanisms.avm` - Algorand implementation
 - `x402.mechanisms.evm` - EVM/Ethereum implementation
 - `x402.mechanisms.svm` - Solana implementation
-- `x402.mechanisms.avm` - Algorand implementation
 - `x402.extensions` - Protocol extensions (Bazaar discovery)
 
 ## Examples
 
-See [examples/python](https://github.com/coinbase/x402/tree/main/examples/python).
+See [examples/python](https://github.com/GoPlausible/x402-avm/tree/main/examples/python).

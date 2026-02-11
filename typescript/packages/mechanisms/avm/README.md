@@ -22,24 +22,23 @@ This package provides three main components for handling x402 payments on Algora
 
 **V2 Protocol Support** - Modern x402 protocol with CAIP-2 network identifiers
 
-**Client:**
-- `ExactAvmClient` - V2 client implementation using ASA transfers
+**Client** (`@x402-avm/avm` or `@x402-avm/avm/exact/client`):
+- `ExactAvmScheme` - V2 client implementation using ASA transfers
 - `ClientAvmSigner` - TypeScript interface for client signers (implement with `algosdk`)
 
-**Facilitator:**
-- `ExactAvmFacilitator` - V2 facilitator for payment verification and settlement
+**Facilitator** (`@x402-avm/avm/exact/facilitator`):
+- `ExactAvmScheme` - V2 facilitator for payment verification and settlement
 - `FacilitatorAvmSigner` - TypeScript interface for facilitator signers (implement with `algosdk`)
 
-**Service:**
-- `ExactAvmServer` - V2 service for building payment requirements
+**Server** (`@x402-avm/avm/exact/server`):
+- `ExactAvmScheme` - V2 service for building payment requirements
 
 ### V1 Package (`@x402-avm/avm/v1`)
 
 **V1 Protocol Support** - Legacy x402 protocol with simple network names
 
 **Exports:**
-- `ExactAvmClientV1` - V1 client implementation
-- `ExactAvmFacilitatorV1` - V1 facilitator implementation
+- `ExactAvmSchemeV1` - V1 scheme implementation (client and facilitator)
 - `NETWORKS` - Array of all supported V1 network names
 
 **Supported V1 Networks:**
@@ -72,27 +71,27 @@ This package provides three main components for handling x402 payments on Algora
 
 ```typescript
 import { x402Client } from "@x402-avm/core/client";
-import { ExactAvmClient } from "@x402-avm/avm";
-import { ExactAvmClientV1 } from "@x402-avm/avm/v1";
+import { ExactAvmScheme } from "@x402-avm/avm";
+import { ExactAvmSchemeV1 } from "@x402-avm/avm/v1";
 
 const client = new x402Client()
-  .register("algorand:*", new ExactAvmClient(signer))
-  .registerSchemeV1("algorand-testnet", new ExactAvmClientV1(signer))
-  .registerSchemeV1("algorand-mainnet", new ExactAvmClientV1(signer));
+  .register("algorand:*", new ExactAvmScheme(signer))
+  .registerV1("algorand-testnet", new ExactAvmSchemeV1(signer))
+  .registerV1("algorand-mainnet", new ExactAvmSchemeV1(signer));
 ```
 
 ### 2. Using Config (Flexible)
 
 ```typescript
 import { x402Client } from "@x402-avm/core/client";
-import { ExactAvmClient } from "@x402-avm/avm";
+import { ExactAvmScheme } from "@x402-avm/avm";
 
 const client = x402Client.fromConfig({
   schemes: [
-    { network: "algorand:*", client: new ExactAvmClient(signer) },
+    { network: "algorand:*", client: new ExactAvmScheme(signer) },
     {
       network: "algorand-testnet",
-      client: new ExactAvmClientV1(signer),
+      client: new ExactAvmSchemeV1(signer),
       x402Version: 1
     }
   ]

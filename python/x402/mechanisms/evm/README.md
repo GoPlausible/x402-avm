@@ -52,10 +52,10 @@ from x402 import x402Facilitator
 from x402.mechanisms.evm.exact import ExactEvmFacilitatorScheme
 from x402.mechanisms.evm import FacilitatorWeb3Signer
 
-signer = FacilitatorWeb3Signer(web3_instance, account)
+signer = FacilitatorWeb3Signer(private_key="0x...", rpc_url="https://mainnet.base.org")
 
 facilitator = x402Facilitator()
-facilitator.register(["eip155:8453", "eip155:84532"], ExactEvmFacilitatorScheme(wallet=signer))
+facilitator.register(["eip155:8453", "eip155:84532"], ExactEvmFacilitatorScheme(signer=signer))
 ```
 
 ## Exports

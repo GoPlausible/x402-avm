@@ -22,6 +22,8 @@ Three components for handling x402 payments on Algorand:
 
 ```python
 import base64
+import os
+
 import algosdk
 from x402 import x402Client
 from x402.mechanisms.avm.exact import ExactAvmScheme
@@ -31,6 +33,8 @@ secret_key = base64.b64decode(os.environ["AVM_PRIVATE_KEY"])
 address = algosdk.encoding.encode_address(secret_key[32:])
 
 # Implement ClientAvmSigner protocol
+# The SDK protocol passes raw msgpack bytes, but algosdk Python API
+# uses base64 strings — convert at the boundary.
 class MyAlgorandSigner:
     def __init__(self, sk: bytes, addr: str):
         self._secret_key = sk
@@ -41,12 +45,19 @@ class MyAlgorandSigner:
         return self._address
 
     def sign_transactions(self, unsigned_txns, indexes_to_sign):
+        sk_b64 = base64.b64encode(self._secret_key).decode()
         result = []
         for i, txn_bytes in enumerate(unsigned_txns):
             if i in indexes_to_sign:
-                txn = algosdk.encoding.msgpack_decode(txn_bytes)
-                signed = txn.sign(self._secret_key)
-                result.append(algosdk.encoding.msgpack_encode(signed))
+                # raw bytes → base64 string for algosdk
+                txn = algosdk.encoding.msgpack_decode(
+                    base64.b64encode(txn_bytes).decode()
+                )
+                signed = txn.sign(sk_b64)
+                # base64 string from algosdk → raw bytes for SDK
+                result.append(
+                    base64.b64decode(algosdk.encoding.msgpack_encode(signed))
+                )
             else:
                 result.append(None)
         return result
@@ -71,6 +82,7 @@ server.register("algorand:*", ExactAvmServerScheme())
 ### Facilitator
 
 ```python
+import os
 import base64
 import algosdk
 from x402 import x402Facilitator
@@ -141,6 +153,22 @@ Supports Algorand Standard Assets (ASAs):
 - Any ASA with opt-in enabled on receiver
 
 ## Technical Details
+
+### Encoding Boundaries
+
+The SDK protocol passes **raw msgpack bytes** between methods, but `algosdk` Python API uses **base64 strings**. Convert at the boundary:
+
+```python
+# Decoding: raw bytes → algosdk Transaction object
+txn = algosdk.encoding.msgpack_decode(base64.b64encode(raw_bytes).decode())
+
+# Encoding: algosdk object → raw bytes
+raw_bytes = base64.b64decode(algosdk.encoding.msgpack_encode(obj))
+
+# Signing: key must be base64 string
+sk_b64 = base64.b64encode(secret_key_bytes).decode()
+signed = txn.sign(sk_b64)
+```
 
 ### Transaction Structure
 

@@ -13,14 +13,14 @@ pnpm install @x402-avm/express
 ```typescript
 import express from "express";
 import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
-import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
 import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 
 const app = express();
 
-const facilitatorClient = new HTTPFacilitatorClient({ url: "https://facilitator.x402.org" });
+const facilitatorClient = new HTTPFacilitatorClient({ url: "https://facilitator.goplausible.xyz" });
 const resourceServer = new x402ResourceServer(facilitatorClient)
-  .register("eip155:84532", new ExactEvmScheme());
+  .register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme());
 
 // Apply the payment middleware with your configuration
 app.use(
@@ -30,8 +30,8 @@ app.use(
         accepts: {
           scheme: "exact",
           price: "$0.10",
-          network: "eip155:84532",
-          payTo: "0xYourAddress",
+          network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+          payTo: "YOUR_ALGORAND_ADDRESS",
         },
         description: "Access to premium content",
       },
@@ -120,8 +120,8 @@ const routes: RoutesConfig = {
     accepts: {
       scheme: "exact",
       price: "$0.10",
-      network: "eip155:84532",
-      payTo: "0xYourAddress",
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: "YOUR_ALGORAND_ADDRESS",
       maxTimeoutSeconds: 60,
     },
     description: "Premium API access",
@@ -157,9 +157,10 @@ app.use(paymentMiddleware(routes, resourceServer, paywallConfig));
 
 The paywall includes:
 
+- Algorand wallet support (Pera, Defly, Lute)
 - EVM wallet support (MetaMask, Coinbase Wallet, etc.)
 - Solana wallet support (Phantom, Solflare, etc.)
-- USDC balance checking
+- USDC/USDCa balance checking
 - Chain switching
 - Onramp integration for mainnet
 
@@ -191,8 +192,8 @@ app.use(
         accepts: {
           scheme: "exact",
           price: "$1.00",
-          network: "eip155:8453",
-          payTo: "0xYourAddress",
+          network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+          payTo: "YOUR_ALGORAND_ADDRESS",
         },
         description: "Premium API access",
       },
@@ -200,8 +201,8 @@ app.use(
         accepts: {
           scheme: "exact",
           price: "$0.50",
-          network: "eip155:84532",
-          payTo: "0xYourAddress",
+          network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+          payTo: "YOUR_ALGORAND_ADDRESS",
           maxTimeoutSeconds: 120,
         },
         description: "Data endpoint access",
@@ -219,7 +220,7 @@ If you need to use a custom facilitator server, configure it when creating the x
 ```typescript
 import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 import { x402ResourceServer } from "@x402-avm/express";
-import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
 
 const customFacilitator = new HTTPFacilitatorClient({
   url: "https://your-facilitator.com",
@@ -230,7 +231,7 @@ const customFacilitator = new HTTPFacilitatorClient({
 });
 
 const resourceServer = new x402ResourceServer(customFacilitator)
-  .register("eip155:84532", new ExactEvmScheme());
+  .register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme());
 
 app.use(paymentMiddleware(routes, resourceServer, paywallConfig));
 ```

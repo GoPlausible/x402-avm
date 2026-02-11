@@ -52,12 +52,12 @@ from x402 import x402Facilitator
 from x402.mechanisms.svm.exact import ExactSvmFacilitatorScheme
 from x402.mechanisms.svm import FacilitatorKeypairSigner
 
-signer = FacilitatorKeypairSigner(keypair, rpc_client)
+signer = FacilitatorKeypairSigner(keypair, rpc_url="https://api.mainnet-beta.solana.com")
 
 facilitator = x402Facilitator()
 facilitator.register(
     ["solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp"],  # Mainnet
-    ExactSvmFacilitatorScheme(wallet=signer),
+    ExactSvmFacilitatorScheme(signer=signer),
 )
 ```
 

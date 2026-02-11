@@ -1,6 +1,6 @@
-# x402 HTTP Middleware
+# x402 HTTP Middleware with Algorand Integration
 
-Server-side middleware for protecting routes with x402 payments.
+Server-side middleware for protecting routes with x402 payments, including first-class Algorand (AVM) support.
 
 ## FastAPI (Async)
 
@@ -13,47 +13,53 @@ uv add x402-avm[fastapi]
 ```python
 from fastapi import FastAPI
 from x402 import x402ResourceServer
-from x402.http import HTTPFacilitatorClient
-from x402.http.middleware import payment_middleware
+from x402.http import HTTPFacilitatorClient, FacilitatorConfig, PaymentOption
+from x402.http.middleware import PaymentMiddlewareASGI
+from x402.http.types import RouteConfig
+from x402.mechanisms.avm.exact import ExactAvmServerScheme
 from x402.mechanisms.evm.exact import ExactEvmServerScheme
 
 app = FastAPI()
 
 # Configure server
-facilitator = HTTPFacilitatorClient()
+facilitator = HTTPFacilitatorClient(FacilitatorConfig(url="https://x402.org/facilitator"))
 server = x402ResourceServer(facilitator)
-server.register("eip155:*", ExactEvmServerScheme())
+server.register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", ExactAvmServerScheme())
+server.register("eip155:84532", ExactEvmServerScheme())
 
 # Define protected routes
 routes = {
-    "GET /api/weather/*": {
-        "accepts": {
-            "scheme": "exact",
-            "payTo": "0x...",
-            "price": "$0.01",
-            "network": "eip155:84532",
-        },
-        "description": "Weather API",
-    },
+    "GET /api/weather/*": RouteConfig(
+        accepts=[
+            PaymentOption(
+                scheme="exact",
+                pay_to="ALGO_ADDRESS...",
+                price="$0.01",
+                network="algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+            ),
+            PaymentOption(
+                scheme="exact",
+                pay_to="0x...",
+                price="$0.01",
+                network="eip155:84532",
+            ),
+        ],
+        description="Weather API",
+    ),
 }
 
 # Add middleware
+app.add_middleware(PaymentMiddlewareASGI, routes=routes, server=server)
+```
+
+### Function-Based Middleware
+
+```python
+from x402.http.middleware import payment_middleware
+
 @app.middleware("http")
 async def x402_middleware(request, call_next):
     return await payment_middleware(routes, server)(request, call_next)
-```
-
-### ASGI Middleware Class
-
-```python
-from x402.http.middleware import PaymentMiddlewareASGI
-
-app.add_middleware(
-    PaymentMiddlewareASGI,
-    routes=routes,
-    server=server,
-    paywall_config={"appName": "My API"},
-)
 ```
 
 ### Accessing Payment Info
@@ -63,7 +69,7 @@ app.add_middleware(
 async def weather(request: Request):
     payload = request.state.payment_payload
     requirements = request.state.payment_requirements
-    return {"weather": "sunny", "payer": payload.accepted.payTo}
+    return {"weather": "sunny"}
 ```
 
 ## Flask (Sync)
@@ -77,27 +83,32 @@ uv add x402-avm[flask]
 ```python
 from flask import Flask, g
 from x402 import x402ResourceServerSync
-from x402.http import HTTPFacilitatorClientSync
+from x402.http import HTTPFacilitatorClientSync, FacilitatorConfig, PaymentOption
 from x402.http.middleware import PaymentMiddleware
+from x402.http.types import RouteConfig
+from x402.mechanisms.avm.exact import ExactAvmServerScheme
 from x402.mechanisms.evm.exact import ExactEvmServerScheme
 
 app = Flask(__name__)
 
 # Configure server (sync variant)
-facilitator = HTTPFacilitatorClientSync(url="https://x402.org/facilitator")
+facilitator = HTTPFacilitatorClientSync(FacilitatorConfig(url="https://x402.org/facilitator"))
 server = x402ResourceServerSync(facilitator)
-server.register("eip155:*", ExactEvmServerScheme())
+server.register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", ExactAvmServerScheme())
+server.register("eip155:84532", ExactEvmServerScheme())
 
 # Define routes
 routes = {
-    "GET /api/weather/*": {
-        "accepts": {
-            "scheme": "exact",
-            "payTo": "0x...",
-            "price": "$0.01",
-            "network": "eip155:84532",
-        },
-    },
+    "GET /api/weather/*": RouteConfig(
+        accepts=[
+            PaymentOption(
+                scheme="exact",
+                pay_to="ALGO_ADDRESS...",
+                price="$0.01",
+                network="algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+            ),
+        ],
+    ),
 }
 
 # Add middleware
@@ -144,7 +155,7 @@ paywall_config = {
     "testnet": True,
 }
 
-PaymentMiddleware(app, routes, server, paywall_config=paywall_config)
+app.add_middleware(PaymentMiddlewareASGI, routes=routes, server=server, paywall_config=paywall_config)
 ```
 
 Browser requests to protected routes show an HTML paywall. API requests receive 402 with `PAYMENT-REQUIRED` header.
@@ -158,7 +169,9 @@ class MyPaywall(PaywallProvider):
     def generate_html(self, payment_required, config):
         return "<html>Custom paywall...</html>"
 
-PaymentMiddleware(app, routes, server, paywall_provider=MyPaywall())
+app.add_middleware(
+    PaymentMiddlewareASGI, routes=routes, server=server, paywall_provider=MyPaywall()
+)
 ```
 
 ## Exports

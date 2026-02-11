@@ -1,13 +1,13 @@
 # @x402-avm/paywall
 
-Modular paywall UI for the x402 payment protocol with support for EVM and Solana networks.
+Modular paywall UI for the x402 payment protocol with support for Algorand, EVM, and Solana networks.
 
 ## Features
 
 - Pre-built paywall UI out of the box
-- Wallet connection (MetaMask, Coinbase Wallet, Phantom, etc.)
+- Wallet connection (Pera, Defly, Lute, MetaMask, Phantom, etc.)
 - USDC balance checking
-- Multi-network support (EVM + Solana)
+- Multi-network support (AVM + EVM + Solana)
 - Tree-shakeable - only bundle what you need
 - Fully customizable via builder pattern
 
@@ -23,13 +23,32 @@ Choose the import that matches your needs:
 
 | Import | Size | Networks | Use Case |
 |--------|------|----------|----------|
-| `@x402-avm/paywall` | 3.5MB | EVM + Solana | Multi-network apps |
+| `@x402-avm/paywall` | ~4MB | AVM + EVM + Solana | Multi-network apps |
+| `@x402-avm/paywall/avm` | ~1MB | AVM only | Algorand apps |
 | `@x402-avm/paywall/evm` | 3.4MB | EVM only | Base, Ethereum, Polygon, etc. |
 | `@x402-avm/paywall/svm` | 1.0MB | Solana only | Solana apps |
 
 ## Usage
 
-### Option 1: EVM Only
+### Option 1: AVM Only (Algorand)
+
+```typescript
+import { createPaywall } from '@x402-avm/paywall';
+import { avmPaywall } from '@x402-avm/paywall/avm';
+
+const paywall = createPaywall()
+  .withNetwork(avmPaywall)
+  .withConfig({
+    appName: 'My Algorand App',
+    testnet: true
+  })
+  .build();
+
+// Use with Express
+app.use(paymentMiddleware(routes, facilitators, schemes, undefined, paywall));
+```
+
+### Option 2: EVM Only
 
 ```typescript
 import { createPaywall } from '@x402-avm/paywall';
@@ -42,12 +61,9 @@ const paywall = createPaywall()
     testnet: true
   })
   .build();
-
-// Use with Express
-app.use(paymentMiddleware(routes, facilitators, schemes, undefined, paywall));
 ```
 
-### Option 2: Solana Only
+### Option 3: Solana Only
 
 ```typescript
 import { createPaywall } from '@x402-avm/paywall';
@@ -62,15 +78,17 @@ const paywall = createPaywall()
   .build();
 ```
 
-### Option 3: Multi-Network
+### Option 4: Multi-Network
 
 ```typescript
 import { createPaywall } from '@x402-avm/paywall';
+import { avmPaywall } from '@x402-avm/paywall/avm';
 import { evmPaywall } from '@x402-avm/paywall/evm';
 import { svmPaywall } from '@x402-avm/paywall/svm';
 
 const paywall = createPaywall()
-  .withNetwork(evmPaywall)   // First-match priority
+  .withNetwork(avmPaywall)   // First-match priority
+  .withNetwork(evmPaywall)   // Fallback option
   .withNetwork(svmPaywall)   // Fallback option
   .withConfig({
     appName: 'Multi-chain App',
@@ -107,19 +125,25 @@ When multiple networks are registered, the paywall uses **first-match selection*
 // Server returns multiple options
 {
   "accepts": [
-    { "network": "solana:5eykt...", ... },  // First
-    { "network": "eip155:8453", ... }       // Second
+    { "network": "algorand:SGO1GKS...", ... },  // First
+    { "network": "eip155:8453", ... },           // Second
+    { "network": "solana:5eykt...", ... }        // Third
   ]
 }
 
-// If both handlers registered, Solana is selected (it's first in accepts)
+// If all handlers registered, Algorand is selected (it's first in accepts)
 const paywall = createPaywall()
+  .withNetwork(avmPaywall)
   .withNetwork(evmPaywall)
   .withNetwork(svmPaywall)
   .build();
 ```
 
 ### Supported Networks
+
+**AVM Networks** (via `avmPaywall`):
+- CAIP-2: `algorand:*` (e.g., `algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=` for testnet)
+- Wallets: Pera, Defly, Lute (via @txnlab/use-wallet)
 
 **EVM Networks** (via `evmPaywall`):
 - CAIP-2: `eip155:*` (e.g., `eip155:8453` for Base, `eip155:84532` for Base Sepolia)
@@ -135,17 +159,17 @@ const paywall = createPaywall()
 import express from 'express';
 import { paymentMiddleware } from '@x402-avm/express';
 import { createPaywall } from '@x402-avm/paywall';
-import { evmPaywall } from '@x402-avm/paywall/evm';
+import { avmPaywall } from '@x402-avm/paywall/avm';
 
 const app = express();
 
 const paywall = createPaywall()
-  .withNetwork(evmPaywall)
+  .withNetwork(avmPaywall)
   .withConfig({ appName: 'My API' })
   .build();
 
 app.use(paymentMiddleware(
-  { "/api/premium": { price: "$0.10", network: "eip155:84532", payTo: "0x..." } },
+  { "/api/premium": { price: "$0.10", network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", payTo: "ALGO_ADDRESS..." } },
   facilitators,
   schemes,
   undefined,
@@ -173,18 +197,20 @@ You can create custom handlers for new networks:
 
 ```typescript
 import { createPaywall, type PaywallNetworkHandler } from '@x402-avm/paywall';
+import { avmPaywall } from '@x402-avm/paywall/avm';
+import { evmPaywall } from '@x402-avm/paywall/evm';
 
-const suiPaywall: PaywallNetworkHandler = {
-  supports: (req) => req.network.startsWith('sui:'),
+const customPaywall: PaywallNetworkHandler = {
+  supports: (req) => req.network.startsWith('custom:'),
   generateHtml: (req, paymentRequired, config) => {
-    return `<!DOCTYPE html>...`;  // Your custom Sui paywall
+    return `<!DOCTYPE html>...`;  // Your custom network paywall
   }
 };
 
 const paywall = createPaywall()
+  .withNetwork(avmPaywall)
   .withNetwork(evmPaywall)
-  .withNetwork(svmPaywall)
-  .withNetwork(suiPaywall)  // Custom handler
+  .withNetwork(customPaywall)  // Custom handler
   .build();
 ```
 
