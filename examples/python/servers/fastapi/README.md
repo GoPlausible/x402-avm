@@ -1,6 +1,6 @@
 # x402 FastAPI Example Server
 
-FastAPI server demonstrating how to protect API endpoints with a paywall using the `x402` middleware.
+FastAPI server demonstrating how to protect API endpoints with a paywall using the `x402` middleware. Supports Algorand (AVM), EVM, and Solana (SVM) payments.
 
 ```python
 from fastapi import FastAPI
@@ -8,18 +8,21 @@ from x402.http.middleware.fastapi import PaymentMiddlewareASGI
 from x402.http import HTTPFacilitatorClient, FacilitatorConfig, PaymentOption
 from x402.http.types import RouteConfig
 from x402.server import x402ResourceServer
+from x402.mechanisms.avm.exact import ExactAvmServerScheme
 from x402.mechanisms.evm.exact import ExactEvmServerScheme
 from x402.mechanisms.svm.exact import ExactSvmServerScheme
 
 app = FastAPI()
 
 server = x402ResourceServer(HTTPFacilitatorClient(FacilitatorConfig(url=facilitator_url)))
+server.register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", ExactAvmServerScheme())
 server.register("eip155:84532", ExactEvmServerScheme())
 server.register("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1", ExactSvmServerScheme())
 
 routes = {
     "GET /weather": RouteConfig(
         accepts=[
+            PaymentOption(scheme="exact", price="$0.01", network="algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", pay_to=avm_address),
             PaymentOption(scheme="exact", price="$0.01", network="eip155:84532", pay_to=evm_address),
             PaymentOption(scheme="exact", price="$0.01", network="solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1", pay_to=svm_address),
         ]
@@ -36,6 +39,7 @@ async def get_weather():
 
 - Python 3.10+
 - uv (install via [docs.astral.sh/uv](https://docs.astral.sh/uv/getting-started/installation/))
+- Valid AVM address for receiving payments (Algorand Testnet)
 - Valid EVM address for receiving payments (Base Sepolia)
 - Valid SVM address for receiving payments (Solana Devnet)
 - URL of a facilitator supporting the desired payment network, see [facilitator list](https://www.x402.org/ecosystem?category=facilitators)
@@ -50,6 +54,7 @@ cp .env-local .env
 
 2. Fill required environment variables:
 
+- `AVM_ADDRESS` - Algorand address to receive payments (Algorand Testnet)
 - `EVM_ADDRESS` - Ethereum address to receive payments (Base Sepolia)
 - `SVM_ADDRESS` - Solana address to receive payments (Solana Devnet)
 - `FACILITATOR_URL` - Facilitator endpoint URL (optional, defaults to production)
@@ -103,6 +108,18 @@ Note: `amount` is in atomic units (e.g., 10000 = $0.01 USDC, since USDC has 6 de
   "accepts": [
     {
       "scheme": "exact",
+      "network": "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      "asset": "67396528",
+      "amount": "10000",
+      "payTo": "ALGO_ADDRESS...",
+      "maxTimeoutSeconds": 300,
+      "extra": {
+        "name": "USDC",
+        "decimals": 6
+      }
+    },
+    {
+      "scheme": "exact",
       "network": "eip155:84532",
       "asset": "0x036CbD53842c5426634e7929541eC2318f3dCF7e",
       "amount": "10000",
@@ -134,6 +151,13 @@ content-type: application/json
 routes = {
     "GET /your-endpoint": RouteConfig(
         accepts=[
+            # AVM payment option
+            PaymentOption(
+                scheme="exact",
+                price="$0.10",
+                network="algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+                pay_to=AVM_ADDRESS,
+            ),
             # EVM payment option
             PaymentOption(
                 scheme="exact",
@@ -168,14 +192,18 @@ price="$0.01"
 # AssetAmount object (explicit asset)
 price=AssetAmount(
     amount="10000",  # $0.01 USDC (6 decimals)
-    asset="0x036CbD53842c5426634e7929541eC2318f3dCF7e",
-    extra={"name": "USDC", "version": "2"},
+    asset="67396528",  # USDC ASA ID on Algorand Testnet
+    extra={"name": "USDC", "decimals": 6},
 )
 ```
 
 ## Network Identifiers
 
 Network identifiers use [CAIP-2](https://github.com/ChainAgnostic/CAIPs/blob/main/CAIPs/caip-2.md) format:
+
+**AVM Networks:**
+- `algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=` — Algorand Testnet
+- `algorand:wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=` — Algorand Mainnet
 
 **EVM Networks:**
 - `eip155:84532` — Base Sepolia

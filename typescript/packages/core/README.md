@@ -291,7 +291,7 @@ For blockchain-specific implementations:
 
 ## Examples
 
-See the [examples directory](https://github.com/GoPlausible/x402-avm/tree/main/examples/typescript) for complete examples.
+See the [examples directory](https://github.com/GoPlausible/x402-avm/tree/branch-v2-algorand-publish/examples/typescript) for complete examples.
 
 ## Contributing
 

@@ -282,4 +282,4 @@ client.register("eip155:*", ExactEvmScheme(signer))
 
 ## Examples
 
-See [examples/python](https://github.com/GoPlausible/x402-avm/tree/main/examples/python).
+See [examples/python](https://github.com/GoPlausible/x402-avm/tree/branch-v2-algorand-publish/examples/python).
