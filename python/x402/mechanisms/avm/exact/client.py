@@ -14,7 +14,7 @@ try:
     from algosdk.v2client import algod
 except ImportError as e:
     raise ImportError(
-        "AVM mechanism requires py-algorand-sdk. Install with: pip install x402[avm]"
+        "AVM mechanism requires py-algorand-sdk. Install with: pip install x402-avm[avm]"
     ) from e
 
 from ....schemas import PaymentRequirements

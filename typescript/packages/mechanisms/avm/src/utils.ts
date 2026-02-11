@@ -6,7 +6,7 @@
  */
 
 import algosdk from "algosdk";
-import type { Network } from "@x402/core/types";
+import type { Network } from "@x402-avm/core/types";
 import {
   NETWORK_TO_ALGOD,
   DEFAULT_ALGOD_TESTNET,

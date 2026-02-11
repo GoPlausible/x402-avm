@@ -4,8 +4,8 @@ import type {
   x402HTTPResourceServer,
   x402ResourceServer,
   PaywallProvider,
-} from "@x402/core/server";
-import type { PaymentPayload, PaymentRequirements } from "@x402/core/types";
+} from "@x402-avm/core/server";
+import type { PaymentPayload, PaymentRequirements } from "@x402-avm/core/types";
 import {
   createHttpServer,
   createRequestContext,
@@ -13,8 +13,8 @@ import {
   handleSettlement,
 } from "./utils";
 
-// Mock @x402/core/server
-vi.mock("@x402/core/server", () => {
+// Mock @x402-avm/core/server
+vi.mock("@x402-avm/core/server", () => {
   const MockHTTPResourceServer = vi.fn().mockImplementation(() => ({
     initialize: vi.fn().mockResolvedValue(undefined),
     registerPaywallProvider: vi.fn(),

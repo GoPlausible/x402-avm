@@ -5,8 +5,8 @@ import {
   RoutesConfig,
   RouteConfig,
   FacilitatorClient,
-} from "@x402/core/server";
-import { SchemeNetworkServer, Network } from "@x402/core/types";
+} from "@x402-avm/core/server";
+import { SchemeNetworkServer, Network } from "@x402-avm/core/types";
 import { NextRequest, NextResponse } from "next/server";
 import {
   prepareHttpServer,
@@ -14,7 +14,7 @@ import {
   handlePaymentError,
   handleSettlement,
 } from "./utils";
-import { x402HTTPResourceServer } from "@x402/core/server";
+import { x402HTTPResourceServer } from "@x402-avm/core/server";
 
 /**
  * Configuration for registering a payment scheme with a specific network
@@ -44,7 +44,7 @@ export interface SchemeRegistration {
  *
  * @example
  * ```typescript
- * import { paymentProxyFromHTTPServer, x402ResourceServer, x402HTTPResourceServer } from "@x402/next";
+ * import { paymentProxyFromHTTPServer, x402ResourceServer, x402HTTPResourceServer } from "@x402-avm/next";
  *
  * const resourceServer = new x402ResourceServer(facilitatorClient)
  *   .register(NETWORK, new ExactEvmScheme());
@@ -67,7 +67,7 @@ export function paymentProxyFromHTTPServer(
   // Skip if pre-registered (e.g., in serverless environments where static imports are used)
   let bazaarPromise: Promise<void> | null = null;
   if (checkIfBazaarNeeded(httpServer.routes) && !httpServer.server.hasExtension("bazaar")) {
-    bazaarPromise = import(/* webpackIgnore: true */ "@x402/extensions/bazaar")
+    bazaarPromise = import(/* webpackIgnore: true */ "@x402-avm/extensions/bazaar")
       .then(({ bazaarResourceServerExtension }) => {
         httpServer.server.registerExtension(bazaarResourceServerExtension);
       })
@@ -139,7 +139,7 @@ export function paymentProxyFromHTTPServer(
  *
  * @example
  * ```typescript
- * import { paymentProxy } from "@x402/next";
+ * import { paymentProxy } from "@x402-avm/next";
  *
  * const server = new x402ResourceServer(myFacilitatorClient)
  *   .register(NETWORK, new ExactEvmScheme());
@@ -176,7 +176,7 @@ export function paymentProxy(
  *
  * @example
  * ```typescript
- * import { paymentProxyFromConfig } from "@x402/next";
+ * import { paymentProxyFromConfig } from "@x402-avm/next";
  *
  * export const proxy = paymentProxyFromConfig(
  *   routes,
@@ -222,7 +222,7 @@ export function paymentProxyFromConfig(
  * @example
  * ```typescript
  * import { NextRequest, NextResponse } from "next/server";
- * import { withX402FromHTTPServer, x402ResourceServer, x402HTTPResourceServer } from "@x402/next";
+ * import { withX402FromHTTPServer, x402ResourceServer, x402HTTPResourceServer } from "@x402-avm/next";
  *
  * const resourceServer = new x402ResourceServer(facilitatorClient)
  *   .register(NETWORK, new ExactEvmScheme());
@@ -250,7 +250,7 @@ export function withX402FromHTTPServer<T = unknown>(
   // Skip if pre-registered (e.g., in serverless environments where static imports are used)
   let bazaarPromise: Promise<void> | null = null;
   if (checkIfBazaarNeeded(httpServer.routes) && !httpServer.server.hasExtension("bazaar")) {
-    bazaarPromise = import(/* webpackIgnore: true */ "@x402/extensions/bazaar")
+    bazaarPromise = import(/* webpackIgnore: true */ "@x402-avm/extensions/bazaar")
       .then(({ bazaarResourceServerExtension }) => {
         httpServer.server.registerExtension(bazaarResourceServerExtension);
       })
@@ -317,7 +317,7 @@ export function withX402FromHTTPServer<T = unknown>(
  * @example
  * ```typescript
  * import { NextRequest, NextResponse } from "next/server";
- * import { withX402 } from "@x402/next";
+ * import { withX402 } from "@x402-avm/next";
  *
  * const server = new x402ResourceServer(myFacilitatorClient)
  *   .register(NETWORK, new ExactEvmScheme());
@@ -386,16 +386,16 @@ export type {
   PaymentPayload,
   Network,
   SchemeNetworkServer,
-} from "@x402/core/types";
+} from "@x402-avm/core/types";
 
-export type { PaywallProvider, PaywallConfig, RouteConfig } from "@x402/core/server";
+export type { PaywallProvider, PaywallConfig, RouteConfig } from "@x402-avm/core/server";
 
 export {
   x402ResourceServer,
   x402HTTPResourceServer,
   RouteConfigurationError,
-} from "@x402/core/server";
+} from "@x402-avm/core/server";
 
-export type { RouteValidationError } from "@x402/core/server";
+export type { RouteValidationError } from "@x402-avm/core/server";
 
 export { NextAdapter } from "./adapter";

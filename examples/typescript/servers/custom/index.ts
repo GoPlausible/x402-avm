@@ -1,9 +1,9 @@
 import { config } from "dotenv";
 import express, { Request, Response, NextFunction } from "express";
-import { x402ResourceServer, HTTPFacilitatorClient, ResourceConfig } from "@x402/core/server";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
-import type { PaymentRequirements } from "@x402/core/types";
+import { x402ResourceServer, HTTPFacilitatorClient, ResourceConfig } from "@x402-avm/core/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
+import type { PaymentRequirements } from "@x402-avm/core/types";
 
 config();
 
@@ -11,7 +11,7 @@ config();
  * Custom x402 Server Implementation
  *
  * This example demonstrates how to implement x402 payment handling manually
- * without using the pre-built middleware packages like @x402/express.
+ * without using the pre-built middleware packages like @x402-avm/express.
  *
  * It shows you how the payment flow works under the hood:
  * 1. Check for payment in request headers

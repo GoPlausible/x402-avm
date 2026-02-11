@@ -1,11 +1,11 @@
-# @x402/express Advanced Examples
+# @x402-avm/express Advanced Examples
 
 Express.js server demonstrating advanced x402 patterns including dynamic pricing, payment routing, lifecycle hooks and API discoverability.
 
 ```typescript
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 
 const resourceServer = new x402ResourceServer(new HTTPFacilitatorClient({ url: facilitatorUrl }))
   .register("eip155:84532", new ExactEvmScheme())
@@ -100,7 +100,7 @@ pnpm dev
 Adding the discovery extension to make your API discoverable:
 
 ```typescript
-import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
+import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 
 app.use(
   paymentMiddleware(
@@ -235,7 +235,7 @@ Available hooks:
 Accept payments in custom tokens. Register a money parser on the scheme to support alternative tokens for specific networks.
 
 ```typescript
-import { ExactEvmScheme } from "@x402/evm/exact/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
 
 const resourceServer = new x402ResourceServer(facilitatorClient).register(
   "eip155:84532",
@@ -355,8 +355,8 @@ Add to your `.env`:
 ### Registering the AVM Scheme
 
 ```typescript
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
 
 const resourceServer = new x402ResourceServer(facilitatorClient)
   .register("eip155:84532", new ExactEvmScheme())
@@ -374,7 +374,12 @@ app.use(
       "GET /weather": {
         accepts: [
           { scheme: "exact", price: "$0.001", network: "eip155:84532", payTo: evmAddress },
-          { scheme: "exact", price: "$0.001", network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", payTo: avmAddress },
+          {
+            scheme: "exact",
+            price: "$0.001",
+            network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+            payTo: avmAddress,
+          },
         ],
       },
     },
@@ -388,8 +393,8 @@ app.use(
 Register all supported networks with their schemes and payment configurations:
 
 ```typescript
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
 
 const server = new x402ResourceServer(facilitatorClient)
   .register("eip155:84532", new ExactEvmScheme())
@@ -397,7 +402,12 @@ const server = new x402ResourceServer(facilitatorClient)
 
 const accepts: AcceptConfig[] = [
   { scheme: "exact", price: "$0.001", network: "eip155:84532", payTo: evmAddress },
-  { scheme: "exact", price: "$0.001", network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", payTo: avmAddress },
+  {
+    scheme: "exact",
+    price: "$0.001",
+    network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+    payTo: avmAddress,
+  },
 ];
 ```
 
@@ -409,7 +419,12 @@ const dynamicPrice = context => {
   return tier === "premium" ? "$0.005" : "$0.001";
 };
 
-accepts.push({ scheme: "exact", price: dynamicPrice, network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", payTo: avmAddress });
+accepts.push({
+  scheme: "exact",
+  price: dynamicPrice,
+  network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+  payTo: avmAddress,
+});
 ```
 
 ### AVM Dynamic PayTo Example

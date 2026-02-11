@@ -7,7 +7,7 @@ try:
     from solders.pubkey import Pubkey
 except ImportError as e:
     raise ImportError(
-        "SVM mechanism requires solana packages. Install with: pip install x402[svm]"
+        "SVM mechanism requires solana packages. Install with: pip install x402-avm[svm]"
     ) from e
 
 from ....schemas import (

@@ -15,7 +15,7 @@ try:
     from starlette.types import ASGIApp
 except ImportError as e:
     raise ImportError(
-        "FastAPI middleware requires fastapi and starlette. Install with: uv add x402[fastapi]"
+        "FastAPI middleware requires fastapi and starlette. Install with: uv add x402-avm[fastapi]"
     ) from e
 
 from ..types import (

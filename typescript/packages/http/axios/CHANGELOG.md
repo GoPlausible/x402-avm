@@ -1,4 +1,4 @@
-# @x402/axios Changelog
+# @x402-avm/axios Changelog
 
 ## 2.0.0
 - Implements x402 2.0.0 for the TypeScript SDK.

@@ -18,18 +18,18 @@ The TypeScript SDK is a pnpm workspace managed with Turborepo.
 ```
 typescript/
 ├── packages/
-│   ├── core/              # @x402/core - Protocol implementation
+│   ├── core/              # @x402-avm/core - Protocol implementation
 │   ├── mechanisms/
-│   │   ├── evm/           # @x402/evm - Ethereum/EVM chains
-│   │   └── svm/           # @x402/svm - Solana
+│   │   ├── evm/           # @x402-avm/evm - Ethereum/EVM chains
+│   │   └── svm/           # @x402-avm/svm - Solana
 │   ├── http/
-│   │   ├── axios/         # @x402/axios - Axios interceptor
-│   │   ├── express/       # @x402/express - Express middleware
-│   │   ├── fetch/         # @x402/fetch - Fetch wrapper
-│   │   ├── hono/          # @x402/hono - Hono middleware
-│   │   ├── next/          # @x402/next - Next.js integration
-│   │   └── paywall/       # @x402/paywall - Browser paywall UI
-│   ├── extensions/        # @x402/extensions - Bazaar, Sign-in-with-x
+│   │   ├── axios/         # @x402-avm/axios - Axios interceptor
+│   │   ├── express/       # @x402-avm/express - Express middleware
+│   │   ├── fetch/         # @x402-avm/fetch - Fetch wrapper
+│   │   ├── hono/          # @x402-avm/hono - Hono middleware
+│   │   ├── next/          # @x402-avm/next - Next.js integration
+│   │   └── paywall/       # @x402-avm/paywall - Browser paywall UI
+│   ├── extensions/        # @x402-avm/extensions - Bazaar, Sign-in-with-x
 │   └── legacy/            # Legacy v1 packages (deprecated)
 ├── site/                  # x402.org marketing site
 ├── turbo.json
@@ -39,11 +39,11 @@ typescript/
 ### Package Dependencies
 
 ```
-@x402/core
+@x402-avm/core
     ↑
-@x402/evm, @x402/svm
+@x402-avm/evm, @x402-avm/svm
     ↑
-@x402/express, @x402/hono, @x402/next, @x402/axios, @x402/fetch
+@x402-avm/express, @x402-avm/hono, @x402-avm/next, @x402-avm/axios, @x402-avm/fetch
 ```
 
 The core package provides transport-agnostic primitives. Mechanism packages (`evm`, `svm`) implement chain-specific logic. HTTP packages provide framework integrations.
@@ -69,7 +69,7 @@ pnpm install
 pnpm build
 
 # Build a specific package
-pnpm --filter @x402/core build
+pnpm --filter @x402-avm/core build
 ```
 
 ## Development Workflow
@@ -123,7 +123,7 @@ cd packages/http/your-framework
 
 ```json
 {
-  "name": "@x402/your-framework",
+  "name": "@x402-avm/your-framework",
   "version": "0.1.0",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -138,7 +138,7 @@ cd packages/http/your-framework
     "format:check": "prettier -c .prettierrc --check \"**/*.{ts,js,cjs,json,md}\""
   },
   "dependencies": {
-    "@x402/core": "workspace:*"
+    "@x402-avm/core": "workspace:*"
   }
 }
 ```
@@ -159,7 +159,7 @@ To add support for a new blockchain in TypeScript:
 mkdir -p packages/mechanisms/your-chain
 ```
 
-2. Implement the required interfaces from `@x402/core`:
+2. Implement the required interfaces from `@x402-avm/core`:
    - `SchemeNetworkClient` - Signs payment payloads
    - `SchemeNetworkServer` - Validates payment requirements
    - `SchemeNetworkFacilitator` - Verifies and settles payments
@@ -178,7 +178,7 @@ export function registerExactYourChainScheme(
 }
 ```
 
-4. Follow the existing `@x402/evm` or `@x402/svm` package structure.
+4. Follow the existing `@x402-avm/evm` or `@x402-avm/svm` package structure.
 
 ### Adding Extensions
 
@@ -197,7 +197,7 @@ Extensions go in `packages/extensions/`. Each extension should:
 pnpm test
 
 # Single package
-pnpm --filter @x402/evm test
+pnpm --filter @x402-avm/evm test
 
 # Watch mode
 cd packages/mechanisms/evm
@@ -215,7 +215,7 @@ pnpm test:integration
 Or for a specific package:
 
 ```bash
-pnpm --filter @x402/evm test:integration
+pnpm --filter @x402-avm/evm test:integration
 ```
 
 ### Test File Organization

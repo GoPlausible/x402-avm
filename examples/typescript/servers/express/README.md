@@ -1,12 +1,12 @@
-# @x402/express Example Server
+# @x402-avm/express Example Server
 
-Express.js server demonstrating how to protect API endpoints with a paywall using the `@x402/express` middleware. Supports EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
+Express.js server demonstrating how to protect API endpoints with a paywall using the `@x402-avm/express` middleware. Supports EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
 
 ```typescript
 import express from "express";
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 
 const app = express();
 

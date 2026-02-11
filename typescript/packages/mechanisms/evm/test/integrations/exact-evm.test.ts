@@ -1,13 +1,13 @@
 import { beforeEach, describe, expect, it } from "vitest";
-import { x402Client, x402HTTPClient } from "@x402/core/client";
-import { x402Facilitator } from "@x402/core/facilitator";
+import { x402Client, x402HTTPClient } from "@x402-avm/core/client";
+import { x402Facilitator } from "@x402-avm/core/facilitator";
 import {
   HTTPAdapter,
   HTTPResponseInstructions,
   x402HTTPResourceServer,
   x402ResourceServer,
   FacilitatorClient,
-} from "@x402/core/server";
+} from "@x402-avm/core/server";
 import {
   Network,
   PaymentPayload,
@@ -15,7 +15,7 @@ import {
   VerifyResponse,
   SettleResponse,
   SupportedResponse,
-} from "@x402/core/types";
+} from "@x402-avm/core/types";
 import { ExactEvmScheme as ExactEvmClient, toFacilitatorEvmSigner } from "../../src";
 import { ExactEvmScheme as ExactEvmServer } from "../../src/exact/server/scheme";
 import { ExactEvmScheme as ExactEvmFacilitator } from "../../src/exact/facilitator/scheme";
@@ -48,7 +48,7 @@ class EvmFacilitatorClient implements FacilitatorClient {
    *
    * @param facilitator - The x402 facilitator to wrap
    */
-  constructor(private readonly facilitator: x402Facilitator) {}
+  constructor(private readonly facilitator: x402Facilitator) { }
 
   /**
    * Verifies a payment payload

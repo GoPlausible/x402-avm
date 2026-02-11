@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.10"
 keywords = ["x402", "payment", "protocol", "facilitator", "402"]
 dependencies = [
-    "x402[fastapi,evm,svm,avm]",
+    "x402-avm[fastapi,evm,svm,avm]",
     "python-dotenv>=1.2.1",
     "uvicorn[standard]>=0.40.0",
 ]
@@ -32,16 +32,16 @@ target-version = "py310"
 
 [tool.ruff.lint]
 select = [
-    "E",   # pycodestyle errors
-    "W",   # pycodestyle warnings
-    "F",   # pyflakes
-    "I",   # isort
-    "B",   # flake8-bugbear
-    "C4",  # flake8-comprehensions
-    "UP",  # pyupgrade
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "I",  # isort
+    "B",  # flake8-bugbear
+    "C4", # flake8-comprehensions
+    "UP", # pyupgrade
 ]
 ignore = [
-    "E501",  # line too long (handled by black)
+    "E501", # line too long (handled by black)
 ]
 
 [tool.ruff.lint.isort]
@@ -55,4 +55,3 @@ warn_unused_configs = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-

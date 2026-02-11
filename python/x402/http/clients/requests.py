@@ -14,7 +14,7 @@ try:
     from requests.adapters import HTTPAdapter
 except ImportError as e:
     raise ImportError(
-        "requests client requires the requests package. Install with: uv add x402[requests]"
+        "requests client requires the requests package. Install with: uv add x402-avm[requests]"
     ) from e
 
 if TYPE_CHECKING:

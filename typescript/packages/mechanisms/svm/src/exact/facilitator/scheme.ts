@@ -23,7 +23,7 @@ import type {
   SchemeNetworkFacilitator,
   SettleResponse,
   VerifyResponse,
-} from "@x402/core/types";
+} from "@x402-avm/core/types";
 import { LIGHTHOUSE_PROGRAM_ADDRESS, MAX_COMPUTE_UNIT_PRICE_MICROLAMPORTS } from "../../constants";
 import type { FacilitatorSvmSigner } from "../../signer";
 import type { ExactSvmPayloadV2 } from "../../types";
@@ -42,7 +42,7 @@ export class ExactSvmScheme implements SchemeNetworkFacilitator {
    * @param signer - The SVM RPC client for facilitator operations
    * @returns ExactSvmFacilitator instance
    */
-  constructor(private readonly signer: FacilitatorSvmSigner) {}
+  constructor(private readonly signer: FacilitatorSvmSigner) { }
 
   /**
    * Get mechanism-specific extra data for the supported kinds endpoint.

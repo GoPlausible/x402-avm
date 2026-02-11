@@ -12,7 +12,7 @@ import type {
   SettleResponse,
   VerifyResponse,
   Network,
-} from "@x402/core/types";
+} from "@x402-avm/core/types";
 import type { FacilitatorAvmSigner } from "../../../signer";
 import type { ExactAvmPayloadV1 } from "../../../types";
 import { isExactAvmPayload } from "../../../types";
@@ -33,7 +33,7 @@ export class ExactAvmSchemeV1 implements SchemeNetworkFacilitator {
    *
    * @param signer - The AVM signer for facilitator operations
    */
-  constructor(private readonly signer: FacilitatorAvmSigner) {}
+  constructor(private readonly signer: FacilitatorAvmSigner) { }
 
   /**
    * Get mechanism-specific extra data for the supported kinds endpoint.

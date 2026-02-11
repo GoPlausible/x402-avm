@@ -10,8 +10,8 @@ import type {
   PaymentPayload,
   PaymentRequirements,
   SchemeNetworkClient,
-} from "@x402/core/types";
-import { PaymentRequirementsV1 } from "@x402/core/types/v1";
+} from "@x402-avm/core/types";
+import { PaymentRequirementsV1 } from "@x402-avm/core/types/v1";
 import type { ClientAvmSigner, ClientAvmConfig } from "../../../signer";
 import type { ExactAvmPayloadV1 } from "../../../types";
 import { createAlgodClient, encodeTransaction } from "../../../utils";
@@ -35,7 +35,7 @@ export class ExactAvmSchemeV1 implements SchemeNetworkClient {
   constructor(
     private readonly signer: ClientAvmSigner,
     private readonly config?: ClientAvmConfig,
-  ) {}
+  ) { }
 
   /**
    * Creates a payment payload for the Exact scheme (V1).

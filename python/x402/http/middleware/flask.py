@@ -14,7 +14,7 @@ try:
     from flask import Flask, Request, g, request
 except ImportError as e:
     raise ImportError(
-        "Flask middleware requires the flask package. Install with: uv add x402[flask]"
+        "Flask middleware requires the flask package. Install with: uv add x402-avm[flask]"
     ) from e
 
 from ..types import (

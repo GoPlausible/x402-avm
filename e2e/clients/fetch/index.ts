@@ -1,11 +1,11 @@
 import { config } from "dotenv";
-import { wrapFetchWithPayment, decodePaymentResponseHeader } from "@x402/fetch";
+import { wrapFetchWithPayment, decodePaymentResponseHeader } from "@x402-avm/fetch";
 import { privateKeyToAccount } from "viem/accounts";
-import { registerExactEvmScheme } from "@x402/evm/exact/client";
-import { registerExactSvmScheme } from "@x402/svm/exact/client";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/client";
 import { base58 } from "@scure/base";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
-import { x402Client, x402HTTPClient } from "@x402/core/client";
+import { x402Client, x402HTTPClient } from "@x402-avm/core/client";
 
 config();
 

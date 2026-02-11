@@ -54,8 +54,8 @@ cd clients/mcp
 
 The example demonstrates how to:
 1. Create an x402 client with EVM and SVM scheme support
-2. Register payment schemes using `@x402/evm` and `@x402/svm`
-3. Register AVM (Algorand) payment scheme using `@x402/avm`
+2. Register payment schemes using `@x402-avm/evm` and `@x402-avm/svm`
+3. Register AVM (Algorand) payment scheme using `@x402-avm/avm`
 4. Set up an MCP server with x402 payment handling
 5. Create a tool that makes paid API requests
 6. Handle responses and errors through the MCP protocol
@@ -66,10 +66,10 @@ The example demonstrates how to:
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import axios from "axios";
-import { x402Client, wrapAxiosWithPayment } from "@x402/axios";
-import { registerExactEvmScheme } from "@x402/evm/exact/client";
-import { registerExactSvmScheme } from "@x402/svm/exact/client";
-import { registerExactAvmScheme } from "@x402/avm/exact/client";
+import { x402Client, wrapAxiosWithPayment } from "@x402-avm/axios";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { registerExactAvmScheme } from "@x402-avm/avm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import { base58 } from "@scure/base";

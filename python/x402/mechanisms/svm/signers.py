@@ -12,7 +12,7 @@ try:
     from solders.transaction import VersionedTransaction
 except ImportError as e:
     raise ImportError(
-        "SVM mechanism requires solana packages. Install with: pip install x402[svm]"
+        "SVM mechanism requires solana packages. Install with: pip install x402-avm[svm]"
     ) from e
 
 from .constants import NETWORK_CONFIGS

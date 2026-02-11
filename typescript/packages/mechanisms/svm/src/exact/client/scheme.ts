@@ -20,7 +20,7 @@ import {
   setTransactionMessageLifetimeUsingBlockhash,
   type Address,
 } from "@solana/kit";
-import type { PaymentPayload, PaymentRequirements, SchemeNetworkClient } from "@x402/core/types";
+import type { PaymentPayload, PaymentRequirements, SchemeNetworkClient } from "@x402-avm/core/types";
 import {
   DEFAULT_COMPUTE_UNIT_LIMIT,
   DEFAULT_COMPUTE_UNIT_PRICE_MICROLAMPORTS,
@@ -45,7 +45,7 @@ export class ExactSvmScheme implements SchemeNetworkClient {
   constructor(
     private readonly signer: ClientSvmSigner,
     private readonly config?: ClientSvmConfig,
-  ) {}
+  ) { }
 
   /**
    * Creates a payment payload for the Exact scheme.

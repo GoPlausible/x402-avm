@@ -1,4 +1,4 @@
-# @x402/extensions Changelog
+# @x402-avm/extensions Changelog
 
 ## 2.0.0
 - Implements x402 2.0.0 for the TypeScript SDK.

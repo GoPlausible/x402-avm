@@ -1,12 +1,12 @@
-# @x402/hono Example Server
+# @x402-avm/hono Example Server
 
-Hono server demonstrating how to protect API endpoints with a paywall using the `@x402/hono` middleware. Supports EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
+Hono server demonstrating how to protect API endpoints with a paywall using the `@x402-avm/hono` middleware. Supports EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
 
 ```typescript
 import { Hono } from "hono";
-import { paymentMiddleware, x402ResourceServer } from "@x402/hono";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/hono";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 
 const app = new Hono();
 

@@ -1,12 +1,12 @@
 import { config } from "dotenv";
 import axios from "axios";
-import { wrapAxiosWithPayment, decodePaymentResponseHeader } from "@x402/axios";
+import { wrapAxiosWithPayment, decodePaymentResponseHeader } from "@x402-avm/axios";
 import { privateKeyToAccount } from "viem/accounts";
-import { registerExactEvmScheme } from "@x402/evm/exact/client";
-import { registerExactSvmScheme } from "@x402/svm/exact/client";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/client";
 import { base58 } from "@scure/base";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
-import { x402Client } from "@x402/core/client";
+import { x402Client } from "@x402-avm/core/client";
 
 config();
 

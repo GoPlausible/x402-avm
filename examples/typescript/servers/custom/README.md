@@ -1,14 +1,12 @@
-# @x402/core Custom Server
+# @x402-avm/core Custom Server
 
-Demonstrates how to implement x402 payment handling manually without using pre-built middleware packages like `@x402/express` or `@x402/hono`. Supports EVM (Ethereum) and AVM (Algorand) networks.
+Demonstrates how to implement x402 payment handling manually without using pre-built middleware packages like `@x402-avm/express` or `@x402-avm/hono`. Supports EVM (Ethereum) and AVM (Algorand) networks.
 
 ```typescript
-import { x402ResourceServer, HTTPFacilitatorClient } from "@x402/core/server";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
-const resourceServer = new x402ResourceServer(
-  new HTTPFacilitatorClient({ url: facilitatorUrl }),
-)
+import { x402ResourceServer, HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
+const resourceServer = new x402ResourceServer(new HTTPFacilitatorClient({ url: facilitatorUrl }))
   .register("eip155:84532", new ExactEvmScheme())
   .register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme());
 
@@ -278,19 +276,19 @@ res.set("PAYMENT-RESPONSE", settlementHeader);
 
 ## Middleware vs Custom Comparison
 
-| Aspect                 | With Middleware (@x402/express) | Custom Implementation |
-| ---------------------- | ------------------------------- | --------------------- |
-| Code Complexity        | ~10 lines                       | ~150 lines            |
-| Automatic Verification | ✅ Yes                          | ❌ Manual             |
-| Automatic Settlement   | ✅ Yes                          | ❌ Manual             |
-| Header Management      | ✅ Automatic                    | ❌ Manual             |
-| Flexibility            | Limited                         | ✅ Complete control   |
-| Error Handling         | ✅ Built-in                     | ❌ You implement      |
-| Maintenance            | x402 team                       | You maintain          |
+| Aspect                 | With Middleware (@x402-avm/express) | Custom Implementation |
+| ---------------------- | ----------------------------------- | --------------------- |
+| Code Complexity        | ~10 lines                           | ~150 lines            |
+| Automatic Verification | ✅ Yes                              | ❌ Manual             |
+| Automatic Settlement   | ✅ Yes                              | ❌ Manual             |
+| Header Management      | ✅ Automatic                        | ❌ Manual             |
+| Flexibility            | Limited                             | ✅ Complete control   |
+| Error Handling         | ✅ Built-in                         | ❌ You implement      |
+| Maintenance            | x402 team                           | You maintain          |
 
 ## When to Use Each Approach
 
-**Use Middleware (@x402/express, @x402/hono) when:**
+**Use Middleware (@x402-avm/express, @x402-avm/hono) when:**
 
 - Building standard applications
 - Want quick integration

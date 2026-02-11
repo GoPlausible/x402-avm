@@ -5,7 +5,7 @@
  * Lambda@Edge doesn't support environment variables, so config is bundled.
  */
 
-import type { RoutesConfig } from '@x402/core/server';
+import type { RoutesConfig } from '@x402-avm/core/server';
 
 // Payment configuration
 export const FACILITATOR_URL = 'https://x402.org/facilitator';

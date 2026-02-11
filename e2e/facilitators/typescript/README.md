@@ -5,6 +5,7 @@ This facilitator demonstrates and tests the TypeScript x402 facilitator implemen
 ## What It Tests
 
 ### Core Functionality
+
 - ✅ **V2 Protocol** - Modern x402 facilitator protocol
 - ✅ **V1 Protocol** - Legacy x402 facilitator protocol
 - ✅ **Payment Verification** - Validates payment payloads off-chain
@@ -13,6 +14,7 @@ This facilitator demonstrates and tests the TypeScript x402 facilitator implemen
 - ✅ **HTTP API** - Express.js server exposing facilitator endpoints
 
 ### Facilitator Endpoints
+
 - ✅ `POST /verify` - Verifies payment payload validity
 - ✅ `POST /settle` - Settles payment on blockchain
 - ✅ `GET /supported` - Returns supported payment kinds
@@ -33,9 +35,12 @@ const facilitator = new x402Facilitator()
     if (context.result.isValid) {
       const paymentHash = createPaymentHash(context.paymentPayload);
       verifiedPayments.set(paymentHash, context.timestamp);
-      
+
       // Catalog discovered resources
-      const discovered = extractDiscoveryInfo(context.paymentPayload, context.requirements);
+      const discovered = extractDiscoveryInfo(
+        context.paymentPayload,
+        context.requirements,
+      );
       if (discovered) {
         bazaarCatalog.catalogResource(discovered);
       }
@@ -47,7 +52,7 @@ const facilitator = new x402Facilitator()
     if (!verifiedPayments.has(paymentHash)) {
       return { abort: true, reason: "Payment must be verified first" };
     }
-    
+
     // Check timeout
     const age = context.timestamp - verifiedPayments.get(paymentHash)!;
     if (age > 5 * 60 * 1000) {
@@ -66,32 +71,30 @@ const facilitator = new x402Facilitator()
   });
 ```
 
-
 ### Facilitator Setup
 
 ```typescript
-import { x402Facilitator } from "@x402/core/facilitator";
-import { ExactEvmFacilitator } from "@x402/evm";
-import { ExactEvmFacilitatorV1, NETWORKS as EVM_NETWORKS } from "@x402/evm/v1";
-import { ExactSvmFacilitator } from "@x402/svm";
-import { ExactSvmFacilitatorV1, NETWORKS as SVM_NETWORKS } from "@x402/svm/v1";
+import { x402Facilitator } from "@x402-avm/core/facilitator";
+import { ExactEvmFacilitator } from "@x402-avm/evm";
+import {
+  ExactEvmFacilitatorV1,
+  NETWORKS as EVM_NETWORKS,
+} from "@x402-avm/evm/v1";
+import { ExactSvmFacilitator } from "@x402-avm/svm";
+import {
+  ExactSvmFacilitatorV1,
+  NETWORKS as SVM_NETWORKS,
+} from "@x402-avm/svm/v1";
 
 // Create facilitator with bazaar extension
-const facilitator = new x402Facilitator()
-  .registerExtension("bazaar");
+const facilitator = new x402Facilitator().registerExtension("bazaar");
 
 // Register EVM V2 wildcard
-facilitator.register(
-  "eip155:*",
-  new ExactEvmFacilitator(evmSigner)
-);
+facilitator.register("eip155:*", new ExactEvmFacilitator(evmSigner));
 
 // Register all EVM V1 networks
-EVM_NETWORKS.forEach(network => {
-  facilitator.registerSchemeV1(
-    network,
-    new ExactEvmFacilitatorV1(evmSigner)
-  );
+EVM_NETWORKS.forEach((network) => {
+  facilitator.registerSchemeV1(network, new ExactEvmFacilitatorV1(evmSigner));
 });
 
 // Register SVM schemes similarly...
@@ -101,7 +104,7 @@ EVM_NETWORKS.forEach(network => {
 
 ```typescript
 import express from "express";
-import { createFacilitatorRouter } from "@x402/server/facilitator";
+import { createFacilitatorRouter } from "@x402-avm/server/facilitator";
 
 const app = express();
 app.use(express.json());
@@ -119,23 +122,25 @@ app.listen(port, () => {
 1. **Extension Registration** - Bazaar discovery
 2. **Comprehensive Network Support** - All EVM V1 networks, all SVM V1 networks
 3. **Wildcard Schemes** - Efficient V2 registration with `eip155:*` and `solana:*`
-4. **HTTP Router Integration** - `@x402/server/facilitator` for Express
+4. **HTTP Router Integration** - `@x402-avm/server/facilitator` for Express
 5. **Real Signers** - Actual blockchain transaction submission
 6. **Multi-Protocol** - V1 and V2 side-by-side
 
 ## Test Scenarios
 
 This facilitator is tested with:
+
 - **Clients:** TypeScript Fetch, Go HTTP
 - **Servers:** Express (TypeScript), Gin (Go)
 - **Networks:** Base Sepolia (EVM), Solana Devnet (SVM)
-- **Test Cases:** 
+- **Test Cases:**
   - V1 EVM payments
   - V2 EVM payments
   - V1 SVM payments
   - V2 SVM payments
 
 ### Success Criteria
+
 - ✅ Verification returns valid status
 - ✅ Settlement returns transaction hash
 - ✅ Supported endpoint lists all mechanisms
@@ -164,12 +169,12 @@ pnpm start
 
 ## Package Dependencies
 
-- `@x402/core` - Core facilitator
-- `@x402/server` - Facilitator HTTP router
-- `@x402/evm` - EVM facilitator (V2)
-- `@x402/evm/v1` - EVM facilitator (V1) + NETWORKS
-- `@x402/svm` - SVM facilitator (V2)
-- `@x402/svm/v1` - SVM facilitator (V1) + NETWORKS
+- `@x402-avm/core` - Core facilitator
+- `@x402-avm/server` - Facilitator HTTP router
+- `@x402-avm/evm` - EVM facilitator (V2)
+- `@x402-avm/evm/v1` - EVM facilitator (V1) + NETWORKS
+- `@x402-avm/svm` - SVM facilitator (V2)
+- `@x402-avm/svm/v1` - SVM facilitator (V1) + NETWORKS
 - `express` - HTTP server
 - `viem` - Ethereum transactions
 - `@solana/web3.js` - Solana transactions

@@ -7,8 +7,8 @@
  * This module transforms v1 data into v2 DiscoveryInfo format.
  */
 
-import type { PaymentRequirementsV1 } from "@x402/core/types";
-import type { BodyMethods, QueryParamMethods } from "@x402/core/http";
+import type { PaymentRequirementsV1 } from "@x402-avm/core/types";
+import type { BodyMethods, QueryParamMethods } from "@x402-avm/core/http";
 import type { DiscoveryInfo, QueryDiscoveryInfo, BodyDiscoveryInfo } from "../types";
 
 /**
@@ -205,9 +205,9 @@ export function extractDiscoveryInfoV1(
   // Extract output example/schema if present
   const output = outputSchema.output
     ? {
-        type: "json" as const,
-        example: outputSchema.output,
-      }
+      type: "json" as const,
+      example: outputSchema.output,
+    }
     : undefined;
 
   // Transform based on method type

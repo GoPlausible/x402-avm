@@ -28,7 +28,7 @@ try:
     import jsonschema
 except ImportError as e:
     raise ImportError(
-        "Extensions validation requires jsonschema. Install with: pip install x402[extensions]"
+        "Extensions validation requires jsonschema. Install with: pip install x402-avm[extensions]"
     ) from e
 
 if TYPE_CHECKING:

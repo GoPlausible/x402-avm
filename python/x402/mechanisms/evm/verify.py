@@ -4,7 +4,7 @@ try:
     from eth_keys import keys
 except ImportError as e:
     raise ImportError(
-        "EVM mechanism requires ethereum packages. Install with: pip install x402[evm]"
+        "EVM mechanism requires ethereum packages. Install with: pip install x402-avm[evm]"
     ) from e
 
 from .constants import EIP1271_MAGIC_VALUE, IS_VALID_SIGNATURE_ABI

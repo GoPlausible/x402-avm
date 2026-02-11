@@ -4,8 +4,8 @@
  * Registers AVM exact payment schemes to an x402Client instance.
  */
 
-import { x402Client, SelectPaymentRequirements, PaymentPolicy } from "@x402/core/client";
-import type { Network } from "@x402/core/types";
+import { x402Client, SelectPaymentRequirements, PaymentPolicy } from "@x402-avm/core/client";
+import type { Network } from "@x402-avm/core/types";
 import type { ClientAvmSigner, ClientAvmConfig } from "../../signer";
 import { ExactAvmScheme } from "./scheme";
 import { ExactAvmSchemeV1 } from "../v1/client/scheme";
@@ -56,8 +56,8 @@ export interface AvmClientConfig {
  *
  * @example
  * ```typescript
- * import { registerExactAvmScheme } from "@x402/avm/exact/client";
- * import { x402Client } from "@x402/core/client";
+ * import { registerExactAvmScheme } from "@x402-avm/avm/exact/client";
+ * import { x402Client } from "@x402-avm/core/client";
  *
  * const signer = { address: "...", signTransactions: async () => [] };
  * const client = new x402Client();

@@ -1,5 +1,5 @@
-import type { DiscoveryInfo } from "@x402/extensions/bazaar";
-import type { PaymentRequirements } from "@x402/core/types";
+import type { DiscoveryInfo } from "@x402-avm/extensions/bazaar";
+import type { PaymentRequirements } from "@x402-avm/core/types";
 
 export interface DiscoveredResource {
   resource: string;

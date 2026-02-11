@@ -1,5 +1,5 @@
 /**
- * @x402/lambda-edge (future package)
+ * @x402-avm/lambda-edge (future package)
  * 
  * x402 middleware for AWS Lambda@Edge / CloudFront
  */

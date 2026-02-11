@@ -5,7 +5,7 @@ Server-side middleware for protecting routes with x402 payments.
 ## FastAPI (Async)
 
 ```bash
-uv add x402[fastapi]
+uv add x402-avm[fastapi]
 ```
 
 ### Basic Usage
@@ -69,7 +69,7 @@ async def weather(request: Request):
 ## Flask (Sync)
 
 ```bash
-uv add x402[flask]
+uv add x402-avm[flask]
 ```
 
 ### Basic Usage
@@ -119,21 +119,21 @@ payment_middleware(app, routes, server, paywall_config={"appName": "My API"})
 
 ## Sync/Async Matching
 
-| Framework | Server | Facilitator Client |
-|-----------|--------|-------------------|
-| FastAPI | `x402ResourceServer` | `HTTPFacilitatorClient` |
-| Flask | `x402ResourceServerSync` | `HTTPFacilitatorClientSync` |
+| Framework | Server                   | Facilitator Client          |
+| --------- | ------------------------ | --------------------------- |
+| FastAPI   | `x402ResourceServer`     | `HTTPFacilitatorClient`     |
+| Flask     | `x402ResourceServerSync` | `HTTPFacilitatorClientSync` |
 
 Using async components with Flask raises `TypeError`.
 
 ## Route Patterns
 
-| Pattern | Matches |
-|---------|---------|
-| `GET /api/weather` | Only GET to /api/weather |
-| `/api/users/*` | Any method to /api/users/* |
-| `POST /api/users/[id]` | POST to /api/users/123 |
-| `* /api/*` | Any method to /api/* |
+| Pattern                | Matches                     |
+| ---------------------- | --------------------------- |
+| `GET /api/weather`     | Only GET to /api/weather    |
+| `/api/users/*`         | Any method to /api/users/\* |
+| `POST /api/users/[id]` | POST to /api/users/123      |
+| `* /api/*`             | Any method to /api/\*       |
 
 ## Paywall Configuration
 
@@ -165,19 +165,18 @@ PaymentMiddleware(app, routes, server, paywall_provider=MyPaywall())
 
 ### FastAPI
 
-| Export | Description |
-|--------|-------------|
-| `payment_middleware()` | Create middleware function |
-| `payment_middleware_from_config()` | Create from config dict |
-| `PaymentMiddlewareASGI` | ASGI middleware class |
-| `FastAPIAdapter` | HTTPAdapter for FastAPI |
+| Export                             | Description                |
+| ---------------------------------- | -------------------------- |
+| `payment_middleware()`             | Create middleware function |
+| `payment_middleware_from_config()` | Create from config dict    |
+| `PaymentMiddlewareASGI`            | ASGI middleware class      |
+| `FastAPIAdapter`                   | HTTPAdapter for FastAPI    |
 
 ### Flask
 
-| Export | Description |
-|--------|-------------|
-| `PaymentMiddleware` | WSGI middleware class |
-| `payment_middleware()` | Convenience function |
+| Export                             | Description             |
+| ---------------------------------- | ----------------------- |
+| `PaymentMiddleware`                | WSGI middleware class   |
+| `payment_middleware()`             | Convenience function    |
 | `payment_middleware_from_config()` | Create from config dict |
-| `FlaskAdapter` | HTTPAdapter for Flask |
-
+| `FlaskAdapter`                     | HTTPAdapter for Flask   |

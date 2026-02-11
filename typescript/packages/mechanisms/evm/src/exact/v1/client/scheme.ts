@@ -3,8 +3,8 @@ import {
   PaymentPayload,
   PaymentRequirements,
   SchemeNetworkClient,
-} from "@x402/core/types";
-import { PaymentRequirementsV1 } from "@x402/core/types/v1";
+} from "@x402-avm/core/types";
+import { PaymentRequirementsV1 } from "@x402-avm/core/types/v1";
 import { getAddress } from "viem";
 import { authorizationTypes } from "../../../constants";
 import { ClientEvmSigner } from "../../../signer";
@@ -23,7 +23,7 @@ export class ExactEvmSchemeV1 implements SchemeNetworkClient {
    *
    * @param signer - The EVM signer for client operations
    */
-  constructor(private readonly signer: ClientEvmSigner) {}
+  constructor(private readonly signer: ClientEvmSigner) { }
 
   /**
    * Creates a payment payload for the Exact scheme (V1).

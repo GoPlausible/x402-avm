@@ -1,11 +1,11 @@
-# @x402/svm
+# @x402-avm/svm
 
 SVM (Solana Virtual Machine) implementation of the x402 payment protocol using the **Exact** payment scheme with SPL Token transfers.
 
 ## Installation
 
 ```bash
-npm install @x402/svm
+npm install @x402-avm/svm
 ```
 
 ## Overview
@@ -18,7 +18,7 @@ This package provides three main components for handling x402 payments on Solana
 
 ## Package Exports
 
-### Main Package (`@x402/svm`)
+### Main Package (`@x402-avm/svm`)
 
 **V2 Protocol Support** - Modern x402 protocol with CAIP-2 network identifiers
 
@@ -40,7 +40,7 @@ This package provides three main components for handling x402 payments on Solana
 **Utilities:**
 - Network validation, asset info lookup, amount formatting, transaction encoding
 
-### V1 Package (`@x402/svm/v1`)
+### V1 Package (`@x402-avm/svm/v1`)
 
 **V1 Protocol Support** - Legacy x402 protocol with simple network names
 
@@ -58,7 +58,7 @@ This package provides three main components for handling x402 payments on Solana
 ]
 ```
 
-### Client Builder (`@x402/svm/client`)
+### Client Builder (`@x402-avm/svm/client`)
 
 **Convenience builder** for creating fully-configured SVM clients
 
@@ -74,8 +74,8 @@ This package provides three main components for handling x402 payments on Solana
 
 **Example:**
 ```typescript
-import { createSvmClient } from "@x402/svm/client";
-import { toClientSvmSigner } from "@x402/svm";
+import { createSvmClient } from "@x402-avm/svm/client";
+import { toClientSvmSigner } from "@x402-avm/svm";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import { base58 } from "@scure/base";
 
@@ -109,8 +109,8 @@ const client = createSvmClient({ signer });
 ### 1. Using Pre-built Builder (Recommended)
 
 ```typescript
-import { createSvmClient } from "@x402/svm/client";
-import { wrapFetchWithPayment } from "@x402/fetch";
+import { createSvmClient } from "@x402-avm/svm/client";
+import { wrapFetchWithPayment } from "@x402-avm/fetch";
 
 const client = createSvmClient({ signer: mySvmSigner });
 const paidFetch = wrapFetchWithPayment(fetch, client);
@@ -119,9 +119,9 @@ const paidFetch = wrapFetchWithPayment(fetch, client);
 ### 2. Direct Registration (Full Control)
 
 ```typescript
-import { x402Client } from "@x402/core/client";
-import { ExactSvmClient } from "@x402/svm";
-import { ExactSvmClientV1 } from "@x402/svm/v1";
+import { x402Client } from "@x402-avm/core/client";
+import { ExactSvmClient } from "@x402-avm/svm";
+import { ExactSvmClientV1 } from "@x402-avm/svm/v1";
 
 const client = new x402Client()
   .register("solana:*", new ExactSvmClient(signer))
@@ -132,8 +132,8 @@ const client = new x402Client()
 ### 3. Using Config (Flexible)
 
 ```typescript
-import { x402Client } from "@x402/core/client";
-import { ExactSvmClient } from "@x402/svm";
+import { x402Client } from "@x402-avm/core/client";
+import { ExactSvmClient } from "@x402-avm/svm";
 
 const client = x402Client.fromConfig({
   schemes: [
@@ -193,9 +193,9 @@ pnpm format
 
 ## Related Packages
 
-- `@x402/core` - Core protocol types and client
-- `@x402/fetch` - HTTP wrapper with automatic payment handling
-- `@x402/evm` - EVM/Ethereum implementation
-- `@x402/avm` - Algorand/AVM implementation
+- `@x402-avm/core` - Core protocol types and client
+- `@x402-avm/fetch` - HTTP wrapper with automatic payment handling
+- `@x402-avm/evm` - EVM/Ethereum implementation
+- `@x402-avm/avm` - Algorand/AVM implementation
 - `@solana/web3.js` - Solana JavaScript SDK (peer dependency)
 

@@ -5,7 +5,7 @@ EVM implementation of the x402 payment protocol using the **Exact** payment sche
 ## Installation
 
 ```bash
-uv add x402[evm]
+uv add x402-avm[evm]
 ```
 
 ## Overview
@@ -62,36 +62,38 @@ facilitator.register(["eip155:8453", "eip155:84532"], ExactEvmFacilitatorScheme(
 
 ### `x402.mechanisms.evm.exact`
 
-| Export | Description |
-|--------|-------------|
-| `ExactEvmScheme` | Client scheme (alias for `ExactEvmClientScheme`) |
-| `ExactEvmClientScheme` | Client-side payment creation |
-| `ExactEvmServerScheme` | Server-side requirement building |
-| `ExactEvmFacilitatorScheme` | Facilitator verification/settlement |
-| `register_exact_evm_client()` | Helper to register client |
-| `register_exact_evm_server()` | Helper to register server |
-| `register_exact_evm_facilitator()` | Helper to register facilitator |
+| Export                             | Description                                      |
+| ---------------------------------- | ------------------------------------------------ |
+| `ExactEvmScheme`                   | Client scheme (alias for `ExactEvmClientScheme`) |
+| `ExactEvmClientScheme`             | Client-side payment creation                     |
+| `ExactEvmServerScheme`             | Server-side requirement building                 |
+| `ExactEvmFacilitatorScheme`        | Facilitator verification/settlement              |
+| `register_exact_evm_client()`      | Helper to register client                        |
+| `register_exact_evm_server()`      | Helper to register server                        |
+| `register_exact_evm_facilitator()` | Helper to register facilitator                   |
 
 ### `x402.mechanisms.evm`
 
-| Export | Description |
-|--------|-------------|
-| `ClientEvmSigner` | Protocol for client signers |
-| `FacilitatorEvmSigner` | Protocol for facilitator signers |
-| `EthAccountSigner` | Client signer using eth-account |
+| Export                  | Description                      |
+| ----------------------- | -------------------------------- |
+| `ClientEvmSigner`       | Protocol for client signers      |
+| `FacilitatorEvmSigner`  | Protocol for facilitator signers |
+| `EthAccountSigner`      | Client signer using eth-account  |
 | `FacilitatorWeb3Signer` | Facilitator signer using web3.py |
-| `NETWORK_CONFIGS` | Network configuration mapping |
-| `V1_NETWORKS` | List of V1 network names |
+| `NETWORK_CONFIGS`       | Network configuration mapping    |
+| `V1_NETWORKS`           | List of V1 network names         |
 
 ## Supported Networks
 
 **V2 Networks** (CAIP-2 format):
+
 - `eip155:1` - Ethereum Mainnet
 - `eip155:8453` - Base Mainnet
 - `eip155:84532` - Base Sepolia
 - `eip155:*` - Wildcard (all EVM chains)
 
 **V1 Networks** (legacy names):
+
 - `base`, `base-sepolia`
 - `polygon`, `polygon-amoy`
 - `avalanche`, `avalanche-fuji`
@@ -100,6 +102,7 @@ facilitator.register(["eip155:8453", "eip155:84532"], ExactEvmFacilitatorScheme(
 ## Asset Support
 
 Supports ERC-3009 compatible tokens:
+
 - USDC (primary)
 - EURC
 - Any token implementing `transferWithAuthorization()`
@@ -124,7 +127,7 @@ The Exact scheme uses signed authorizations:
 ### Smart Wallet Support (ERC-6492)
 
 Automatic handling of:
+
 - Deployed smart wallets (ERC-1271 signature verification)
 - Undeployed smart wallets (ERC-6492 counterfactual verification)
 - EOA wallets (standard ECDSA)
-

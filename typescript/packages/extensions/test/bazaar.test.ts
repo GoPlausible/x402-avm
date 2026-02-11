@@ -14,7 +14,7 @@ import {
   bazaarResourceServerExtension,
 } from "../src/bazaar/index";
 import type { BodyDiscoveryInfo, DiscoveryExtension } from "../src/bazaar/types";
-import type { HTTPAdapter, HTTPRequestContext } from "@x402/core/http";
+import type { HTTPAdapter, HTTPRequestContext } from "@x402-avm/core/http";
 
 describe("Bazaar Discovery Extension", () => {
   describe("BAZAAR constant", () => {

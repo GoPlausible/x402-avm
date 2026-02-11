@@ -5,7 +5,7 @@ Algorand implementation of the x402 payment protocol using the **Exact** payment
 ## Installation
 
 ```bash
-uv add x402[avm]
+uv add x402-avm[avm]
 ```
 
 ## Overview
@@ -97,41 +97,44 @@ facilitator.register(
 
 ### `x402.mechanisms.avm.exact`
 
-| Export | Description |
-|--------|-------------|
-| `ExactAvmScheme` | Client scheme (alias for `ExactAvmClientScheme`) |
-| `ExactAvmClientScheme` | Client-side transaction creation |
-| `ExactAvmServerScheme` | Server-side requirement building |
-| `ExactAvmFacilitatorScheme` | Facilitator verification/settlement |
-| `register_exact_avm_client()` | Helper to register client |
-| `register_exact_avm_server()` | Helper to register server |
-| `register_exact_avm_facilitator()` | Helper to register facilitator |
+| Export                             | Description                                      |
+| ---------------------------------- | ------------------------------------------------ |
+| `ExactAvmScheme`                   | Client scheme (alias for `ExactAvmClientScheme`) |
+| `ExactAvmClientScheme`             | Client-side transaction creation                 |
+| `ExactAvmServerScheme`             | Server-side requirement building                 |
+| `ExactAvmFacilitatorScheme`        | Facilitator verification/settlement              |
+| `register_exact_avm_client()`      | Helper to register client                        |
+| `register_exact_avm_server()`      | Helper to register server                        |
+| `register_exact_avm_facilitator()` | Helper to register facilitator                   |
 
 ### `x402.mechanisms.avm`
 
-| Export | Description |
-|--------|-------------|
-| `ClientAvmSigner` | Protocol for client signers (implement with algosdk) |
-| `FacilitatorAvmSigner` | Protocol for facilitator signers (implement with algosdk) |
-| `NETWORK_CONFIGS` | Network configuration mapping |
-| `V1_NETWORKS` | List of V1 network names |
-| `ALGORAND_MAINNET_CAIP2` | Mainnet CAIP-2 identifier |
-| `ALGORAND_TESTNET_CAIP2` | Testnet CAIP-2 identifier |
+| Export                   | Description                                               |
+| ------------------------ | --------------------------------------------------------- |
+| `ClientAvmSigner`        | Protocol for client signers (implement with algosdk)      |
+| `FacilitatorAvmSigner`   | Protocol for facilitator signers (implement with algosdk) |
+| `NETWORK_CONFIGS`        | Network configuration mapping                             |
+| `V1_NETWORKS`            | List of V1 network names                                  |
+| `ALGORAND_MAINNET_CAIP2` | Mainnet CAIP-2 identifier                                 |
+| `ALGORAND_TESTNET_CAIP2` | Testnet CAIP-2 identifier                                 |
 
 ## Supported Networks
 
 **V2 Networks** (CAIP-2 format):
+
 - `algorand:wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=` - Mainnet
 - `algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=` - Testnet
 - `algorand:*` - Wildcard (all Algorand networks)
 
 **V1 Networks** (legacy names):
+
 - `algorand-mainnet` - Mainnet
 - `algorand-testnet` - Testnet
 
 ## Asset Support
 
 Supports Algorand Standard Assets (ASAs):
+
 - USDC (primary):
   - Mainnet: ASA ID `31566704`
   - Testnet: ASA ID `10458941`
@@ -144,26 +147,31 @@ Supports Algorand Standard Assets (ASAs):
 The Exact scheme creates atomic transaction groups:
 
 **Without Fee Abstraction** (client pays fees):
+
 1. ASA transfer transaction (signed by client)
 
 **With Fee Abstraction** (facilitator pays fees):
+
 1. Fee payer transaction: self-payment with pooled fees (signed by facilitator)
 2. ASA transfer transaction with zero fee (signed by client)
 
 ### Fee Pooling
 
 When using fee abstraction, fees are pooled in the first transaction:
+
 ```
 pooled_fee = min_fee × transaction_count
 ```
 
 Example: For a 2-transaction group with 1000 microalgo min fee:
+
 - Fee payer transaction: `fee = 2000` (covers both)
 - ASA transfer: `fee = 0`
 
 ### Atomic Groups
 
 Algorand natively supports atomic transaction groups:
+
 - Up to 16 transactions per group
 - All-or-nothing execution (no partial settlement)
 - Group ID computed from all transaction hashes
@@ -175,6 +183,7 @@ Algorand has no consensus forks - once a transaction is in a block, it's final. 
 ### Security Checks
 
 The facilitator validates:
+
 - No `rekey` operations (prevents key theft)
 - No `close-to` operations (prevents account draining)
 - No `keyreg` transactions (prevents consensus attacks)
@@ -214,18 +223,18 @@ Per the Algorand exact scheme specification:
 
 ## Error Codes
 
-| Error | Description |
-|-------|-------------|
-| `unsupported_scheme` | Scheme is not "exact" |
-| `network_mismatch` | Network in payload doesn't match requirements |
-| `invalid_exact_avm_payload_payment_index` | Payment index out of bounds |
-| `invalid_exact_avm_payload_group_too_large` | More than 16 transactions |
-| `invalid_exact_avm_payload_empty_group` | Empty transaction group |
-| `invalid_exact_avm_payload_asset_id_mismatch` | ASA ID doesn't match |
-| `invalid_exact_avm_payload_recipient_mismatch` | Receiver doesn't match payTo |
-| `invalid_exact_avm_payload_amount_insufficient` | Amount less than required |
-| `invalid_exact_avm_payload_rekey_detected` | Rekey operation found |
-| `invalid_exact_avm_payload_close_to_detected` | Close-to operation found |
-| `fee_payer_not_managed_by_facilitator` | Fee payer not in facilitator's signers |
-| `transaction_simulation_failed` | Simulation returned error |
-| `transaction_failed` | On-chain submission failed |
+| Error                                           | Description                                   |
+| ----------------------------------------------- | --------------------------------------------- |
+| `unsupported_scheme`                            | Scheme is not "exact"                         |
+| `network_mismatch`                              | Network in payload doesn't match requirements |
+| `invalid_exact_avm_payload_payment_index`       | Payment index out of bounds                   |
+| `invalid_exact_avm_payload_group_too_large`     | More than 16 transactions                     |
+| `invalid_exact_avm_payload_empty_group`         | Empty transaction group                       |
+| `invalid_exact_avm_payload_asset_id_mismatch`   | ASA ID doesn't match                          |
+| `invalid_exact_avm_payload_recipient_mismatch`  | Receiver doesn't match payTo                  |
+| `invalid_exact_avm_payload_amount_insufficient` | Amount less than required                     |
+| `invalid_exact_avm_payload_rekey_detected`      | Rekey operation found                         |
+| `invalid_exact_avm_payload_close_to_detected`   | Close-to operation found                      |
+| `fee_payer_not_managed_by_facilitator`          | Fee payer not in facilitator's signers        |
+| `transaction_simulation_failed`                 | Simulation returned error                     |
+| `transaction_failed`                            | On-chain submission failed                    |

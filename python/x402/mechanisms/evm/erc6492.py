@@ -4,7 +4,7 @@ try:
     from eth_abi import decode
 except ImportError as e:
     raise ImportError(
-        "EVM mechanism requires ethereum packages. Install with: pip install x402[evm]"
+        "EVM mechanism requires ethereum packages. Install with: pip install x402-avm[evm]"
     ) from e
 
 from .constants import ERC6492_MAGIC_VALUE

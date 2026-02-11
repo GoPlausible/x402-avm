@@ -16,7 +16,7 @@ try:
     from web3.middleware import ExtraDataToPOAMiddleware
 except ImportError as e:
     raise ImportError(
-        "EVM signers require eth_account and web3. Install with: pip install x402[evm]"
+        "EVM signers require eth_account and web3. Install with: pip install x402-avm[evm]"
     ) from e
 
 from .constants import EIP1271_MAGIC_VALUE, IS_VALID_SIGNATURE_ABI, TX_STATUS_SUCCESS

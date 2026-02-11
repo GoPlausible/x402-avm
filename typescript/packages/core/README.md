@@ -1,11 +1,11 @@
-# @x402/core
+# @x402-avm/core
 
 Core implementation of the x402 payment protocol for TypeScript/JavaScript applications. Provides transport-agnostic client, server and facilitator components.
 
 ## Installation
 
 ```bash
-pnpm install @x402/core
+pnpm install @x402-avm/core
 ```
 
 ## Quick Start
@@ -13,9 +13,9 @@ pnpm install @x402/core
 ### Client Usage
 
 ```typescript
-import { x402Client } from '@x402/core/client';
-import { x402HTTPClient } from '@x402/core/http';
-import { ExactEvmScheme } from '@x402/evm/exact/client';
+import { x402Client } from '@x402-avm/core/client';
+import { x402HTTPClient } from '@x402-avm/core/http';
+import { ExactEvmScheme } from '@x402-avm/evm/exact/client';
 
 // Create core client and register payment schemes
 const coreClient = new x402Client()
@@ -52,9 +52,9 @@ if (response.status === 402) {
 ### Server Usage
 
 ```typescript
-import { x402ResourceServer, HTTPFacilitatorClient } from '@x402/core/server';
-import { x402HTTPResourceServer } from '@x402/core/http';
-import { ExactEvmScheme } from '@x402/evm/exact/server';
+import { x402ResourceServer, HTTPFacilitatorClient } from '@x402-avm/core/server';
+import { x402HTTPResourceServer } from '@x402-avm/core/http';
+import { ExactEvmScheme } from '@x402-avm/evm/exact/server';
 
 // Connect to facilitator
 const facilitatorClient = new HTTPFacilitatorClient({
@@ -89,8 +89,8 @@ const httpServer = new x402HTTPResourceServer(resourceServer, routes);
 ### Facilitator Usage
 
 ```typescript
-import { x402Facilitator } from '@x402/core/facilitator';
-import { registerExactEvmScheme } from '@x402/evm/exact/facilitator';
+import { x402Facilitator } from '@x402-avm/core/facilitator';
+import { registerExactEvmScheme } from '@x402-avm/evm/exact/facilitator';
 
 const facilitator = new x402Facilitator();
 
@@ -271,19 +271,19 @@ type PaymentRequired = {
 
 For framework-specific middleware, use:
 
-- `@x402/express` - Express.js middleware
-- `@x402/hono` - Hono middleware  
-- `@x402/next` - Next.js integration
-- `@x402/axios` - Axios interceptor
-- `@x402/fetch` - Fetch wrapper
+- `@x402-avm/express` - Express.js middleware
+- `@x402-avm/hono` - Hono middleware  
+- `@x402-avm/next` - Next.js integration
+- `@x402-avm/axios` - Axios interceptor
+- `@x402-avm/fetch` - Fetch wrapper
 
 ## Implementation Packages
 
 For blockchain-specific implementations:
 
-- `@x402/evm` - Ethereum and EVM-compatible chains
-- `@x402/svm` - Solana blockchain
-- `@x402/avm` - Algorand blockchain
+- `@x402-avm/evm` - Ethereum and EVM-compatible chains
+- `@x402-avm/svm` - Solana blockchain
+- `@x402-avm/avm` - Algorand blockchain
 
 ## Examples
 

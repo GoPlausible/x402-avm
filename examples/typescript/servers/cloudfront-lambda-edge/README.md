@@ -6,11 +6,10 @@ Add x402 payments to any web server without modifying your backend.
 flowchart LR
     Client --> CF[CloudFront + Lambda@Edge]
     CF --> Origin[Your Origin]
-    
+
     style CF fill:#e1f5fe,stroke:#01579b
     style Origin fill:#f5f5f5,stroke:#9e9e9e
 ```
-
 
 ## Why This Approach?
 
@@ -41,10 +40,12 @@ Copy these into your project and integrate with your existing setup.
 This example is a great starting point. Here are the essentials:
 
 **CloudFront basics:**
+
 - [What is Amazon CloudFront?](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Introduction.html)
 - [Getting started with CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/GettingStarted.html)
 
 **Lambda@Edge basics:**
+
 - [What is Lambda@Edge?](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-at-the-edge.html)
 - [Tutorial: Creating a Lambda@Edge function](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/lambda-edge-how-it-works-tutorial.html)
 
@@ -71,9 +72,10 @@ See [Lambda@Edge quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/Dev
 Copy `lambda/src/` into your project and adapt the build to your tooling.
 
 > **Note**: Replace `workspace:*` dependencies with specific versions:
+>
 > ```json
-> "@x402/core": "^2.2.0",
-> "@x402/evm": "^2.2.0"
+> "@x402-avm/core": "^2.2.0",
+> "@x402-avm/evm": "^2.2.0"
 > ```
 
 ### 2. Configure Payment Settings
@@ -81,9 +83,9 @@ Copy `lambda/src/` into your project and adapt the build to your tooling.
 Edit `config.ts`:
 
 ```typescript
-export const FACILITATOR_URL = 'https://x402.org/facilitator';
-export const PAY_TO = '0xYourPaymentAddressHere';  // Your wallet address
-export const NETWORK = 'eip155:84532';              // Base Sepolia (testnet)
+export const FACILITATOR_URL = "https://x402.org/facilitator";
+export const PAY_TO = "0xYourPaymentAddressHere"; // Your wallet address
+export const NETWORK = "eip155:84532"; // Base Sepolia (testnet)
 ```
 
 ### 3. Configure Routes
@@ -92,14 +94,14 @@ Define which routes require payment:
 
 ```typescript
 const ROUTES: RoutesConfig = {
-  '/api/*': {
+  "/api/*": {
     accepts: {
-      scheme: 'exact',
-      network: 'eip155:84532',
-      payTo: '0xYourAddress',
-      price: '$0.001',
+      scheme: "exact",
+      network: "eip155:84532",
+      payTo: "0xYourAddress",
+      price: "$0.001",
     },
-    description: 'API access',
+    description: "API access",
   },
 };
 ```
@@ -114,7 +116,7 @@ Bundle and deploy both Lambda functions:
 | `originResponseHandler` | origin-response  | Settle payment if origin succeeded |
 
 ```typescript
-import { originRequestHandler, originResponseHandler } from './index';
+import { originRequestHandler, originResponseHandler } from "./index";
 ```
 
 ## Networks
@@ -147,25 +149,25 @@ cloudfront-lambda-edge/
 The x402 logic is composable middleware, so you can integrate it with your existing Lambda@Edge logic:
 
 ```typescript
-import { createX402Middleware } from './lib';
+import { createX402Middleware } from "./lib";
 
 const x402 = createX402Middleware({ getServer: createServer });
 
 export const handler = async (event: CloudFrontRequestEvent) => {
   const request = event.Records[0].cf.request;
-  
+
   // Your custom logic first (auth, WAF, logging, etc.)
-  if (request.headers['x-api-key']?.[0]?.value !== 'secret') {
-    return { status: '401', body: 'Unauthorized' };
+  if (request.headers["x-api-key"]?.[0]?.value !== "secret") {
+    return { status: "401", body: "Unauthorized" };
   }
-  
+
   // x402 payment check
   const result = await x402.processOriginRequest(request, distributionDomain);
-  
-  if (result.type === 'respond') {
+
+  if (result.type === "respond") {
     return result.response; // 402 Payment Required
   }
-  
+
   return result.request;
 };
 ```
@@ -180,7 +182,7 @@ export const handler = async (event: CloudFrontRequestEvent) => {
 Use AWS WAF to label bots, then require payment only for labeled requests:
 
 ```typescript
-const isBot = request.headers['x-amzn-waf-bot']?.[0]?.value;
+const isBot = request.headers["x-amzn-waf-bot"]?.[0]?.value;
 if (isBot) {
   // Add bot-specific routes or pricing
 }
@@ -233,6 +235,7 @@ HTML paywall is disabled by default due to Lambda@Edge's 1MB response limit. For
 **Why two Lambda functions?**
 
 The x402 pattern is: verify → execute → settle. By splitting into two functions:
+
 - **origin-request**: Verifies payment, stores data in `x-x402-pending-settlement` header
 - **origin-response**: Settles only if status < 400
 
@@ -249,7 +252,7 @@ sequenceDiagram
 
     Client->>CloudFront: Request /api/data
     CloudFront->>OriginRequest: origin-request event
-    
+
     alt No payment header
         OriginRequest-->>Client: 402 Payment Required
     else Has PAYMENT-SIGNATURE header
@@ -259,7 +262,7 @@ sequenceDiagram
         OriginRequest->>Origin: Forward request
         Origin-->>CloudFront: Response
         CloudFront->>OriginResponse: origin-response event
-        
+
         alt Origin succeeded (status < 400)
             OriginResponse->>Facilitator: Settle payment
             Facilitator-->>OriginResponse: Settled

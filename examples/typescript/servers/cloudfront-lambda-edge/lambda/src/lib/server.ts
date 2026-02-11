@@ -1,6 +1,6 @@
-import type { RoutesConfig } from '@x402/core/server';
-import { x402ResourceServer, x402HTTPResourceServer, HTTPFacilitatorClient } from '@x402/core/server';
-import { ExactEvmScheme } from '@x402/evm/exact/server';
+import type { RoutesConfig } from '@x402-avm/core/server';
+import { x402ResourceServer, x402HTTPResourceServer, HTTPFacilitatorClient } from '@x402-avm/core/server';
+import { ExactEvmScheme } from '@x402-avm/evm/exact/server';
 
 /**
  * Configuration for creating an x402 server

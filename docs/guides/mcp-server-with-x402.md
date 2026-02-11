@@ -13,17 +13,17 @@ This guide walks you through running an MCP server that can access paid APIs usi
 
 This lets you (or your agent) access paid APIs programmatically, with no manual payment steps.
 
-***
+---
 
 ### Prerequisites
 
-* Node.js v20+ (install via [nvm](https://github.com/nvm-sh/nvm))
-* pnpm v10 (install via [pnpm.io/installation](https://pnpm.io/installation))
-* An x402-compatible server to connect to (for this demo, we'll use the [sample express server with weather data](https://github.com/coinbase/x402/tree/main/examples/typescript/servers/express) from the x402 repo, or any external x402 API)
-* An Ethereum wallet with USDC (on Base Sepolia or Base Mainnet) and/or a Solana wallet with USDC (on Devnet or Mainnet)
-* [Claude Desktop with MCP support](https://claude.ai/download)
+- Node.js v20+ (install via [nvm](https://github.com/nvm-sh/nvm))
+- pnpm v10 (install via [pnpm.io/installation](https://pnpm.io/installation))
+- An x402-compatible server to connect to (for this demo, we'll use the [sample express server with weather data](https://github.com/coinbase/x402/tree/main/examples/typescript/servers/express) from the x402 repo, or any external x402 API)
+- An Ethereum wallet with USDC (on Base Sepolia or Base Mainnet) and/or a Solana wallet with USDC (on Devnet or Mainnet)
+- [Claude Desktop with MCP support](https://claude.ai/download)
 
-***
+---
 
 ### Quick Start
 
@@ -81,30 +81,30 @@ pnpm dev
 
 Restart Claude Desktop to load the new MCP server, then ask Claude to use the `get-data-from-resource-server` tool.
 
-***
+---
 
 ### Environment Variables
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `EVM_PRIVATE_KEY` | Your EVM wallet's private key (0x prefixed) | One of EVM or SVM required |
-| `SVM_PRIVATE_KEY` | Your Solana wallet's private key (base58 encoded) | One of EVM or SVM required |
-| `RESOURCE_SERVER_URL` | The base URL of the paid API | Yes |
-| `ENDPOINT_PATH` | The specific endpoint path (e.g., `/weather`) | Yes |
+| Variable              | Description                                       | Required                   |
+| --------------------- | ------------------------------------------------- | -------------------------- |
+| `EVM_PRIVATE_KEY`     | Your EVM wallet's private key (0x prefixed)       | One of EVM or SVM required |
+| `SVM_PRIVATE_KEY`     | Your Solana wallet's private key (base58 encoded) | One of EVM or SVM required |
+| `RESOURCE_SERVER_URL` | The base URL of the paid API                      | Yes                        |
+| `ENDPOINT_PATH`       | The specific endpoint path (e.g., `/weather`)     | Yes                        |
 
-***
+---
 
 ### Implementation
 
-The MCP server uses `@x402/axios` to wrap axios with automatic payment handling:
+The MCP server uses `@x402-avm/axios` to wrap axios with automatic payment handling:
 
 ```typescript
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import axios from "axios";
-import { x402Client, wrapAxiosWithPayment } from "@x402/axios";
-import { registerExactEvmScheme } from "@x402/evm/exact/client";
-import { registerExactSvmScheme } from "@x402/svm/exact/client";
+import { x402Client, wrapAxiosWithPayment } from "@x402-avm/axios";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import { base58 } from "@scure/base";
@@ -118,7 +118,9 @@ const baseURL = process.env.RESOURCE_SERVER_URL || "http://localhost:4021";
 const endpointPath = process.env.ENDPOINT_PATH || "/weather";
 
 if (!evmPrivateKey && !svmPrivateKey) {
-  throw new Error("At least one of EVM_PRIVATE_KEY or SVM_PRIVATE_KEY must be provided");
+  throw new Error(
+    "At least one of EVM_PRIVATE_KEY or SVM_PRIVATE_KEY must be provided",
+  );
 }
 
 /**
@@ -135,7 +137,9 @@ async function createClient() {
 
   // Register SVM scheme if private key is provided
   if (svmPrivateKey) {
-    const svmSigner = await createKeyPairSignerFromBytes(base58.decode(svmPrivateKey));
+    const svmSigner = await createKeyPairSignerFromBytes(
+      base58.decode(svmPrivateKey),
+    );
     registerExactSvmScheme(client, { signer: svmSigner });
   }
 
@@ -168,13 +172,13 @@ async function main() {
   await server.connect(transport);
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error(error);
   process.exit(1);
 });
 ```
 
-***
+---
 
 ### How It Works
 
@@ -186,16 +190,16 @@ The MCP server exposes a tool that, when called, fetches data from a paid API en
 4. **Retry Request**: Sends the original request with the `PAYMENT-SIGNATURE` header
 5. **Return Data**: Once payment is verified, the data is returned to Claude
 
-***
+---
 
 ### Multi-Network Support
 
 The example supports both EVM (Base, Ethereum) and Solana networks. The x402 client automatically selects the appropriate scheme based on the payment requirements:
 
 ```typescript
-import { x402Client, wrapAxiosWithPayment } from "@x402/axios";
-import { registerExactEvmScheme } from "@x402/evm/exact/client";
-import { registerExactSvmScheme } from "@x402/svm/exact/client";
+import { x402Client, wrapAxiosWithPayment } from "@x402-avm/axios";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/client";
 
 const client = new x402Client();
 
@@ -210,10 +214,11 @@ const httpClient = wrapAxiosWithPayment(axios.create({ baseURL }), client);
 ```
 
 When the server returns a 402 response, the client checks the `network` field in the payment requirements:
+
 - `eip155:*` networks use the EVM scheme
 - `solana:*` networks use the SVM scheme
 
-***
+---
 
 ### Response Handling
 
@@ -227,6 +232,7 @@ PAYMENT-REQUIRED: <base64-encoded JSON>
 ```
 
 The wrapper automatically:
+
 1. Parses the payment requirements
 2. Creates and signs a payment using the appropriate scheme
 3. Retries the request with the `PAYMENT-SIGNATURE` header
@@ -246,7 +252,7 @@ After payment is processed, the MCP server returns:
 }
 ```
 
-***
+---
 
 ### Architecture Diagram
 
@@ -273,7 +279,7 @@ After payment is processed, the MCP server returns:
         │◀──────────────────────│                       │
 ```
 
-***
+---
 
 ### Dependencies
 
@@ -283,9 +289,9 @@ The example uses these x402 v2 packages:
 {
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.9.0",
-    "@x402/axios": "workspace:*",
-    "@x402/evm": "workspace:*",
-    "@x402/svm": "workspace:*",
+    "@x402-avm/axios": "workspace:*",
+    "@x402-avm/evm": "workspace:*",
+    "@x402-avm/svm": "workspace:*",
     "axios": "^1.13.2",
     "viem": "^2.39.0",
     "@solana/kit": "^2.1.1",
@@ -294,19 +300,19 @@ The example uses these x402 v2 packages:
 }
 ```
 
-***
+---
 
 ### How the Pieces Fit Together
 
-* **x402-compatible server**: Hosts the paid API (e.g., weather data). Responds with HTTP 402 and `PAYMENT-REQUIRED` header if payment is required.
-* **MCP server (this implementation)**: Acts as a bridge, handling payment via `@x402/axios` and exposing tools to MCP clients.
-* **Claude Desktop**: Calls the MCP tool, receives the paid data, and displays it to the user.
+- **x402-compatible server**: Hosts the paid API (e.g., weather data). Responds with HTTP 402 and `PAYMENT-REQUIRED` header if payment is required.
+- **MCP server (this implementation)**: Acts as a bridge, handling payment via `@x402-avm/axios` and exposing tools to MCP clients.
+- **Claude Desktop**: Calls the MCP tool, receives the paid data, and displays it to the user.
 
-***
+---
 
 ### Next Steps
 
-* [See the full example in the repo](https://github.com/coinbase/x402/tree/main/examples/typescript/clients/mcp)
-* Try integrating with your own x402-compatible APIs
-* Extend the MCP server with more tools or custom logic as needed
-* [Learn about building x402 servers](/getting-started/quickstart-for-sellers)
+- [See the full example in the repo](https://github.com/coinbase/x402/tree/main/examples/typescript/clients/mcp)
+- Try integrating with your own x402-compatible APIs
+- Extend the MCP server with more tools or custom logic as needed
+- [Learn about building x402 servers](/getting-started/quickstart-for-sellers)

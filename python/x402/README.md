@@ -8,23 +8,23 @@ Install the core package with your preferred framework/client:
 
 ```bash
 # HTTP clients (pick one)
-uv add x402[httpx]      # httpx client
-uv add x402[requests]   # requests client
+uv add x402-avm[httpx]      # httpx client
+uv add x402-avm[requests]   # requests client
 
 # Server frameworks (pick one)
-uv add x402[fastapi]    # FastAPI middleware
-uv add x402[flask]      # Flask middleware
+uv add x402-avm[fastapi]    # FastAPI middleware
+uv add x402-avm[flask]      # Flask middleware
 
 # Blockchain mechanisms (pick one or more)
-uv add x402[evm]        # EVM/Ethereum
-uv add x402[svm]        # Solana
-uv add x402[avm]        # Algorand
+uv add x402-avm[evm]        # EVM/Ethereum
+uv add x402-avm[svm]        # Solana
+uv add x402-avm[avm]        # Algorand
 
 # Multiple extras
-uv add x402[fastapi,httpx,evm]
+uv add x402-avm[fastapi,httpx,evm]
 
 # Everything
-uv add x402[all]
+uv add x402-avm[all]
 ```
 
 ## Quick Start
@@ -130,21 +130,21 @@ result = facilitator.verify(payload, requirements)
 
 Each component has both async and sync variants:
 
-| Async (default) | Sync |
-|-----------------|------|
-| `x402Client` | `x402ClientSync` |
-| `x402ResourceServer` | `x402ResourceServerSync` |
-| `x402Facilitator` | `x402FacilitatorSync` |
+| Async (default)         | Sync                        |
+| ----------------------- | --------------------------- |
+| `x402Client`            | `x402ClientSync`            |
+| `x402ResourceServer`    | `x402ResourceServerSync`    |
+| `x402Facilitator`       | `x402FacilitatorSync`       |
 | `HTTPFacilitatorClient` | `HTTPFacilitatorClientSync` |
 
 Async variants support both sync and async hooks (auto-detected). Sync variants only support sync hooks and raise `TypeError` if async hooks are registered.
 
 ### Framework Pairing
 
-| Framework | HTTP Client | Server | Facilitator Client |
-|-----------|-------------|--------|-------------------|
-| FastAPI | httpx | `x402ResourceServer` | `HTTPFacilitatorClient` |
-| Flask | requests | `x402ResourceServerSync` | `HTTPFacilitatorClientSync` |
+| Framework | HTTP Client | Server                   | Facilitator Client          |
+| --------- | ----------- | ------------------------ | --------------------------- |
+| FastAPI   | httpx       | `x402ResourceServer`     | `HTTPFacilitatorClient`     |
+| Flask     | requests    | `x402ResourceServerSync` | `HTTPFacilitatorClientSync` |
 
 Mismatched variants raise `TypeError` at runtime.
 
@@ -239,17 +239,17 @@ client.register("eip155:8453", CustomScheme())
 
 ### V2 Protocol (Current)
 
-| Header | Description |
-|--------|-------------|
-| `PAYMENT-SIGNATURE` | Base64-encoded payment payload |
-| `PAYMENT-REQUIRED` | Base64-encoded payment requirements |
-| `PAYMENT-RESPONSE` | Base64-encoded settlement response |
+| Header              | Description                         |
+| ------------------- | ----------------------------------- |
+| `PAYMENT-SIGNATURE` | Base64-encoded payment payload      |
+| `PAYMENT-REQUIRED`  | Base64-encoded payment requirements |
+| `PAYMENT-RESPONSE`  | Base64-encoded settlement response  |
 
 ### V1 Protocol (Legacy)
 
-| Header | Description |
-|--------|-------------|
-| `X-PAYMENT` | Base64-encoded payment payload |
+| Header               | Description                        |
+| -------------------- | ---------------------------------- |
+| `X-PAYMENT`          | Base64-encoded payment payload     |
 | `X-PAYMENT-RESPONSE` | Base64-encoded settlement response |
 
 ## Related Modules

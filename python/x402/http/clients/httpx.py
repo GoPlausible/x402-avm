@@ -14,7 +14,7 @@ try:
     from httpx import AsyncBaseTransport, Request, Response
 except ImportError as e:
     raise ImportError(
-        "httpx client requires the httpx package. Install with: uv add x402[httpx]"
+        "httpx client requires the httpx package. Install with: uv add x402-avm[httpx]"
     ) from e
 
 if TYPE_CHECKING:

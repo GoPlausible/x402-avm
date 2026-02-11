@@ -104,10 +104,11 @@ git config --global commit.gpgsign true
 The paywall is a browser UI component that exists across TypeScript, Go, and Python. If you modify paywall source files in TypeScript:
 
 ```bash
-cd typescript && pnpm --filter @x402/paywall build:paywall
+cd typescript && pnpm --filter @x402-avm/paywall build:paywall
 ```
 
 This generates template files in:
+
 - `typescript/packages/http/paywall/src/evm/gen/template.ts`
 - `typescript/packages/http/paywall/src/svm/gen/template.ts`
 - `go/http/evm_paywall_template.go`
@@ -139,17 +140,20 @@ Because different chains have different best practices, a scheme may have a diff
 
 Each language SDK defines interfaces that chain mechanisms must implement:
 
-**TypeScript** (`@x402/core`):
+**TypeScript** (`@x402-avm/core`):
+
 - `SchemeNetworkClient` - Signs payment payloads
-- `SchemeNetworkServer` - Validates payment requirements  
+- `SchemeNetworkServer` - Validates payment requirements
 - `SchemeNetworkFacilitator` - Verifies and settles payments
 
 **Go** (`github.com/coinbase/x402/go`):
+
 - `ClientScheme` - Signs payment payloads
 - `ServerScheme` - Validates payment requirements
 - `FacilitatorScheme` - Verifies and settles payments
 
 **Python** (`x402`):
+
 - Implement signing in `src/x402/your_chain.py`
 - Integrate with the base client in `src/x402/clients/base.py`
 

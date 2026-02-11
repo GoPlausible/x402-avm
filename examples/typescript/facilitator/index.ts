@@ -1,18 +1,18 @@
 import { base58 } from "@scure/base";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
-import { x402Facilitator } from "@x402/core/facilitator";
+import { x402Facilitator } from "@x402-avm/core/facilitator";
 import {
   PaymentPayload,
   PaymentRequirements,
   SettleResponse,
   VerifyResponse,
-} from "@x402/core/types";
-import { toFacilitatorEvmSigner } from "@x402/evm";
-import { registerExactEvmScheme } from "@x402/evm/exact/facilitator";
-import { toFacilitatorSvmSigner } from "@x402/svm";
-import { registerExactSvmScheme } from "@x402/svm/exact/facilitator";
-import { DEFAULT_ALGOD_TESTNET } from "@x402/avm";
-import { registerExactAvmScheme } from "@x402/avm/exact/facilitator";
+} from "@x402-avm/core/types";
+import { toFacilitatorEvmSigner } from "@x402-avm/evm";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/facilitator";
+import { toFacilitatorSvmSigner } from "@x402-avm/svm";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/facilitator";
+import { DEFAULT_ALGOD_TESTNET } from "@x402-avm/avm";
+import { registerExactAvmScheme } from "@x402-avm/avm/exact/facilitator";
 import algosdk from "algosdk";
 import dotenv from "dotenv";
 import express from "express";

@@ -3,10 +3,7 @@ name = "x402-requests-e2e"
 version = "0.1.0"
 description = "Python requests client for x402 e2e tests"
 requires-python = ">=3.10"
-dependencies = [
-    "python-dotenv>=1.0.0",
-    "x402[requests,evm,svm,extensions]"
-]
+dependencies = ["python-dotenv>=1.0.0", "x402-avm[requests,evm,svm,extensions]"]
 
 [build-system]
 requires = ["hatchling"]

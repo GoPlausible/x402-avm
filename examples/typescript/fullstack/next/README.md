@@ -1,6 +1,6 @@
 # x402-next Example App
 
-Next.js application demonstrating how to protect routes with a paywall using the `@x402/next` middleware.
+Next.js application demonstrating how to protect routes with a paywall using the `@x402-avm/next` middleware.
 
 ## Prerequisites
 
@@ -46,15 +46,15 @@ The `/protected` route is protected using `paymentProxy`. Page routes are protec
 
 ```typescript
 // proxy.ts
-import { paymentProxy } from "@x402/next";
-import { x402ResourceServer, HTTPFacilitatorClient } from "@x402/core/server";
-import { registerExactEvmScheme } from "@x402/evm/exact/server";
-import { registerExactSvmScheme } from "@x402/svm/exact/server";
-import { registerExactAvmScheme } from "@x402/avm/exact/server";
-import { createPaywall } from "@x402/paywall";
-import { evmPaywall } from "@x402/paywall/evm";
-import { svmPaywall } from "@x402/paywall/svm";
-import { avmPaywall } from "@x402/paywall/avm";
+import { paymentProxy } from "@x402-avm/next";
+import { x402ResourceServer, HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/server";
+import { registerExactAvmScheme } from "@x402-avm/avm/exact/server";
+import { createPaywall } from "@x402-avm/paywall";
+import { evmPaywall } from "@x402-avm/paywall/evm";
+import { svmPaywall } from "@x402-avm/paywall/svm";
+import { avmPaywall } from "@x402-avm/paywall/avm";
 
 const facilitatorClient = new HTTPFacilitatorClient({ url: facilitatorUrl });
 const server = new x402ResourceServer(facilitatorClient);
@@ -120,7 +120,7 @@ The `/api/weather` route demonstrates the `withX402` wrapper for individual API 
 ```typescript
 // app/api/weather/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { withX402 } from "@x402/next";
+import { withX402 } from "@x402-avm/next";
 import { server, paywall, evmAddress, svmAddress, avmAddress } from "../../../proxy";
 const handler = async (_: NextRequest) => {
   return NextResponse.json({

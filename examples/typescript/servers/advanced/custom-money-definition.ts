@@ -1,8 +1,8 @@
 import { config } from "dotenv";
 import express from "express";
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 config();
 
 const evmAddress = process.env.EVM_ADDRESS as `0x${string}`;

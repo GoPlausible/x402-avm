@@ -1,11 +1,11 @@
-# @x402/hono
+# @x402-avm/hono
 
 Hono middleware integration for the x402 Payment Protocol. This package provides a simple middleware function for adding x402 payment requirements to your Hono applications.
 
 ## Installation
 
 ```bash
-pnpm install @x402/hono
+pnpm install @x402-avm/hono
 ```
 
 ## Quick Start
@@ -13,9 +13,9 @@ pnpm install @x402/hono
 ```typescript
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
-import { paymentMiddleware, x402ResourceServer } from "@x402/hono";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/hono";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 
 const app = new Hono();
 
@@ -75,7 +75,7 @@ paymentMiddleware(
 
 ### HonoAdapter
 
-The `HonoAdapter` class implements the `HTTPAdapter` interface from `@x402/core`, providing Hono-specific request handling:
+The `HonoAdapter` class implements the `HTTPAdapter` interface from `@x402-avm/core`, providing Hono-specific request handling:
 
 ```typescript
 class HonoAdapter implements HTTPAdapter {
@@ -136,10 +136,10 @@ The middleware automatically displays a paywall UI when browsers request protect
 
 **Option 1: Full Paywall UI (Recommended)**
 
-Install the optional `@x402/paywall` package for a complete wallet connection and payment UI:
+Install the optional `@x402-avm/paywall` package for a complete wallet connection and payment UI:
 
 ```bash
-pnpm add @x402/paywall
+pnpm add @x402-avm/paywall
 ```
 
 Then configure it:
@@ -156,7 +156,7 @@ app.use(paymentMiddleware(routes, resourceServer, paywallConfig));
 
 **Option 2: Basic Paywall (No Installation)**
 
-Without `@x402/paywall` installed, the middleware returns a basic HTML page with payment instructions.
+Without `@x402-avm/paywall` installed, the middleware returns a basic HTML page with payment instructions.
 
 **Option 3: Custom Paywall Provider**
 
@@ -236,9 +236,9 @@ app.use(
 If you need to use a custom facilitator server, configure it when creating the x402ResourceServer:
 
 ```typescript
-import { HTTPFacilitatorClient } from "@x402/core/server";
-import { x402ResourceServer } from "@x402/hono";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { x402ResourceServer } from "@x402-avm/hono";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
 
 const customFacilitator = new HTTPFacilitatorClient({
   url: "https://your-facilitator.com",

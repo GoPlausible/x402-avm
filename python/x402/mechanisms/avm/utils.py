@@ -31,7 +31,7 @@ try:
     from algosdk import encoding, transaction
 except ImportError as e:
     raise ImportError(
-        "AVM mechanism requires py-algorand-sdk. Install with: pip install x402[avm]"
+        "AVM mechanism requires py-algorand-sdk. Install with: pip install x402-avm[avm]"
     ) from e
 
 

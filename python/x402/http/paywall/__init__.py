@@ -1,7 +1,7 @@
 """x402 Paywall module for browser-based payment UI.
 
 Provides PaywallBuilder for creating custom paywall providers with EVM and SVM support.
-Templates are auto-generated from the TypeScript @x402/paywall package.
+Templates are auto-generated from the TypeScript @x402-avm/paywall package.
 
 Example:
     ```python

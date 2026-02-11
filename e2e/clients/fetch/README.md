@@ -1,6 +1,6 @@
 # E2E Test Client: TypeScript Fetch
 
-This client demonstrates and tests the `@x402/fetch` package with both EVM and SVM payment support.
+This client demonstrates and tests the `@x402-avm/fetch` package with both EVM and SVM payment support.
 
 ## What It Tests
 
@@ -22,12 +22,12 @@ This client demonstrates and tests the `@x402/fetch` package with both EVM and S
 ### Usage Pattern
 
 ```typescript
-import { wrapFetchWithPayment } from "@x402/fetch";
-import { x402Client } from "@x402/core/client";
-import { ExactEvmClient } from "@x402/evm";
-import { ExactEvmClientV1 } from "@x402/evm/v1";
-import { ExactSvmClient } from "@x402/svm";
-import { ExactSvmClientV1 } from "@x402/svm/v1";
+import { wrapFetchWithPayment } from "@x402-avm/fetch";
+import { x402Client } from "@x402-avm/core/client";
+import { ExactEvmClient } from "@x402-avm/evm";
+import { ExactEvmClientV1 } from "@x402-avm/evm/v1";
+import { ExactSvmClient } from "@x402-avm/svm";
+import { ExactSvmClientV1 } from "@x402-avm/svm/v1";
 
 // Build x402 client with direct registration
 const client = new x402Client()
@@ -108,11 +108,11 @@ pnpm start
 
 ## Package Dependencies
 
-- `@x402/fetch` - HTTP wrapper with payment handling
-- `@x402/core` - Core x402 client and types
-- `@x402/evm` - EVM payment mechanisms (V2)
-- `@x402/evm/v1` - EVM payment mechanisms (V1)
-- `@x402/svm` - SVM payment mechanisms (V2)
-- `@x402/svm/v1` - SVM payment mechanisms (V1)
+- `@x402-avm/fetch` - HTTP wrapper with payment handling
+- `@x402-avm/core` - Core x402 client and types
+- `@x402-avm/evm` - EVM payment mechanisms (V2)
+- `@x402-avm/evm/v1` - EVM payment mechanisms (V1)
+- `@x402-avm/svm` - SVM payment mechanisms (V2)
+- `@x402-avm/svm/v1` - SVM payment mechanisms (V1)
 - `viem` - Ethereum library for account creation
 - `@solana/kit` - Solana keypair utilities

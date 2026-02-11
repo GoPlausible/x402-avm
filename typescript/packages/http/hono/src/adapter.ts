@@ -1,4 +1,4 @@
-import { HTTPAdapter } from "@x402/core/server";
+import { HTTPAdapter } from "@x402-avm/core/server";
 import { Context } from "hono";
 
 /**
@@ -10,7 +10,7 @@ export class HonoAdapter implements HTTPAdapter {
    *
    * @param c - The Hono context object
    */
-  constructor(private c: Context) {}
+  constructor(private c: Context) { }
 
   /**
    * Gets a header value from the request.

@@ -10,8 +10,8 @@ requiring all HTTP client dependencies:
     from x402.http.clients.requests import x402_requests
 
 Install the appropriate extra:
-    uv add x402[httpx]     # For async httpx client
-    uv add x402[requests]  # For sync requests client
+    uv add x402-avm[httpx]     # For async httpx client
+    uv add x402-avm[requests]  # For sync requests client
 """
 
 __all__ = [

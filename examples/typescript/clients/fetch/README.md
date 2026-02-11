@@ -1,12 +1,12 @@
-# @x402/fetch Example Client
+# @x402-avm/fetch Example Client
 
-Example client demonstrating how to use `@x402/fetch` to make HTTP requests to endpoints protected by the x402 payment protocol. Supports EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
+Example client demonstrating how to use `@x402-avm/fetch` to make HTTP requests to endpoints protected by the x402 payment protocol. Supports EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
 
 ```typescript
-import { x402Client, wrapFetchWithPayment } from "@x402/fetch";
-import { registerExactEvmScheme } from "@x402/evm/exact/client";
-import { registerExactSvmScheme } from "@x402/svm/exact/client";
-import { registerExactAvmScheme } from "@x402/avm/exact/client";
+import { x402Client, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { registerExactAvmScheme } from "@x402-avm/avm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import algosdk from "algosdk";

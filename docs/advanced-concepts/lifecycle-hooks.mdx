@@ -11,17 +11,17 @@ Hooks allow you to intercept and modify payment lifecycle events on clients, ser
 
 Register hooks on the core resource server for verification and settlement lifecycle events. Use cases include logging payments, recording analytics, implementing custom access control or recovering from transient failures.
 
-* **onBeforeVerify** — Runs before payment verification. Return `{ abort: true, reason }` to reject.
-* **onAfterVerify** — Runs after successful verification.
-* **onVerifyFailure** — Runs on verification failure. Return `{ recovered: true, result }` to override.
-* **onBeforeSettle** — Runs before settlement. Return `{ abort: true, reason }` to reject.
-* **onAfterSettle** — Runs after successful settlement.
-* **onSettleFailure** — Runs on settlement failure. Return `{ recovered: true, result }` to override.
+- **onBeforeVerify** — Runs before payment verification. Return `{ abort: true, reason }` to reject.
+- **onAfterVerify** — Runs after successful verification.
+- **onVerifyFailure** — Runs on verification failure. Return `{ recovered: true, result }` to override.
+- **onBeforeSettle** — Runs before settlement. Return `{ abort: true, reason }` to reject.
+- **onAfterSettle** — Runs after successful settlement.
+- **onSettleFailure** — Runs on settlement failure. Return `{ recovered: true, result }` to override.
 
 <Tabs>
   <Tab title="TypeScript">
     ```typescript
-    import { x402ResourceServer } from "@x402/core";
+    import { x402ResourceServer } from "@x402-avm/core";
 
     const server = new x402ResourceServer(facilitatorClient);
 
@@ -34,6 +34,7 @@ Register hooks on the core resource server for verification and settlement lifec
       });
     });
     ```
+
   </Tab>
   <Tab title="Python">
     ```python
@@ -67,6 +68,7 @@ Register hooks on the core resource server for verification and settlement lifec
 
     server.on_after_settle(record_payment)
     ```
+
   </Tab>
   <Tab title="Go">
     ```go
@@ -83,6 +85,7 @@ Register hooks on the core resource server for verification and settlement lifec
         })
     })
     ```
+
   </Tab>
 </Tabs>
 
@@ -90,15 +93,15 @@ Register hooks on the core resource server for verification and settlement lifec
 
 Register hooks for HTTP-specific request handling before payment processing. Use cases include bypassing payment for API key holders, granting access to subscribers or blocking specific clients.
 
-* **onProtectedRequest** — Runs on every request to a protected route.
-  * Return `{ grantAccess: true }` to bypass payment.
-  * Return `{ abort: true, reason }` to return 403.
-  * Return `void` to continue to payment flow.
+- **onProtectedRequest** — Runs on every request to a protected route.
+  - Return `{ grantAccess: true }` to bypass payment.
+  - Return `{ abort: true, reason }` to return 403.
+  - Return `void` to continue to payment flow.
 
 <Tabs>
   <Tab title="TypeScript">
     ```typescript
-    import { x402ResourceServer, x402HTTPResourceServer } from "@x402/core";
+    import { x402ResourceServer, x402HTTPResourceServer } from "@x402-avm/core";
 
     const server = new x402ResourceServer(facilitatorClient);
     const httpServer = new x402HTTPResourceServer(server, routes);
@@ -113,6 +116,7 @@ Register hooks for HTTP-specific request handling before payment processing. Use
       // No valid API key — continue to payment flow
     });
     ```
+
   </Tab>
   <Tab title="Python">
     *Coming soon.*
@@ -128,14 +132,14 @@ Register hooks for HTTP-specific request handling before payment processing. Use
 
 Register hooks on the core client for payment payload creation lifecycle events. Common use cases include enforcing spending limits, requiring approval for large payments or logging outgoing transactions.
 
-* **onBeforePaymentCreation** — Runs before creating a payment payload. Return `{ abort: true, reason }` to cancel.
-* **onAfterPaymentCreation** — Runs after successful payload creation.
-* **onPaymentCreationFailure** — Runs on failure. Return `{ recovered: true, payload }` to provide fallback.
+- **onBeforePaymentCreation** — Runs before creating a payment payload. Return `{ abort: true, reason }` to cancel.
+- **onAfterPaymentCreation** — Runs after successful payload creation.
+- **onPaymentCreationFailure** — Runs on failure. Return `{ recovered: true, payload }` to provide fallback.
 
 <Tabs>
   <Tab title="TypeScript">
     ```typescript
-    import { x402Client } from "@x402/core";
+    import { x402Client } from "@x402-avm/core";
 
     const client = new x402Client();
 
@@ -148,6 +152,7 @@ Register hooks on the core client for payment payload creation lifecycle events.
       }
     });
     ```
+
   </Tab>
   <Tab title="Python">
     ```python
@@ -183,6 +188,7 @@ Register hooks on the core client for payment payload creation lifecycle events.
 
     client.on_before_payment_creation(enforce_spending_limit)
     ```
+
   </Tab>
   <Tab title="Go">
     ```go
@@ -204,6 +210,7 @@ Register hooks on the core client for payment payload creation lifecycle events.
         return nil, nil
     })
     ```
+
   </Tab>
 </Tabs>
 
@@ -211,14 +218,14 @@ Register hooks on the core client for payment payload creation lifecycle events.
 
 Register hooks for HTTP-specific payment required handling. Use cases include trying API key authentication before paying or prompting users for payment confirmation.
 
-* **onPaymentRequired** — Runs when a 402 response is received.
-  * Return `{ headers }` to retry with alternate headers before paying.
-  * Return `void` to proceed directly to payment.
+- **onPaymentRequired** — Runs when a 402 response is received.
+  - Return `{ headers }` to retry with alternate headers before paying.
+  - Return `void` to proceed directly to payment.
 
 <Tabs>
   <Tab title="TypeScript">
     ```typescript
-    import { x402Client, x402HTTPClient } from "@x402/core";
+    import { x402Client, x402HTTPClient } from "@x402-avm/core";
 
     const client = new x402Client();
     const httpClient = new x402HTTPClient(client);
@@ -232,6 +239,7 @@ Register hooks for HTTP-specific payment required handling. Use cases include tr
       // Return void to proceed with payment
     });
     ```
+
   </Tab>
   <Tab title="Python">
     *Coming soon.*
@@ -247,14 +255,14 @@ Register hooks for HTTP-specific payment required handling. Use cases include tr
 
 Register hooks on the facilitator for verification and settlement lifecycle events. Use cases include populating a bazaar discovery catalog, compliance checks or collecting metrics across all processed payments.
 
-* **onBeforeVerify / onAfterVerify / onVerifyFailure** — Same pattern as server hooks.
-* **onBeforeSettle / onAfterSettle / onSettleFailure** — Same pattern as server hooks.
+- **onBeforeVerify / onAfterVerify / onVerifyFailure** — Same pattern as server hooks.
+- **onBeforeSettle / onAfterSettle / onSettleFailure** — Same pattern as server hooks.
 
 <Tabs>
   <Tab title="TypeScript">
     ```typescript
-    import { x402Facilitator } from "@x402/core";
-    import { extractDiscoveryInfo } from "@x402/extensions/bazaar";
+    import { x402Facilitator } from "@x402-avm/core";
+    import { extractDiscoveryInfo } from "@x402-avm/extensions/bazaar";
 
     const facilitator = new x402Facilitator();
 
@@ -278,6 +286,7 @@ Register hooks on the facilitator for verification and settlement lifecycle even
       }
     });
     ```
+
   </Tab>
   <Tab title="Python">
     ```python
@@ -315,6 +324,7 @@ Register hooks on the facilitator for verification and settlement lifecycle even
 
     facilitator.on_after_verify(log_verification)
     ```
+
   </Tab>
   <Tab title="Go">
     ```go
@@ -336,6 +346,7 @@ Register hooks on the facilitator for verification and settlement lifecycle even
         return nil
     })
     ```
+
   </Tab>
 </Tabs>
 
@@ -345,33 +356,19 @@ All SDKs support method chaining for registering multiple hooks:
 
 <Tabs>
   <Tab title="TypeScript">
-    ```typescript
-    server
-      .onBeforeVerify(validatePayment)
-      .onAfterVerify(logVerification)
-      .onBeforeSettle(checkBalance)
-      .onAfterSettle(recordTransaction);
-    ```
+    ```typescript server .onBeforeVerify(validatePayment)
+    .onAfterVerify(logVerification) .onBeforeSettle(checkBalance)
+    .onAfterSettle(recordTransaction); ```
   </Tab>
   <Tab title="Python">
-    ```python
-    (
-        server
-        .on_before_verify(validate_payment)
-        .on_after_verify(log_verification)
-        .on_before_settle(check_balance)
-        .on_after_settle(record_transaction)
-    )
-    ```
+    ```python ( server .on_before_verify(validate_payment)
+    .on_after_verify(log_verification) .on_before_settle(check_balance)
+    .on_after_settle(record_transaction) ) ```
   </Tab>
   <Tab title="Go">
-    ```go
-    server.
-        OnBeforeVerify(validatePayment).
-        OnAfterVerify(logVerification).
-        OnBeforeSettle(checkBalance).
-        OnAfterSettle(recordTransaction)
-    ```
+    ```go server. OnBeforeVerify(validatePayment).
+    OnAfterVerify(logVerification). OnBeforeSettle(checkBalance).
+    OnAfterSettle(recordTransaction) ```
   </Tab>
 </Tabs>
 
@@ -379,5 +376,5 @@ All SDKs support method chaining for registering multiple hooks:
 
 Next, explore:
 
-* [Client / Server](/core-concepts/client-server) — roles and responsibilities
-* [Facilitator](/core-concepts/facilitator) — verification and settlement service
+- [Client / Server](/core-concepts/client-server) — roles and responsibilities
+- [Facilitator](/core-concepts/facilitator) — verification and settlement service

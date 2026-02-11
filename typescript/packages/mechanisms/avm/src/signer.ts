@@ -7,7 +7,7 @@
  * @example Client implementation with algosdk:
  * ```typescript
  * import algosdk from "algosdk";
- * import type { ClientAvmSigner } from "@x402/avm";
+ * import type { ClientAvmSigner } from "@x402-avm/avm";
  *
  * const secretKey = Buffer.from(process.env.AVM_PRIVATE_KEY!, 'base64');
  * const address = algosdk.encodeAddress(secretKey.slice(32));
@@ -26,7 +26,7 @@
  * ```
  */
 
-import type { Network } from "@x402/core/types";
+import type { Network } from "@x402-avm/core/types";
 
 /**
  * Client-side signer interface for Algorand wallets
@@ -83,7 +83,7 @@ export interface ClientAvmConfig {
  * @example Implementation with algosdk:
  * ```typescript
  * import algosdk from "algosdk";
- * import type { FacilitatorAvmSigner } from "@x402/avm";
+ * import type { FacilitatorAvmSigner } from "@x402-avm/avm";
  *
  * const secretKey = Buffer.from(process.env.AVM_PRIVATE_KEY!, 'base64');
  * const address = algosdk.encodeAddress(secretKey.slice(32));

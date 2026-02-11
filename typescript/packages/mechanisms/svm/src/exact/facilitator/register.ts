@@ -1,5 +1,5 @@
-import { x402Facilitator } from "@x402/core/facilitator";
-import { Network } from "@x402/core/types";
+import { x402Facilitator } from "@x402-avm/core/facilitator";
+import { Network } from "@x402-avm/core/types";
 import { FacilitatorSvmSigner } from "../../signer";
 import { ExactSvmScheme } from "./scheme";
 import { ExactSvmSchemeV1 } from "../v1/facilitator/scheme";

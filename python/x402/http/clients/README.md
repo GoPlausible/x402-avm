@@ -5,7 +5,7 @@ HTTP client wrappers with automatic 402 payment handling.
 ## httpx (Async)
 
 ```bash
-uv add x402[httpx]
+uv add x402-avm[httpx]
 ```
 
 ### Transport Wrapper
@@ -65,7 +65,7 @@ async with x402HttpxClient(client) as http:
 ## requests (Sync)
 
 ```bash
-uv add x402[requests]
+uv add x402-avm[requests]
 ```
 
 ### Session Wrapper
@@ -116,9 +116,9 @@ session = wrapRequestsWithPaymentFromConfig(requests.Session(), config)
 
 ## Sync/Async Matching
 
-| HTTP Client | x402 Client |
-|-------------|-------------|
-| httpx (async) | `x402Client` (async) |
+| HTTP Client     | x402 Client             |
+| --------------- | ----------------------- |
+| httpx (async)   | `x402Client` (async)    |
 | requests (sync) | `x402ClientSync` (sync) |
 
 Using mismatched variants raises `TypeError`.
@@ -127,19 +127,18 @@ Using mismatched variants raises `TypeError`.
 
 ### httpx
 
-| Export | Description |
-|--------|-------------|
-| `x402_httpx_transport()` | Create async transport |
-| `wrapHttpxWithPayment()` | Wrap existing client |
-| `wrapHttpxWithPaymentFromConfig()` | Create from config |
-| `x402HttpxClient` | Convenience client class |
+| Export                             | Description              |
+| ---------------------------------- | ------------------------ |
+| `x402_httpx_transport()`           | Create async transport   |
+| `wrapHttpxWithPayment()`           | Wrap existing client     |
+| `wrapHttpxWithPaymentFromConfig()` | Create from config       |
+| `x402HttpxClient`                  | Convenience client class |
 
 ### requests
 
-| Export | Description |
-|--------|-------------|
-| `x402_http_adapter()` | Create HTTP adapter |
-| `wrapRequestsWithPayment()` | Wrap session |
-| `wrapRequestsWithPaymentFromConfig()` | Create from config |
-| `x402_requests()` | Create new session with payment |
-
+| Export                                | Description                     |
+| ------------------------------------- | ------------------------------- |
+| `x402_http_adapter()`                 | Create HTTP adapter             |
+| `wrapRequestsWithPayment()`           | Wrap session                    |
+| `wrapRequestsWithPaymentFromConfig()` | Create from config              |
+| `x402_requests()`                     | Create new session with payment |

@@ -23,13 +23,13 @@ app.use(
 
 ```shell
 # All available reference sdks
-npm install @x402/core @x402/evm @x402/svm @x402/avm @x402/axios @x402/fetch @x402/express @x402/hono @x402/next @x402/paywall @x402/extensions
+npm install @x402-avm/core @x402-avm/evm @x402-avm/svm @x402-avm/avm @x402-avm/axios @x402-avm/fetch @x402-avm/express @x402-avm/hono @x402-avm/next @x402-avm/paywall @x402-avm/extensions
 
 # Minimal Fetch client
-npm install @x402/core @x402/evm @x402/svm @x402/avm @x402/fetch
+npm install @x402-avm/core @x402-avm/evm @x402-avm/svm @x402-avm/avm @x402-avm/fetch
 
 # Minimal express Server
-npm install @x402/core @x402/evm @x402/svm @x402/avm @x402/express
+npm install @x402-avm/core @x402-avm/evm @x402-avm/svm @x402-avm/avm @x402-avm/express
 ```
 
 ### Python

@@ -1,5 +1,5 @@
 /**
- * @module @x402/avm - x402 Payment Protocol AVM (Algorand) Implementation
+ * @module @x402-avm/avm - x402 Payment Protocol AVM (Algorand) Implementation
  *
  * This module provides the Algorand-specific implementation of the x402 payment protocol.
  *
@@ -11,7 +11,7 @@
  * @example Client signer implementation:
  * ```typescript
  * import algosdk from "algosdk";
- * import type { ClientAvmSigner } from "@x402/avm";
+ * import type { ClientAvmSigner } from "@x402-avm/avm";
  *
  * const secretKey = Buffer.from(process.env.AVM_PRIVATE_KEY!, 'base64');
  * const address = algosdk.encodeAddress(secretKey.slice(32));

@@ -1,9 +1,9 @@
 import { config } from "dotenv";
-import { paymentMiddleware, x402ResourceServer } from "@x402/hono";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactSvmScheme } from "@x402/svm/exact/server";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/hono";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
 config();

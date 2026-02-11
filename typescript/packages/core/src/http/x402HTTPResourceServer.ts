@@ -204,11 +204,11 @@ export interface HTTPResponseInstructions {
 export type HTTPProcessResult =
   | { type: "no-payment-required" }
   | {
-      type: "payment-verified";
-      paymentPayload: PaymentPayload;
-      paymentRequirements: PaymentRequirements;
-      declaredExtensions?: Record<string, unknown>;
-    }
+    type: "payment-verified";
+    paymentPayload: PaymentPayload;
+    paymentRequirements: PaymentRequirements;
+    declaredExtensions?: Record<string, unknown>;
+  }
   | { type: "payment-error"; response: HTTPResponseInstructions };
 
 /**
@@ -789,12 +789,11 @@ export class x402HTTPResourceServer {
     const [verb, path] = pattern.includes(" ") ? pattern.split(/\s+/) : ["*", pattern];
 
     const regex = new RegExp(
-      `^${
-        path
-          .replace(/[$()+.?^{|}]/g, "\\$&") // Escape regex special chars
-          .replace(/\*/g, ".*?") // Wildcards
-          .replace(/\[([^\]]+)\]/g, "[^/]+") // Parameters
-          .replace(/\//g, "\\/") // Escape slashes
+      `^${path
+        .replace(/[$()+.?^{|}]/g, "\\$&") // Escape regex special chars
+        .replace(/\*/g, ".*?") // Wildcards
+        .replace(/\[([^\]]+)\]/g, "[^/]+") // Parameters
+        .replace(/\//g, "\\/") // Escape slashes
       }$`,
       "i",
     );
@@ -846,10 +845,10 @@ export class x402HTTPResourceServer {
       return this.paywallProvider.generateHtml(paymentRequired, paywallConfig);
     }
 
-    // Try to use @x402/paywall if available (optional dependency)
+    // Try to use @x402-avm/paywall if available (optional dependency)
     try {
       // eslint-disable-next-line @typescript-eslint/no-require-imports
-      const paywall = require("@x402/paywall");
+      const paywall = require("@x402-avm/paywall");
       const displayAmount = this.getDisplayAmount(paymentRequired);
       const resource = paymentRequired.resource;
 
@@ -863,7 +862,7 @@ export class x402HTTPResourceServer {
         sessionTokenEndpoint: paywallConfig?.sessionTokenEndpoint,
       });
     } catch {
-      // @x402/paywall not installed, fall back to basic HTML
+      // @x402-avm/paywall not installed, fall back to basic HTML
     }
 
     // Fallback: Basic HTML paywall
@@ -888,9 +887,9 @@ export class x402HTTPResourceServer {
                  data-requirements='${JSON.stringify(paymentRequired)}'
                  data-app-name="${paywallConfig?.appName || ""}"
                  data-testnet="${paywallConfig?.testnet || false}">
-              <!-- Install @x402/paywall for full wallet integration -->
+              <!-- Install @x402-avm/paywall for full wallet integration -->
               <p style="margin-top: 2rem; padding: 1rem; background: #fef3c7; border-radius: 0.5rem;">
-                <strong>Note:</strong> Install <code>@x402/paywall</code> for full wallet connection and payment UI.
+                <strong>Note:</strong> Install <code>@x402-avm/paywall</code> for full wallet connection and payment UI.
               </p>
             </div>
           </div>

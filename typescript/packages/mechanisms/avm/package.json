@@ -1,5 +1,5 @@
 {
-  "name": "@x402/avm",
+  "name": "@x402-avm/avm",
   "version": "2.2.0",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -25,7 +25,12 @@
   ],
   "license": "Apache-2.0",
   "author": "GoPlausible",
-  "repository": "https://github.com/coinbase/x402",
+  "contributors": [
+    {
+      "name": "Algorand Foundation"
+    }
+  ],
+  "repository": "https://github.com/GoPlausible/x402-avm",
   "description": "x402 Payment Protocol AVM (Algorand) Implementation",
   "devDependencies": {
     "@eslint/js": "^9.24.0",
@@ -48,7 +53,7 @@
     "@noble/curves": "^1.8.1",
     "@scure/bip32": "^1.6.2",
     "@scure/bip39": "^1.5.4",
-    "@x402/core": "workspace:^",
+    "@x402-avm/core": "workspace:^",
     "algosdk": "^3.5.0"
   },
   "exports": {

@@ -4,7 +4,7 @@ import { ExactEvmScheme as ClientExactEvmScheme } from "../../src/exact/client/s
 import { ExactEvmScheme as ServerExactEvmScheme } from "../../src/exact/server/scheme";
 import { ExactEvmScheme as FacilitatorExactEvmScheme } from "../../src/exact/facilitator/scheme";
 
-describe("@x402/evm", () => {
+describe("@x402-avm/evm", () => {
   it("should export ExactEvmScheme", () => {
     expect(ExactEvmScheme).toBeDefined();
     expect(typeof ExactEvmScheme).toBe("function");
@@ -23,7 +23,7 @@ describe("@x402/evm", () => {
 
   it("should create facilitator instance", () => {
     const mockSigner = {
-      readContract: async () => {},
+      readContract: async () => { },
       verifyTypedData: async () => true,
       writeContract: async () => "0xtx",
       waitForTransactionReceipt: async () => ({

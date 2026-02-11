@@ -3,10 +3,7 @@ name = "x402-httpx-example"
 version = "0.1.0"
 description = "Example of using x402 v2 SDK with httpx"
 requires-python = ">=3.10"
-dependencies = [
-    "python-dotenv>=1.0.0",
-    "x402[httpx,evm,svm,avm]",
-]
+dependencies = ["python-dotenv>=1.0.0", "x402-avm[httpx,evm,svm,avm]"]
 
 [build-system]
 requires = ["hatchling"]

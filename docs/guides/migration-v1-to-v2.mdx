@@ -5,13 +5,13 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
 
 ## Overview
 
-| Aspect | V1 | V2 |
-|--------|----|----|
-| Payment Header | `X-PAYMENT` | `PAYMENT-SIGNATURE` |
-| Response Header | `X-PAYMENT-RESPONSE` | `PAYMENT-RESPONSE` |
-| Network Format | String (`base-sepolia`) | CAIP-2 (`eip155:84532`) |
-| Version Field | `x402Version: 1` | `x402Version: 2` |
-| Packages | `x402`, `x402-express`, `x402-axios` | `@x402/core`, `@x402/express`, `@x402/axios`, `@x402/evm` |
+| Aspect          | V1                                   | V2                                                                        |
+| --------------- | ------------------------------------ | ------------------------------------------------------------------------- |
+| Payment Header  | `X-PAYMENT`                          | `PAYMENT-SIGNATURE`                                                       |
+| Response Header | `X-PAYMENT-RESPONSE`                 | `PAYMENT-RESPONSE`                                                        |
+| Network Format  | String (`base-sepolia`)              | CAIP-2 (`eip155:84532`)                                                   |
+| Version Field   | `x402Version: 1`                     | `x402Version: 2`                                                          |
+| Packages        | `x402`, `x402-express`, `x402-axios` | `@x402-avm/core`, `@x402-avm/express`, `@x402-avm/axios`, `@x402-avm/evm` |
 
 ## For Buyers
 
@@ -41,6 +41,7 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
 
     const response = await api.get("/paid-endpoint");
     ```
+
   </Tab>
   <Tab title="Python">
     ```python
@@ -57,6 +58,7 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
         response = await client.get("/protected-endpoint")
         print(await response.aread())
     ```
+
   </Tab>
 </Tabs>
 
@@ -65,8 +67,8 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
 <Tabs>
   <Tab title="TypeScript">
     ```typescript
-    import { x402Client, wrapAxiosWithPayment } from "@x402/axios";
-    import { registerExactEvmScheme } from "@x402/evm/exact/client";
+    import { x402Client, wrapAxiosWithPayment } from "@x402-avm/axios";
+    import { registerExactEvmScheme } from "@x402-avm/evm/exact/client";
     import { privateKeyToAccount } from "viem/accounts";
     import axios from "axios";
 
@@ -84,6 +86,7 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
 
     const response = await api.get("/paid-endpoint");
     ```
+
   </Tab>
   <Tab title="Python">
     ```python
@@ -122,6 +125,7 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
 
     asyncio.run(main())
     ```
+
   </Tab>
 </Tabs>
 
@@ -129,17 +133,19 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
 
 <Tabs>
   <Tab title="TypeScript">
-    1. **Package rename**: `x402-axios` → `@x402/axios`
-    2. **Function rename**: `withPaymentInterceptor` → `wrapAxiosWithPayment`
-    3. **Wallet setup**: Use `x402Client` with `registerExactEvmScheme` helper instead of passing wallet directly
-    4. **No chain-specific configuration**: The V2 client automatically handles network selection based on payment requirements
+    1. **Package rename**: `x402-axios` → `@x402-avm/axios` 2. **Function
+    rename**: `withPaymentInterceptor` → `wrapAxiosWithPayment` 3. **Wallet
+    setup**: Use `x402Client` with `registerExactEvmScheme` helper instead of
+    passing wallet directly 4. **No chain-specific configuration**: The V2
+    client automatically handles network selection based on payment requirements
   </Tab>
   <Tab title="Python">
-    1. **Import path changes**: `x402.clients.httpx` → `x402.http.clients`
-    2. **Signer wrapper**: Wrap `eth_account.Account` with `EthAccountSigner`
-    3. **Client construction**: Create `x402Client()` first, then register schemes
-    4. **Environment variable**: `PRIVATE_KEY` → `EVM_PRIVATE_KEY`
-    5. **Async/Sync variants**: Use `x402Client` for httpx (async), `x402ClientSync` for requests (sync)
+    1. **Import path changes**: `x402.clients.httpx` → `x402.http.clients` 2.
+    **Signer wrapper**: Wrap `eth_account.Account` with `EthAccountSigner` 3.
+    **Client construction**: Create `x402Client()` first, then register schemes
+    4. **Environment variable**: `PRIVATE_KEY` → `EVM_PRIVATE_KEY` 5.
+    **Async/Sync variants**: Use `x402Client` for httpx (async),
+    `x402ClientSync` for requests (sync)
   </Tab>
 </Tabs>
 
@@ -171,6 +177,7 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
       }),
     );
     ```
+
   </Tab>
   <Tab title="Python">
     ```python
@@ -196,6 +203,7 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
     async def get_weather() -> Dict[str, Any]:
         return {"report": {"weather": "sunny", "temperature": 70}}
     ```
+
   </Tab>
 </Tabs>
 
@@ -205,9 +213,9 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
   <Tab title="TypeScript">
     ```typescript
     import express from "express";
-    import { paymentMiddleware } from "@x402/express";
-    import { x402ResourceServer, HTTPFacilitatorClient } from "@x402/core/server";
-    import { registerExactEvmScheme } from "@x402/evm/exact/server";
+    import { paymentMiddleware } from "@x402-avm/express";
+    import { x402ResourceServer, HTTPFacilitatorClient } from "@x402-avm/core/server";
+    import { registerExactEvmScheme } from "@x402-avm/evm/exact/server";
 
     const app = express();
     const payTo = "0xYourAddress";
@@ -240,6 +248,7 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
       ),
     );
     ```
+
   </Tab>
   <Tab title="Python">
     ```python
@@ -286,6 +295,7 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
     async def get_weather() -> dict[str, Any]:
         return {"report": {"weather": "sunny", "temperature": 70}}
     ```
+
   </Tab>
 </Tabs>
 
@@ -293,33 +303,38 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
 
 <Tabs>
   <Tab title="TypeScript">
-    1. **Package rename**: `x402-express` → `@x402/express`
-    2. **Configuration structure**: Route config now uses `accepts` array with explicit `scheme`, `network`, and `payTo`
-    3. **Network format**: `base-sepolia` → `eip155:84532` (CAIP-2 standard)
-    4. **Resource server**: Create `x402ResourceServer` with facilitator client and register schemes using helper functions
-    5. **Price recipient**: Explicitly specify `payTo` address per route
+    1. **Package rename**: `x402-express` → `@x402-avm/express` 2.
+    **Configuration structure**: Route config now uses `accepts` array with
+    explicit `scheme`, `network`, and `payTo` 3. **Network format**:
+    `base-sepolia` → `eip155:84532` (CAIP-2 standard) 4. **Resource server**:
+    Create `x402ResourceServer` with facilitator client and register schemes
+    using helper functions 5. **Price recipient**: Explicitly specify `payTo`
+    address per route
   </Tab>
   <Tab title="Python">
-    1. **Import path changes**: `x402.fastapi.middleware` → `x402.http.middleware.fastapi`
-    2. **Middleware pattern**: `require_payment` decorator → `PaymentMiddlewareASGI` class
-    3. **Configuration structure**: Route config now uses `RouteConfig` and `PaymentOption` Pydantic models
-    4. **Network format**: `base-sepolia` → `eip155:84532` (CAIP-2 standard)
-    5. **Resource server**: Create `x402ResourceServer` and register schemes explicitly
-    6. **Type hints**: Use modern Python type hints (`dict[str, Any]` instead of `Dict[str, Any]`)
-    7. **Async/Sync variants**: Use `x402ResourceServer` + `HTTPFacilitatorClient` for FastAPI (async), use `x402ResourceServerSync` + `HTTPFacilitatorClientSync` for Flask (sync)
+    1. **Import path changes**: `x402.fastapi.middleware` →
+    `x402.http.middleware.fastapi` 2. **Middleware pattern**: `require_payment`
+    decorator → `PaymentMiddlewareASGI` class 3. **Configuration structure**:
+    Route config now uses `RouteConfig` and `PaymentOption` Pydantic models 4.
+    **Network format**: `base-sepolia` → `eip155:84532` (CAIP-2 standard) 5.
+    **Resource server**: Create `x402ResourceServer` and register schemes
+    explicitly 6. **Type hints**: Use modern Python type hints (`dict[str, Any]`
+    instead of `Dict[str, Any]`) 7. **Async/Sync variants**: Use
+    `x402ResourceServer` + `HTTPFacilitatorClient` for FastAPI (async), use
+    `x402ResourceServerSync` + `HTTPFacilitatorClientSync` for Flask (sync)
   </Tab>
 </Tabs>
 
 ## Network Identifier Mapping
 
-| V1 Name | V2 CAIP-2 ID | Chain ID | Description |
-|---------|--------------|----------|-------------|
-| `base-sepolia` | `eip155:84532` | 84532 | Base Sepolia Testnet |
-| `base` | `eip155:8453` | 8453 | Base Mainnet |
-| `ethereum` | `eip155:1` | 1 | Ethereum Mainnet |
-| `sepolia` | `eip155:11155111` | 11155111 | Ethereum Sepolia Testnet |
-| `solana-devnet` | `solana:devnet` | - | Solana Devnet |
-| `solana` | `solana:mainnet` | - | Solana Mainnet |
+| V1 Name         | V2 CAIP-2 ID      | Chain ID | Description              |
+| --------------- | ----------------- | -------- | ------------------------ |
+| `base-sepolia`  | `eip155:84532`    | 84532    | Base Sepolia Testnet     |
+| `base`          | `eip155:8453`     | 8453     | Base Mainnet             |
+| `ethereum`      | `eip155:1`        | 1        | Ethereum Mainnet         |
+| `sepolia`       | `eip155:11155111` | 11155111 | Ethereum Sepolia Testnet |
+| `solana-devnet` | `solana:devnet`   | -        | Solana Devnet            |
+| `solana`        | `solana:mainnet`  | -        | Solana Mainnet           |
 
 ## Package Migration Reference
 
@@ -327,14 +342,14 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
   <Tab title="TypeScript">
     | V1 Package | V2 Package(s) |
     |------------|---------------|
-    | `x402` | `@x402/core` |
-    | `x402-express` | `@x402/express` |
-    | `x402-axios` | `@x402/axios` |
-    | `x402-fetch` | `@x402/fetch` |
-    | `x402-hono` | `@x402/hono` |
-    | `x402-next` | `@x402/next` |
-    | (built-in) | `@x402/evm` (EVM support) |
-    | (built-in) | `@x402/svm` (Solana support) |
+    | `x402` | `@x402-avm/core` |
+    | `x402-express` | `@x402-avm/express` |
+    | `x402-axios` | `@x402-avm/axios` |
+    | `x402-fetch` | `@x402-avm/fetch` |
+    | `x402-hono` | `@x402-avm/hono` |
+    | `x402-next` | `@x402-avm/next` |
+    | (built-in) | `@x402-avm/evm` (EVM support) |
+    | (built-in) | `@x402-avm/svm` (Solana support) |
   </Tab>
   <Tab title="Python">
     | V1 Import Path | V2 Import Path |
@@ -357,12 +372,13 @@ description: "This guide helps you migrate from x402 V1 to V2. The V2 protocol i
     pip install x402
 
     # V2 - install with specific extras
-    pip install "x402[httpx]"      # For async HTTP clients
-    pip install "x402[requests]"   # For sync HTTP clients
-    pip install "x402[fastapi]"    # For FastAPI servers
-    pip install "x402[flask]"      # For Flask servers
-    pip install "x402[svm]"        # For Solana support
+    pip install "x402-avm[httpx]"      # For async HTTP clients
+    pip install "x402-avm[requests]"   # For sync HTTP clients
+    pip install "x402-avm[fastapi]"    # For FastAPI servers
+    pip install "x402-avm[flask]"      # For Flask servers
+    pip install "x402-avm[svm]"        # For Solana support
     ```
+
   </Tab>
 </Tabs>
 
@@ -381,6 +397,7 @@ If you're implementing custom HTTP handling, update your header names:
     const payment = req.header("PAYMENT-SIGNATURE");
     res.setHeader("PAYMENT-RESPONSE", responseData);
     ```
+
   </Tab>
   <Tab title="Python">
     ```python
@@ -392,6 +409,7 @@ If you're implementing custom HTTP handling, update your header names:
     payment = request.headers.get("PAYMENT-SIGNATURE")
     response.headers["PAYMENT-RESPONSE"] = response_data
     ```
+
   </Tab>
 </Tabs>
 
@@ -405,11 +423,12 @@ If you're implementing custom HTTP handling, update your header names:
 
     ```bash
     # For buyers
-    npm install @x402/axios @x402/evm
+    npm install @x402-avm/axios @x402-avm/evm
 
     # For sellers (Express)
-    npm install @x402/express @x402/core @x402/evm
+    npm install @x402-avm/express @x402-avm/core @x402-avm/evm
     ```
+
   </Tab>
   <Tab title="Python">
     ### "ModuleNotFoundError" errors
@@ -418,20 +437,21 @@ If you're implementing custom HTTP handling, update your header names:
 
     ```bash
     # For async HTTP clients (httpx)
-    pip install "x402[httpx]"
+    pip install "x402-avm[httpx]"
 
     # For sync HTTP clients (requests)
-    pip install "x402[requests]"
+    pip install "x402-avm[requests]"
 
     # For FastAPI servers
-    pip install "x402[fastapi]"
+    pip install "x402-avm[fastapi]"
 
     # For Flask servers
-    pip install "x402[flask]"
+    pip install "x402-avm[flask]"
 
     # For Solana support
-    pip install "x402[svm]"
+    pip install "x402-avm[svm]"
     ```
+
   </Tab>
 </Tabs>
 

@@ -1,4 +1,4 @@
-import { HTTPAdapter } from "@x402/core/server";
+import { HTTPAdapter } from "@x402-avm/core/server";
 import { Request } from "express";
 
 /**
@@ -10,7 +10,7 @@ export class ExpressAdapter implements HTTPAdapter {
    *
    * @param req - The Express request object
    */
-  constructor(private req: Request) {}
+  constructor(private req: Request) { }
 
   /**
    * Gets a header value from the request.

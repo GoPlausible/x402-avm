@@ -5,7 +5,7 @@ Optional extensions that enhance the x402 payment protocol with additional funct
 ## Installation
 
 ```bash
-uv add x402[extensions]
+uv add x402-avm[extensions]
 ```
 
 ## Bazaar Discovery Extension
@@ -110,6 +110,7 @@ The middleware auto-registers this if routes declare bazaar extensions.
 Creates a discovery extension for route configuration.
 
 **Parameters:**
+
 - `input` - Example input values (query params for GET, body for POST)
 - `input_schema` - JSON Schema for input validation
 - `body_type` - For POST/PUT/PATCH: `"json"`, `"form-data"`, or `"text"`
@@ -122,6 +123,7 @@ Creates a discovery extension for route configuration.
 Extracts discovery info from a payment (for facilitators).
 
 **Parameters:**
+
 - `payment_payload` - Payment payload from client
 - `payment_requirements` - Requirements from server
 - `validate` - Whether to validate (default: True)
@@ -146,4 +148,3 @@ Validates extension schema.
 ## V1 Compatibility
 
 V1 discovery info is stored in `PaymentRequirements.output_schema`. The `extract_discovery_info` function handles both V1 and V2 formats automatically.
-

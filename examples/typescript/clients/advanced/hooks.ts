@@ -1,7 +1,7 @@
 import { privateKeyToAccount } from "viem/accounts";
-import { x402Client } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactAvmScheme } from "@x402/avm/exact/client";
+import { x402Client } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
 import algosdk from "algosdk";
 
 /**
@@ -76,7 +76,7 @@ export async function runHooksExample(
       // return { recovered: true, payload: alternativePayload };
     });
 
-  const { wrapFetchWithPayment } = await import("@x402/fetch");
+  const { wrapFetchWithPayment } = await import("@x402-avm/fetch");
   const fetchWithPayment = wrapFetchWithPayment(fetch, client);
 
   console.log(`🌐 Making request to: ${url}\n`);
@@ -87,7 +87,7 @@ export async function runHooksExample(
   console.log("Response body:", body);
 
   // Extract payment response from headers
-  const { x402HTTPClient } = await import("@x402/fetch");
+  const { x402HTTPClient } = await import("@x402-avm/fetch");
   const paymentResponse = new x402HTTPClient(client).getPaymentSettleResponse(name =>
     response.headers.get(name),
   );

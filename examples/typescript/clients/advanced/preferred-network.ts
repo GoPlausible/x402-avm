@@ -1,12 +1,12 @@
 import { privateKeyToAccount } from "viem/accounts";
-import { x402Client, type PaymentRequirements } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
-import { ExactAvmScheme } from "@x402/avm/exact/client";
+import { x402Client, type PaymentRequirements } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
 import algosdk from "algosdk";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import { base58 } from "@scure/base";
-import { x402HTTPClient, wrapFetchWithPayment } from "@x402/fetch";
+import { x402HTTPClient, wrapFetchWithPayment } from "@x402-avm/fetch";
 
 /**
  * Preferred Network Example

@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import type { WalletManager } from "@txnlab/use-wallet";
 import algosdk from "algosdk";
 
-import { registerExactAvmScheme } from "@x402/avm/exact/client";
-import { x402Client } from "@x402/core/client";
-import type { PaymentRequired } from "@x402/core/types";
+import { registerExactAvmScheme } from "@x402-avm/avm/exact/client";
+import { x402Client } from "@x402-avm/core/client";
+import type { PaymentRequired } from "@x402-avm/core/types";
 
 import { Spinner } from "./Spinner";
 import { getNetworkDisplayName, ALGORAND_NETWORK_REFS } from "../paywallUtils";
@@ -243,7 +243,8 @@ export function AvmPaywall({
           try {
             const body = await response.json();
             if (body.error) {
-              errorDetail = typeof body.error === "string" ? body.error : JSON.stringify(body.error);
+              errorDetail =
+                typeof body.error === "string" ? body.error : JSON.stringify(body.error);
             } else if (body.details) {
               errorDetail = body.details;
             }
@@ -259,7 +260,7 @@ export function AvmPaywall({
         console.error("Payment error details:", {
           status: response.status,
           errorDetail,
-          paymentRequiredHeader: paymentRequiredHeader ? "present" : "absent"
+          paymentRequiredHeader: paymentRequiredHeader ? "present" : "absent",
         });
 
         throw new Error(errorMessage);
@@ -378,8 +379,8 @@ export function AvmPaywall({
 
         {wallets.length === 0 && (
           <div className="status">
-            Install an Algorand wallet such as Pera, Defly, or Lute to continue, then refresh
-            this page.
+            Install an Algorand wallet such as Pera, Defly, or Lute to continue, then refresh this
+            page.
           </div>
         )}
 

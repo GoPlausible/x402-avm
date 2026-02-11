@@ -3,8 +3,8 @@
 Advanced patterns for x402 TypeScript clients demonstrating builder pattern registration, payment lifecycle hooks, and network preferences. Supports EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
 
 ```typescript
-import { x402Client, wrapFetchWithPayment } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
+import { x402Client, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 
 const client = new x402Client()
@@ -87,10 +87,10 @@ pnpm dev:builder-pattern
 Use the builder pattern for fine-grained control over which networks are supported and with which signers:
 
 ```typescript
-import { x402Client, wrapFetchWithPayment } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
-import { ExactAvmScheme } from "@x402/avm/exact/client";
+import { x402Client, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 import algosdk from "algosdk";
 
@@ -131,8 +131,8 @@ const response = await fetchWithPayment("http://localhost:4021/weather");
 Register custom logic at different payment stages for observability and control:
 
 ```typescript
-import { x402Client, wrapFetchWithPayment } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
+import { x402Client, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 
 const signer = privateKeyToAccount(process.env.EVM_PRIVATE_KEY);
@@ -174,10 +174,10 @@ Available hooks:
 Configure client-side network preferences with automatic fallback:
 
 ```typescript
-import { x402Client, wrapFetchWithPayment, type PaymentRequirements } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
-import { ExactAvmScheme } from "@x402/avm/exact/client";
+import { x402Client, wrapFetchWithPayment, type PaymentRequirements } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
 import algosdk from "algosdk";
 
 // Define network preference order (most preferred first)
@@ -228,9 +228,9 @@ const response = await fetchWithPayment("http://localhost:4021/weather");
 All examples support EVM, SVM, and AVM networks registered as first-class citizens:
 
 ```typescript
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
-import { ExactAvmScheme } from "@x402/avm/exact/client";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
 import algosdk from "algosdk";
 
 const secretKey = Buffer.from(avmPrivateKey, "base64");

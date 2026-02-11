@@ -1,5 +1,5 @@
 {
-  "name": "@x402/core",
+  "name": "@x402-avm/core",
   "version": "2.2.0",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -19,8 +19,13 @@
   "keywords": [],
   "license": "Apache-2.0",
   "author": "Coinbase Inc.",
-  "repository": "https://github.com/coinbase/x402",
-  "description": "x402 Payment Protocol",
+  "contributors": [
+    {
+      "name": "GoPlausible"
+    }
+  ],
+  "repository": "https://github.com/GoPlausible/x402-avm",
+  "description": "x402 Payment Protocol with Algorand integration - Core SDK",
   "devDependencies": {
     "@eslint/js": "^9.24.0",
     "@types/node": "^22.13.4",

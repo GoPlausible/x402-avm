@@ -11,7 +11,7 @@ import {
   type DiscoveryResourcesResponse,
   type ListDiscoveryResourcesParams,
 } from "../src/bazaar/facilitatorClient";
-import { HTTPFacilitatorClient } from "@x402/core/http";
+import { HTTPFacilitatorClient } from "@x402-avm/core/http";
 
 describe("Bazaar Client Extension - facilitatorClient", () => {
   describe("Type definitions", () => {

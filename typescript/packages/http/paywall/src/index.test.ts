@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 
-describe("@x402/paywall", () => {
+describe("@x402-avm/paywall", () => {
   it("should be defined", () => {
     expect(true).toBe(true);
   });

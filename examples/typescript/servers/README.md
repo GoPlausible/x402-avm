@@ -4,12 +4,12 @@ This directory contains TypeScript server examples demonstrating how to protect 
 
 ## Directory Structure
 
-| Directory | Description |
-| --- | --- |
-| [`express/`](./express/) | Using `@x402/express` middleware |
-| [`hono/`](./hono/) | Using `@x402/hono` middleware |
+| Directory                  | Description                                              |
+| -------------------------- | -------------------------------------------------------- |
+| [`express/`](./express/)   | Using `@x402-avm/express` middleware                     |
+| [`hono/`](./hono/)         | Using `@x402-avm/hono` middleware                        |
 | [`advanced/`](./advanced/) | Advanced patterns: hooks, dynamic pricing, custom tokens |
-| [`custom/`](./custom/) | Manual implementation using only `@x402/core` |
+| [`custom/`](./custom/)     | Manual implementation using only `@x402-avm/core`        |
 
 ## Framework Examples
 
@@ -36,7 +36,7 @@ These patterns are useful for production applications that need custom business 
 
 ## Custom Implementation
 
-The **custom** directory shows how to implement x402 payment handling manually using only `@x402/core`, without any middleware. Use this approach when:
+The **custom** directory shows how to implement x402 payment handling manually using only `@x402-avm/core`, without any middleware. Use this approach when:
 
 - You need complete control over the payment flow
 - You're using a web framework we don't have a package for (Koa, Fastify, etc.)
@@ -47,4 +47,3 @@ The **custom** directory shows how to implement x402 payment handling manually u
 1. Pick an example directory
 2. Follow the README in that directory
 3. Use one of the [clients](../clients/) to test your server
-

@@ -1,5 +1,5 @@
 {
-  "name": "@x402/evm",
+  "name": "@x402-avm/evm",
   "version": "2.2.0",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -45,7 +45,7 @@
     "vitest": "^3.0.5"
   },
   "dependencies": {
-    "@x402/core": "workspace:^",
+    "@x402-avm/core": "workspace:^",
     "viem": "^2.39.3",
     "zod": "^3.24.2"
   },

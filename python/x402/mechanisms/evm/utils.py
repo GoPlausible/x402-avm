@@ -9,7 +9,7 @@ try:
     from eth_utils import to_checksum_address
 except ImportError as e:
     raise ImportError(
-        "EVM mechanism requires ethereum packages. Install with: pip install x402[evm]"
+        "EVM mechanism requires ethereum packages. Install with: pip install x402-avm[evm]"
     ) from e
 
 from .constants import (

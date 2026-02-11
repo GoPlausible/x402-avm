@@ -6,8 +6,8 @@ import {
   x402HTTPResourceServer,
   x402ResourceServer,
   RoutesConfig,
-} from "@x402/core/server";
-import { PaymentPayload, PaymentRequirements } from "@x402/core/types";
+} from "@x402-avm/core/server";
+import { PaymentPayload, PaymentRequirements } from "@x402-avm/core/types";
 import { NextAdapter } from "./adapter";
 
 /**

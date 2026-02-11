@@ -1,8 +1,8 @@
 import { config } from "dotenv";
-import { x402Client, wrapFetchWithPayment, x402HTTPClient } from "@x402/fetch";
-import { registerExactEvmScheme } from "@x402/evm/exact/client";
-import { registerExactSvmScheme } from "@x402/svm/exact/client";
-import { registerExactAvmScheme } from "@x402/avm/exact/client";
+import { x402Client, wrapFetchWithPayment, x402HTTPClient } from "@x402-avm/fetch";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { registerExactAvmScheme } from "@x402-avm/avm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import { base58 } from "@scure/base";
@@ -18,9 +18,9 @@ const endpointPath = process.env.ENDPOINT_PATH || "/weather";
 const url = `${baseURL}${endpointPath}`;
 
 /**
- * Example demonstrating how to use @x402/fetch to make requests to x402-protected endpoints.
+ * Example demonstrating how to use @x402-avm/fetch to make requests to x402-protected endpoints.
  *
- * This uses the helper registration functions from @x402/evm and @x402/svm to register
+ * This uses the helper registration functions from @x402-avm/evm and @x402-avm/svm to register
  * all supported networks for both v1 and v2 protocols.
  *
  * Required environment variables:

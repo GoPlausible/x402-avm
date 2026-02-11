@@ -81,7 +81,7 @@ importers:
 
   packages/extensions:
     dependencies:
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:^
         version: link:../core
       ajv:
@@ -139,7 +139,7 @@ importers:
 
   packages/http/axios:
     dependencies:
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:^
         version: link:../../core
       axios:
@@ -203,13 +203,13 @@ importers:
       '@solana/kit':
         specifier: ^2.1.1
         version: 2.3.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:^
         version: link:../../core
-      '@x402/extensions':
+      '@x402-avm/extensions':
         specifier: workspace:^
         version: link:../../extensions
-      '@x402/paywall':
+      '@x402-avm/paywall':
         specifier: workspace:*
         version: link:../paywall
       viem:
@@ -273,7 +273,7 @@ importers:
 
   packages/http/fetch:
     dependencies:
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:^
         version: link:../../core
       viem:
@@ -331,13 +331,13 @@ importers:
 
   packages/http/hono:
     dependencies:
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:^
         version: link:../../core
-      '@x402/extensions':
+      '@x402-avm/extensions':
         specifier: workspace:^
         version: link:../../extensions
-      '@x402/paywall':
+      '@x402-avm/paywall':
         specifier: workspace:*
         version: link:../paywall
       zod:
@@ -398,13 +398,13 @@ importers:
       '@coinbase/cdp-sdk':
         specifier: ^1.22.0
         version: 1.36.1(bufferutil@4.0.9)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2)(utf-8-validate@5.0.10)
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:^
         version: link:../../core
-      '@x402/extensions':
+      '@x402-avm/extensions':
         specifier: workspace:^
         version: link:../../extensions
-      '@x402/paywall':
+      '@x402-avm/paywall':
         specifier: workspace:*
         version: link:../paywall
       next:
@@ -513,7 +513,7 @@ importers:
       '@walletconnect/sign-client':
         specifier: ^2.23.1
         version: 2.23.4(@vercel/functions@2.2.13)(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:^
         version: link:../../core
       algosdk:
@@ -553,13 +553,13 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^8.29.1
         version: 8.42.0(eslint@9.34.0(jiti@2.6.1))(typescript@5.9.2)
-      '@x402/avm':
+      '@x402-avm/avm':
         specifier: workspace:^
         version: link:../../mechanisms/avm
-      '@x402/evm':
+      '@x402-avm/evm':
         specifier: workspace:^
         version: link:../../mechanisms/evm
-      '@x402/svm':
+      '@x402-avm/svm':
         specifier: workspace:^
         version: link:../../mechanisms/svm
       buffer:
@@ -1063,7 +1063,7 @@ importers:
       '@scure/bip39':
         specifier: ^1.5.4
         version: 1.6.0
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:^
         version: link:../../core
       algosdk:
@@ -1118,7 +1118,7 @@ importers:
 
   packages/mechanisms/evm:
     dependencies:
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:^
         version: link:../../core
       viem:
@@ -1188,7 +1188,7 @@ importers:
       '@solana/kit':
         specifier: ^5.1.0
         version: 5.1.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2)(ws@8.18.3(bufferutil@4.0.9)(utf-8-validate@5.0.10))
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:^
         version: link:../../core
     devDependencies:
@@ -1258,26 +1258,26 @@ importers:
       '@vercel/functions':
         specifier: ^2.2.8
         version: 2.2.13
-      '@x402/avm':
+      '@x402-avm/avm':
         specifier: workspace:*
         version: link:../packages/mechanisms/avm
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:*
         version: link:../packages/core
-      '@x402/evm':
+      '@x402-avm/evm':
         specifier: workspace:*
         version: link:../packages/mechanisms/evm
-      '@x402/next':
+      '@x402-avm/next':
         specifier: workspace:*
         version: link:../packages/http/next
-      '@x402/paywall':
+      '@x402-avm/paywall':
         specifier: workspace:*
         version: link:../packages/http/paywall
-      '@x402/svm':
+      '@x402-avm/svm':
         specifier: workspace:*
         version: link:../packages/mechanisms/svm
       algosdk:
-        specifier: ^3.5.0
+        specifier: ^3.5.2
         version: 3.5.2
       lottie-react:
         specifier: ^2.4.1

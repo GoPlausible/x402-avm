@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, vi } from "vitest";
 import { ExactEvmScheme } from "../../../src/exact/facilitator/scheme";
 import { ExactEvmScheme as ClientExactEvmScheme } from "../../../src/exact/client/scheme";
 import type { ClientEvmSigner, FacilitatorEvmSigner } from "../../../src/signer";
-import { PaymentRequirements, PaymentPayload } from "@x402/core/types";
+import { PaymentRequirements, PaymentPayload } from "@x402-avm/core/types";
 import { x402ExactPermit2ProxyAddress } from "../../../src/constants";
 
 describe("ExactEvmScheme (Facilitator)", () => {
