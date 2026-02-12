@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import GithubIcon from "../assets/github.svg";
+
 import LogoIcon from "../assets/logo.svg";
 import AlgoIcon from "../assets/algorand-logomark-white-RGB.svg";
 import { useState, useRef, useEffect } from "react";
@@ -83,15 +83,6 @@ const NavBar = () => {
           )}
         </div>
 
-        <Link
-          href="https://github.com/GoPlausible"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono hover:text-blue-400 transition-colors flex items-center gap-2 text-sm"
-        >
-          <GithubIcon className="w-4 h-4 mr-1" fill="currentColor" />
-          GitHub
-        </Link>
         {/* Algorand x402 dropdown */}
         <div className="relative" ref={algoMenuRef}>
           <button
@@ -145,6 +136,13 @@ const NavBar = () => {
             </div>
           )}
         </div>
+
+        <Link
+          href="/ecosystem"
+          className="font-mono hover:text-blue-400 transition-colors flex items-center gap-1 text-sm"
+        >
+          Ecosystem
+        </Link>
       </div>
     </section>
   );
