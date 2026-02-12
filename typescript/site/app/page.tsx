@@ -1,249 +1,567 @@
 import Link from "next/link";
 import Image from "next/image";
-import { NavBar } from "./components/NavBar";
-import { Footer } from "./components/Footer";
 import {
-  FeatureCard,
-  ZeroFeesIcon,
-  ZeroWaitIcon,
-  ZeroFrictionIcon,
-  ZeroCentralizationIcon,
-  ZeroRestrictionsIcon,
-} from "./components/FeatureCard";
-import { StatsSection } from "./components/StatsSection";
-import { FAQ } from "./components/FAQ";
-import { ComparisonTable } from "./components/ComparisonTable";
-import { HTTPNativeSection } from "./components/HTTPNativeSection";
-import { HeroSection } from "./components/HeroSection";
-import { WhatsX402Section } from "./components/WhatsX402Section";
-import { AnimatedSectionHeader } from "./components/AnimatedSectionHeader";
+  BoltIcon,
+  CloudIcon,
+  MusicalNoteIcon,
+  CheckIcon,
+  DocumentTextIcon,
+  ArrowDownTrayIcon,
+  QuestionMarkCircleIcon,
+  CodeBracketIcon,
+  BookOpenIcon,
+  BriefcaseIcon,
+  Squares2X2Icon,
+} from "@heroicons/react/24/outline";
 
-function ArrowIcon() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 20 20"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden="true"
-    >
-      <path
-        d="M10.1773 14.2771L14.027 10.4274L14.027 9.57256L10.1773 5.72284L11.1852 4.71494L15.4524 8.98216L15.4524 11.0178L11.1852 15.285L10.1773 14.2771Z"
-        fill="currentColor"
-      />
-      <path
-        d="M4.54758 9.45634C4.54758 9.36899 4.64792 9.29819 4.77171 9.29819H14.0703C14.1941 9.29819 14.2945 9.36899 14.2945 9.45633V10.5633C14.2945 10.6507 14.1941 10.7215 14.0703 10.7215H4.77171C4.64792 10.7215 4.54758 10.6507 4.54758 10.5633V9.45634Z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
+import { FeatureItem } from "./components/FeatureItem";
+import GithubIcon from "./assets/github.svg";
+import DiscordIcon from "./assets/discord.svg";
+import LogoIcon from "./assets/logo.svg";
+import AlgoIcon from "./assets/algorand-logomark-white-RGB.svg";
+import { Section } from "./components/Section";
+import { BackgroundVideo } from "./components/BackgroundVideo";
+import NavBar from "./components/NavBar";
 
-const traditionalSteps = [
+const whatIsItFeatures = [
   {
-    number: "1",
-    title: "Create account with new API provider",
-    description: "Time consuming setup",
+    title: "No fees",
+    description: "x402 as a protocol has 0 fees for either the customer or the merchant.",
+    icon: <CheckIcon className="w-5 h-5 text-indigo-400" />,
   },
   {
-    number: "2",
-    title: "Add payment method to API provider",
-    description: "KYC required, delaying access and requiring approval",
+    title: "Instant settlement",
+    description:
+      "Accept payments at the speed of the blockchain. Money in your wallet in 2 seconds, not T+2.",
+    icon: <CheckIcon className="w-5 h-5 text-indigo-400" />,
   },
   {
-    number: "3",
-    title: "Buy credits or subscription",
-    description: "Prepaid commitment → overpay or run out of funds",
+    title: "Blockchain Agnostic",
+    description:
+      "x402 is not tied to any specific blockchain or token, its a neutral standard open to integration by all.",
+    icon: <CheckIcon className="w-5 h-5 text-indigo-400" />,
   },
   {
-    number: "4",
-    title: "Manage API key",
-    description: "Security risk → must store and rotate keys",
+    title: "Frictionless",
+    description:
+      "As little as 1 line of middleware code or configuration in your existing web server stack and you can start accepting payments. Customers and agents aren't required to create an account or provide any personal information.",
+    icon: <CheckIcon className="w-5 h-5 text-indigo-400" />,
+  },
+
+  {
+    title: "Security & trust via an open standard",
+    description:
+      "Anyone can implement or extend x402. It's not tied to any centralized provider, and encourages broad community participation.",
+    icon: <CheckIcon className="w-5 h-5 text-indigo-400" />,
   },
   {
-    number: "5",
-    title: "Make payment",
-    description: "Slow transactions, chargebacks, fees",
+    title: "Web native",
+    description:
+      "Activates the dormant 402 HTTP status code and works with any HTTP stack. It works simply via headers and status codes on your existing HTTP server.",
+    icon: <CheckIcon className="w-5 h-5 text-indigo-400" />,
+  },
+];
+const whyItMattersFeatures = [
+  {
+    title: "AI Agents",
+    description: "Agents can use the x402 Protocol to pay for API requests in real-time.",
+    icon: <BoltIcon className="w-5 h-5 text-indigo-400" />,
+  },
+  {
+    title: "Cloud Storage Providers",
+    description:
+      "Using x402, customers can easily access storage services without account creation.",
+    icon: <CloudIcon className="w-5 h-5 text-indigo-400" />,
+  },
+  {
+    title: "Content Creators",
+    description: "x402 unlocks instant transactions, enabling true micropayments for content.",
+    icon: <MusicalNoteIcon className="w-5 h-5 text-indigo-400" />,
   },
 ];
 
-const x402Steps = [
-  {
-    number: "1",
-    title: "AI agent sends HTTP request and receives 402: Payment Required",
-    description: "No account setup, instant onboarding",
-  },
-  {
-    number: "2",
-    title: "AI agent pays instantly with stablecoins",
-    description: "No signups or approvals required",
-  },
-  {
-    number: "3",
-    title: "API access granted",
-    description: "No API key management and related security risks",
-  },
-];
-
-const heroCodeSnippet = {
-  code: `app.use(
-  paymentMiddleware(
-    {
-      "GET /weather": {
-        accepts: [...],                 // As many networks / schemes as you want to support
-        description: "Weather data",    // What your endpoint does
-      },
-    },
-  )
-);`,
-  title: "Accept payments with a single line of code",
-  description: "That's it. Add one line of code to require payment for each incoming request. If a request arrives without payment, the server responds with HTTP 402, prompting the client to pay and retry.",
-};
-
-export default function HomePage() {
+export default function Home() {
   return (
-    <div className="min-h-screen bg-white text-black">
-      <NavBar animateLogo />
+    <div className="min-h-screen bg-gradient-to-b from-gray-800 to-black text-white relative overflow-hidden">
+      {/* Video Background */}
+      <div className="fixed w-full z-0">
+        <div className="fixed w-full bg-gradient-to-t from-black" />
+        <BackgroundVideo src="/banner.mp4" />
+      </div>
 
-      <HeroSection codeSnippet={heroCodeSnippet} />
+      <div className="relative z-10">
+        {/* Top nav */}
+        <NavBar />
+        {/* Hero Section */}
+        <section className="max-w-6xl mx-auto px-4 py-20 lg:py-28">
+          <div className="text-center">
+            <div className="mb-6 flex items-center justify-center gap-4">
+              <Image
+                src="/x402-logo.png"
+                alt="x402 logo"
+                width={320}
+                height={160}
+                className="inline-block"
+              />
+              <Image
+                src="/algorand-logomark-white-RGB.png"
+                alt="Algorand logo"
+                width={100}
+                height={100}
+                className="inline-block"
+              />
+            </div>
 
-      {/* Stats Section */}
-      <StatsSection />
-
-      {/* What's x402? */}
-      <WhatsX402Section />
-
-      <HTTPNativeSection />
-
-      {/* Five Features Grid */}
-      <section className="bg-[#F5F6FA] py-16 md:py-20" aria-label="Key features">
-        <div className="max-w-container mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
-          <h2 className="text-xl sm:text-2xl font-medium text-center mb-8 sm:mb-12 md:mb-14">
-            It&apos;s how the internet should be: open, free, and effortless
-          </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 md:gap-8 lg:gap-10">
-            <FeatureCard
-              icon={<ZeroFeesIcon />}
-              title="Zero protocol fees"
-              description="x402 is free for the customer and the merchant—just pay nominal payment network fees"
-            />
-            <FeatureCard
-              icon={<ZeroWaitIcon />}
-              title="Zero wait"
-              description="Money moves at the speed of the internet"
-            />
-            <FeatureCard
-              icon={<ZeroFrictionIcon />}
-              title="Zero friction"
-              description="No accounts or personal information needed"
-            />
-            <FeatureCard
-              icon={<ZeroCentralizationIcon />}
-              title="Zero centralization"
-              description="Anyone on the internet can build on or extend x402"
-            />
-            <FeatureCard
-              icon={<ZeroRestrictionsIcon />}
-              title="Zero restrictions"
-              description="x402 is a neutral standard, not tied to any specific network"
-            />
+            <p className="text-xl text-gray-400 mb-8 font-mono">
+              x402 internet-native protocol for Algorand Blockchain
+            </p>
+            <div className="flex flex-wrap gap-4 mb-6 justify-center">
+              <Link
+                href="/protected"
+                className="px-6 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-mono transition-colors flex items-center gap-2 text-lg"
+              >
+                <CodeBracketIcon className="w-5 h-5 mr-1" />
+                Live Demo Instance (TestNet)
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4 mb-8 justify-center">
+              <Link
+                href="/x402-whitepaper.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
+              >
+                <DocumentTextIcon className="w-5 h-5 mr-1" />
+                Read x402 whitepaper
+              </Link>
+              <Link
+                href="https://x402.gitbook.io/x402"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
+              >
+                <BookOpenIcon className="w-5 h-5 mr-1" />
+                Read x402 docs
+              </Link>
+              <Link
+                href="https://github.com/GoPlausible/.github/blob/main/profile/algorand-x402-guide/README.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
+              >
+                <AlgoIcon className="w-10 h-10 mr-1" />
+                Read Algorand x402 docs
+              </Link>
+              <Link
+                href="/ecosystem"
+                target="_self"
+                rel="noopener noreferrer"
+                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
+              >
+                <Squares2X2Icon className="w-5 h-5 mr-1" />
+                Algorand x402 Ecosystem
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Comparison Section */}
-      <section className="py-16 md:py-20 bg-white">
-        <div className="max-w-[1177px] mx-auto px-4 sm:px-6 md:px-10">
-          <AnimatedSectionHeader
-            title="We need a new way to transfer value on the internet..."
-            description="The old way of doing payments is barely working for a human world, let alone an agentic future. x402 does in moments what existing systems can't do at all."
-            align="center"
-            className="mb-12 md:mb-16 lg:mb-20"
-            maxDescriptionWidth="635px"
-            descriptionSize="small"
-          />
-
-          <ComparisonTable
-            traditionalSteps={traditionalSteps}
-            x402Steps={x402Steps}
-          />
-        </div>
-      </section>
-
-      {/* Building Better Section */}
-      <section className="py-16 md:py-20">
-        <div className="max-w-container mx-auto px-4 sm:px-6 md:px-10">
-          <AnimatedSectionHeader
-            title="...so it's time to start building something better"
-            align="center"
-            className="mb-10 sm:mb-12 md:mb-16"
-          />
-
-          <div className="mb-12">
-            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-4 lg:h-[425px]" aria-label="Community photos">
-              <div className="col-span-1 relative rounded overflow-hidden">
-                <Image
-                  src="/images/homepage_build1.jpeg"
-                  alt="Developer working on code"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 20vw"
-                />
-              </div>
-              <div className="col-span-2 relative rounded overflow-hidden">
-                <Image
-                  src="/images/homepage_build2.jpeg"
-                  alt="Team collaborating on project"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 40vw"
-                />
-              </div>
-              <div className="col-span-1 relative rounded overflow-hidden">
-                <Image
-                  src="/images/homepage_build3.jpeg"
-                  alt="Developer at workstation"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 20vw"
-                />
-              </div>
-              <div className="col-span-1 relative rounded overflow-hidden">
-                <Image
-                  src="/images/homepage_build4.png"
-                  alt="Community of builders"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, 20vw"
-                />
+        <Section>
+          {/* What is it? */}
+          <div className="relative">
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <h3 className="text-3xl font-bold text-blue-400 text-center">
+                The best way to accept digital payments on Web 3.0
+              </h3>
+            </div>
+            <div className="bg-gray-800/30 rounded-2xl p-8 backdrop-blur-2xl border border-gray-700/50">
+              <p className="text-gray-300 leading-relaxed text-xl mb-8">
+                Built by Coinbase around the{" "}
+                <Link
+                  href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/402"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-blue-400 hover:text-blue-500"
+                >
+                  HTTP 402
+                </Link>{" "}
+                status code,{" "}
+                <span className="font-bold">
+                  x402 protocol enables users to pay for resources via API
+                </span>{" "}
+                without registration, emails, OAuth, or complex signatures. Algorand support is
+                provided by Algorand Foundation & GoPlausible.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 text-gray-400">
+                {whatIsItFeatures.map((feature, index) => (
+                  <FeatureItem key={index} {...feature} />
+                ))}
               </div>
             </div>
           </div>
+        </Section>
 
-          <div className="flex flex-col items-center gap-4 sm:gap-6">
-            <p className="text-sm sm:text-base font-medium text-center max-w-[491px]">
-              Join a global community of thousands of builders contributing to an
-              open codebase, faster financial system, and freer internet.
-            </p>
-            <Link
-              href="https://docs.google.com/forms/d/e/1FAIpQLSc2rlaeH31rZpJ_RFNL7egxi9fYTEUjW9r2kwkhd2pMae2dog/viewform"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-6 sm:px-10 md:px-16 py-3 bg-black text-white font-medium text-base hover:bg-gray-800 transition-colors focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
-            >
-              Learn how to get started
-              <ArrowIcon />
-            </Link>
+        <Section>
+          {/* Why it matters */}
+          <div className="relative">
+            <div className="bg-gray-800/30 rounded-2xl p-8  backdrop-blur-xl border border-gray-700/50">
+              <div className="flex items-center gap-4 mb-6">
+                <h3 className="text-3xl font-bold text-indigo-400">
+                  Powering Next-Gen Digital Commerce on Algorand and other blockchains
+                </h3>
+              </div>
+              <p className="text-gray-300 leading-relaxed text-xl mb-8">
+                <span className="font-bold">x402 unlocks new monetization models,</span> offering
+                developers and content creators a frictionless way to earn revenue from small
+                transactions without forcing subscriptions or showing ads.
+              </p>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {whyItMattersFeatures.map((feature, index) => (
+                  <FeatureItem key={index} {...feature} iconBgColor="bg-indigo-500/10" />
+                ))}
+              </div>
+            </div>
           </div>
+        </Section>
+
+        <Section>
+          {/* How it works */}
+
+          <div className="relative">
+            <div className="bg-gray-800/30 rounded-2xl p-8 backdrop-blur-xl border border-gray-700/50">
+              <div className="flex items-center gap-4 mb-6">
+                <h3 className="text-3xl font-bold text-indigo-400">The x402 flow:</h3>
+              </div>
+              <p className="text-gray-300 leading-relaxed text-lg">
+                x402 allows any web developer to accept crypto payments without the complexity of
+                having to interact with the blockchain.
+              </p>
+              <br />
+
+              <p className="text-gray-300 leading-relaxed text-lg mb-8">
+                For a payment requiring endpoint or resource (URL) if a request arrives without
+                payment, the server responds with HTTP 402, prompting the client that payment is
+                required, accompanied by payment requirements information.
+              </p>
+              <div className="mb-8">
+                <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
+                  <pre className="syntax-highlight">
+                    <span className="text-purple-400">HTTP</span>
+                    <span className="text-gray-300">/1.1 </span>
+                    <span className="text-amber-300">402</span>
+                    <span className="text-gray-300"> Payment Required</span>
+                  </pre>
+                </div>
+              </div>
+              <p className="text-gray-300 leading-relaxed text-lg mb-8">
+                Then client generates and sends a payment transaction to the specified address with
+                the required amount on the Algorand blockchain and sends it in a pyement group to
+                server.
+              </p>
+              <p className="text-gray-300 leading-relaxed text-lg mb-8">
+                Server then sends the payment group to a facilitator to verify the payment and then
+                settle it on Algorand blockchain and signals back the server with results.
+              </p>
+              <p className="text-gray-300 leading-relaxed text-lg mb-8">
+                Finally server validates the payment results and if successful serves the original
+                request with a 200 OK response along with the requested resource.
+              </p>
+              <div className="mb-8">
+                <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
+                  <pre className="syntax-highlight">
+                    <span className="text-purple-400">HTTP</span>
+                    <span className="text-gray-300">/1.1 </span>
+                    <span className="text-amber-300">200</span>
+                    <span className="text-gray-300"> OK</span>
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Section>
+        <Section>
+          {/* Packages and links */}
+          <div className="relative">
+            <div className="bg-gray-800/30 rounded-2xl p-8 backdrop-blur-xl border border-gray-700/50">
+              <div className="flex items-center gap-4 mb-6">
+                <h3 className="text-3xl font-bold text-indigo-400">x402 Algorand Resources</h3>
+              </div>
+              <p className="text-gray-300 leading-relaxed text-xl mb-6">
+                x402 Algorand PR, Spec and Repository:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://github.com/GoPlausible/.github/blob/main/profile/algorand-x402-guide/scheme_exact_avm.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402 Algorand Exact Spec
+                  </a>
+                </div>
+
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://github.com/coinbase/x402/pull/361"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402 Algorand PR
+                  </a>
+                </div>
+
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://github.com/GoPlausible/.github/blob/main/profile/algorand-x402-guide/README.md"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402 Algorand Guides, Examples and docs
+                  </a>
+                </div>
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://github.com/GoPlausible/x402-avm/tree/branch-pr-361"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402 Algorand Implementation Repository
+                  </a>
+                </div>
+              </div>
+              <br />
+              <p className="text-gray-300 leading-relaxed text-xl mb-6">
+                x402 Algorand NPM Packages:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://www.npmjs.com/package/x402-avm"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402 Core Package
+                  </a>
+                </div>
+
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://www.npmjs.com/package/x402-avm-express"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402-express Package
+                  </a>
+                </div>
+
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://www.npmjs.com/package/x402-avm-hono"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402-hono Package
+                  </a>
+                </div>
+
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://www.npmjs.com/package/x402-avm-next"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402-next Package
+                  </a>
+                </div>
+
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://www.npmjs.com/package/x402-avm-fetch"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402-fetch Package
+                  </a>
+                </div>
+
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://www.npmjs.com/package/x402-avm-axios"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402-axios Package
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Section>
+        <Section>
+          {/* Algorand x402 packages */}
+          <div className="relative">
+            <div className="bg-gray-800/30 rounded-2xl p-8 backdrop-blur-xl border border-gray-700/50">
+              <div className="flex items-center gap-4 mb-6">
+                <h3 className="text-3xl font-bold text-indigo-400">
+                  x402 Algorand packages make integration easy for developers
+                </h3>
+              </div>
+              <p className="text-gray-300 leading-relaxed text-xl mb-8">
+                x402 protocol comes with exact specifications for each blockchain virtual machine
+                type, <span className="font-bold">EVM, AVM, SVM and ..., </span> as well as a core
+                implementation x402 package to serve those specifications implementations core
+                requirements, methods and functionalities.
+              </p>
+              <div className="mb-8">
+                <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
+                  <pre className="syntax-highlight">
+                    <span className="text-green-400">npm install x402-avm</span>
+
+                    {"\n"}
+                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
+                    <span className="text-gray-400">
+                      // The x402-avm package is temporarily used untill the Algorand
+                      {"\n"}
+                      implementationa and exact spec gets merged into @coinbase/x402 repository!
+                      {"\n"}
+                      After merger developers can simply npm install @coinbase/x402
+                    </span>
+                  </pre>
+                </div>
+              </div>
+              <p className="text-gray-300 leading-relaxed text-xl mb-8">
+                Built atop x402 core package, x402 integration has been made easy using npm packages
+                built for different, most existing backend & frontend libraries and frameworks,
+                including: commonly used,{" "}
+                <span className="font-bold">ExpressJS, Hono, NextJS, Fetch and Axios</span>.
+              </p>
+              <p className="text-gray-300 leading-relaxed text-xl mb-8">
+                {" "}
+                <span className="font-bold">Backends and SSR:</span>
+              </p>
+              <div className="mb-8">
+                <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
+                  <pre className="syntax-highlight">
+                    <span className="text-green-400">npm install x402-avm-express</span>
+
+                    {"\n"}
+                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
+                    <span className="text-gray-400">
+                      // This install the x402 middleware for ExpressJS!
+                    </span>
+                  </pre>
+                </div>
+              </div>
+              <div className="mb-8">
+                <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
+                  <pre className="syntax-highlight">
+                    <span className="text-green-400">npm install x402-avm-hono</span>
+
+                    {"\n"}
+                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
+                    <span className="text-gray-400">
+                      // This install the x402 middleware for Hono which can be used in serverless
+                      {"\n"}
+                      runtimes like Cloudflare workers and Deno environments!
+                    </span>
+                  </pre>
+                </div>
+              </div>
+              <div className="mb-8">
+                <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
+                  <pre className="syntax-highlight">
+                    <span className="text-green-400">npm install x402-avm-next</span>
+
+                    {"\n"}
+                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
+                    <span className="text-gray-400">
+                      // This install the x402 middleware for NextJS SSR environments.
+                    </span>
+                  </pre>
+                </div>
+              </div>
+              <p className="text-gray-300 leading-relaxed text-xl mb-8">
+                {" "}
+                <span className="font-bold">Frontends and clients:</span>
+              </p>
+              <div className="mb-8">
+                <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
+                  <pre className="syntax-highlight">
+                    <span className="text-green-400">npm install x402-avm-fetch</span>
+
+                    {"\n"}
+                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
+                    <span className="text-gray-400">
+                      // This install the x402 utilities to be used in global Fetch web APIs!
+                      {"\n"}
+                      usable in browsers and client side runtimes!
+                    </span>
+                  </pre>
+                </div>
+              </div>
+              <div className="mb-8">
+                <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
+                  <pre className="syntax-highlight">
+                    <span className="text-green-400">npm install x402-avm-axios</span>
+
+                    {"\n"}
+                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
+                    <span className="text-gray-400">
+                      // This install the x402 utilities to be used with Axios library,
+                      {"\n"}
+                      usable in browsers and client side runtimes!
+                    </span>
+                  </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Section>
+
+        {/* x402 Button Section */}
+        <div className="relative z-10 text-center py-12">
+          <Image
+            src="/x402-button-large.png"
+            alt="x402 button"
+            width={320}
+            height={160}
+            className="bg-white mx-auto"
+            style={{ borderRadius: 10 }}
+          />
         </div>
-      </section>
-
-      {/* FAQ Section */}
-      <FAQ />
-
-      <Footer />
+      </div>
+      <footer className="relative z-10 py-8 text-center text-sm text-gray-400">
+        By using this site, you agree to be bound by the GoPlausible's{" "}
+        <a
+          href="https://goplausible.com/terms"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500"
+        >
+          Terms of Service
+        </a>{" "}
+        and{" "}
+        <a
+          href="https://goplausible.com/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500"
+        >
+          Privacy Policy
+        </a>
+        .
+      </footer>
     </div>
   );
 }
