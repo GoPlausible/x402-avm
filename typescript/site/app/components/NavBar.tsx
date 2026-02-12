@@ -9,12 +9,17 @@ import { useState, useRef, useEffect } from "react";
 
 const NavBar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isAlgoOpen, setIsAlgoOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const algoMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+      }
+      if (algoMenuRef.current && !algoMenuRef.current.contains(event.target as Node)) {
+        setIsAlgoOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
@@ -87,15 +92,59 @@ const NavBar = () => {
           <GithubIcon className="w-4 h-4 mr-1" fill="currentColor" />
           GitHub
         </Link>
-        <Link
-          href="https://algorand.co"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono hover:text-blue-400 transition-colors flex items-center gap-2 text-sm"
-        >
-          <AlgoIcon className="w-10 h-10 mr-1" />
-          Algorand
-        </Link>
+        {/* Algorand x402 dropdown */}
+        <div className="relative" ref={algoMenuRef}>
+          <button
+            onClick={() => setIsAlgoOpen(!isAlgoOpen)}
+            className="font-mono hover:text-blue-400 transition-colors flex items-center gap-1 text-sm cursor-pointer"
+          >
+            <AlgoIcon className="w-10 h-10 mr-1" />
+            Algorand
+            <ChevronDownIcon
+              className={`w-3.5 h-3.5 transition-transform ${isAlgoOpen ? "rotate-180" : ""}`}
+            />
+          </button>
+          {isAlgoOpen && (
+            <div className="absolute right-0 mt-2 w-64 bg-gray-900/95 backdrop-blur-xl border border-gray-700/50 rounded-lg shadow-xl overflow-hidden">
+              <Link
+                href="https://algorand.co"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-3 text-sm font-mono text-gray-300 hover:text-blue-400 hover:bg-gray-800/50 transition-colors"
+                onClick={() => setIsAlgoOpen(false)}
+              >
+                Algorand
+              </Link>
+              <Link
+                href="https://algorand.co/agentic-commerce/x402"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-3 text-sm font-mono text-gray-300 hover:text-blue-400 hover:bg-gray-800/50 transition-colors border-t border-gray-700/30"
+                onClick={() => setIsAlgoOpen(false)}
+              >
+                Algorand x402
+              </Link>
+              <Link
+                href="https://algorand.co/blog/x402-unlocking-the-agentic-commerce-era"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-3 text-sm font-mono text-gray-300 hover:text-blue-400 hover:bg-gray-800/50 transition-colors border-t border-gray-700/30"
+                onClick={() => setIsAlgoOpen(false)}
+              >
+                Read Algorand x402 blog post
+              </Link>
+              <Link
+                href="https://algorand.co/agentic-commerce/x402/developers"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-3 text-sm font-mono text-gray-300 hover:text-blue-400 hover:bg-gray-800/50 transition-colors border-t border-gray-700/30"
+                onClick={() => setIsAlgoOpen(false)}
+              >
+                Algorand x402 post for devs
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

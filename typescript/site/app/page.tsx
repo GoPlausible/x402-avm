@@ -9,6 +9,8 @@ import {
   CodeBracketIcon,
   BookOpenIcon,
   Squares2X2Icon,
+  ServerIcon,
+  WrenchScrewdriverIcon,
 } from "@heroicons/react/24/outline";
 
 import { FeatureItem } from "./components/FeatureItem";
@@ -133,25 +135,25 @@ export default function Home() {
                 className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
               >
                 <DocumentTextIcon className="w-5 h-5 mr-1" />
-                Algorand x402 docs
+                Documentation
               </Link>
               <Link
-                href="https://algorand.co/agentic-commerce/x402"
+                href="https://facilitator.goplausible.xyz"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
               >
-                <BookOpenIcon className="w-5 h-5 mr-1" />
-                Algorand x402
+                <ServerIcon className="w-5 h-5 mr-1" />
+                X402 Facilitator
               </Link>
               <Link
-                href="https://algorand.co/blog/x402-unlocking-the-agentic-commerce-era"
+                href="https://facilitator.goplausible.xyz/docs"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
               >
-                <BookOpenIcon className="w-5 h-5 mr-1" />
-                Read Algorand x402 post
+                <WrenchScrewdriverIcon className="w-5 h-5 mr-1" />
+                Facilitator API Docs
               </Link>
               <Link
                 href="/ecosystem"
