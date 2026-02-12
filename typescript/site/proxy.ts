@@ -8,6 +8,7 @@ import { createPaywall } from "@x402-avm/paywall";
 import { evmPaywall } from "@x402-avm/paywall/evm";
 import { svmPaywall } from "@x402-avm/paywall/svm";
 import { avmPaywall } from "@x402-avm/paywall/avm";
+import { createThemedPaywall } from "./themed-paywall";
 
 const evmPayeeAddress = process.env.RESOURCE_EVM_ADDRESS as `0x${string}`;
 const svmPayeeAddress = process.env.RESOURCE_SVM_ADDRESS as string;
@@ -39,8 +40,8 @@ if (!facilitatorUrl) {
 // Create HTTP facilitator client
 const facilitatorClient = new HTTPFacilitatorClient({ url: facilitatorUrl });
 
-// Build the paywall provider
-const paywall = createPaywall()
+// Build the paywall provider with landing-page dark theme
+const basePaywall = createPaywall()
   .withNetwork(avmPaywall)
   .withNetwork(evmPaywall)
   .withNetwork(svmPaywall)
@@ -49,6 +50,8 @@ const paywall = createPaywall()
     appLogo: "/logos/x402-examples.png",
   })
   .build();
+
+const paywall = createThemedPaywall(basePaywall);
 
 const accepts = [
   {
@@ -83,9 +86,9 @@ const x402PaymentProxy = paymentProxyFromConfig(
       accepts,
       description: "Access to protected content",
     },
-    "/examples/price": {
+    "/examples/weather": {
       accepts,
-      description: "Access to protected price API",
+      description: "Access to protected weather API",
     },
   },
   facilitatorClient,

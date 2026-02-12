@@ -165,7 +165,7 @@ export default function Home() {
                 Protected Page (TestNet)
               </Link>
               <Link
-                href="/examples/price"
+                href="/examples/weather"
                 className="px-6 py-4 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-mono transition-colors flex items-center gap-2 text-lg"
               >
                 <CloudIcon className="w-5 h-5 mr-1" />
