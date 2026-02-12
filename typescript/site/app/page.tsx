@@ -6,18 +6,12 @@ import {
   MusicalNoteIcon,
   CheckIcon,
   DocumentTextIcon,
-  ArrowDownTrayIcon,
-  QuestionMarkCircleIcon,
   CodeBracketIcon,
   BookOpenIcon,
-  BriefcaseIcon,
   Squares2X2Icon,
 } from "@heroicons/react/24/outline";
 
 import { FeatureItem } from "./components/FeatureItem";
-import GithubIcon from "./assets/github.svg";
-import DiscordIcon from "./assets/discord.svg";
-import LogoIcon from "./assets/logo.svg";
 import AlgoIcon from "./assets/algorand-logomark-white-RGB.svg";
 import { Section } from "./components/Section";
 import { BackgroundVideo } from "./components/BackgroundVideo";
@@ -121,40 +115,47 @@ export default function Home() {
                 className="px-6 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-mono transition-colors flex items-center gap-2 text-lg"
               >
                 <CodeBracketIcon className="w-5 h-5 mr-1" />
-                Live Demo Instance (TestNet)
+                Protected Page (TestNet)
+              </Link>
+              <Link
+                href="/examples/price"
+                className="px-6 py-4 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-mono transition-colors flex items-center gap-2 text-lg"
+              >
+                <CloudIcon className="w-5 h-5 mr-1" />
+                Protected API (TestNet)
               </Link>
             </div>
             <div className="flex flex-wrap gap-4 mb-8 justify-center">
               <Link
-                href="/x402-whitepaper.pdf"
+                href="https://github.com/GoPlausible/.github/blob/main/profile/algorand-x402-documentation/README.md"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
               >
                 <DocumentTextIcon className="w-5 h-5 mr-1" />
-                Read x402 whitepaper
+                Algorand x402 docs
               </Link>
               <Link
-                href="https://x402.gitbook.io/x402"
+                href="https://algorand.co/agentic-commerce/x402"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
               >
                 <BookOpenIcon className="w-5 h-5 mr-1" />
-                Read x402 docs
+                Algorand x402
               </Link>
               <Link
-                href="https://github.com/GoPlausible/.github/blob/main/profile/algorand-x402-guide/README.md"
+                href="https://algorand.co/blog/x402-unlocking-the-agentic-commerce-era"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
               >
-                <AlgoIcon className="w-10 h-10 mr-1" />
-                Read Algorand x402 docs
+                <BookOpenIcon className="w-5 h-5 mr-1" />
+                Read Algorand x402 post
               </Link>
               <Link
                 href="/ecosystem"
-                target="_self"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
               >
@@ -292,7 +293,7 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://github.com/GoPlausible/.github/blob/main/profile/algorand-x402-guide/scheme_exact_avm.md"
+                    href="https://github.com/coinbase/x402/blob/main/specs/schemes/exact/scheme_exact_algo.md"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
@@ -301,20 +302,9 @@ export default function Home() {
                   </a>
                 </div>
 
-                <div className="bg-black/50 rounded-lg p-4">
+<div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://github.com/coinbase/x402/pull/361"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-400 font-bold block mb-2"
-                  >
-                    x402 Algorand PR
-                  </a>
-                </div>
-
-                <div className="bg-black/50 rounded-lg p-4">
-                  <a
-                    href="https://github.com/GoPlausible/.github/blob/main/profile/algorand-x402-guide/README.md"
+                    href="https://github.com/GoPlausible/.github/blob/main/profile/algorand-x402-documentation/README.md"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
@@ -324,7 +314,7 @@ export default function Home() {
                 </div>
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://github.com/GoPlausible/x402-avm/tree/branch-pr-361"
+                    href="https://github.com/GoPlausible/x402-avm/tree/branch-v2-algorand-publish"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
@@ -335,73 +325,124 @@ export default function Home() {
               </div>
               <br />
               <p className="text-gray-300 leading-relaxed text-xl mb-6">
-                x402 Algorand NPM Packages:
+                x402 Algorand TypeScript Packages (npm):
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/x402-avm"
+                    href="https://www.npmjs.com/package/@x402-avm/core"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    x402 Core Package
+                    @x402-avm/core
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/x402-avm-express"
+                    href="https://www.npmjs.com/package/@x402-avm/avm"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    x402-express Package
+                    @x402-avm/avm
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/x402-avm-hono"
+                    href="https://www.npmjs.com/package/@x402-avm/express"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    x402-hono Package
+                    @x402-avm/express
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/x402-avm-next"
+                    href="https://www.npmjs.com/package/@x402-avm/hono"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    x402-next Package
+                    @x402-avm/hono
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/x402-avm-fetch"
+                    href="https://www.npmjs.com/package/@x402-avm/next"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    x402-fetch Package
+                    @x402-avm/next
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/x402-avm-axios"
+                    href="https://www.npmjs.com/package/@x402-avm/fetch"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    x402-axios Package
+                    @x402-avm/fetch
+                  </a>
+                </div>
+
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://www.npmjs.com/package/@x402-avm/axios"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    @x402-avm/axios
+                  </a>
+                </div>
+
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://www.npmjs.com/package/@x402-avm/paywall"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    @x402-avm/paywall
+                  </a>
+                </div>
+
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://www.npmjs.com/package/@x402-avm/extensions"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    @x402-avm/extensions
+                  </a>
+                </div>
+              </div>
+
+              <br />
+              <p className="text-gray-300 leading-relaxed text-xl mb-6">
+                x402 Algorand Python Package (pip):
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://pypi.org/project/x402-avm/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402-avm (PyPI)
                   </a>
                 </div>
               </div>
@@ -419,32 +460,25 @@ export default function Home() {
               </div>
               <p className="text-gray-300 leading-relaxed text-xl mb-8">
                 x402 protocol comes with exact specifications for each blockchain virtual machine
-                type, <span className="font-bold">EVM, AVM, SVM and ..., </span> as well as a core
-                implementation x402 package to serve those specifications implementations core
-                requirements, methods and functionalities.
+                type, <span className="font-bold">EVM, AVM, SVM</span>, as well as a core
+                package and per-framework integration packages published as scoped npm packages
+                and a Python package on PyPI.
               </p>
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install x402-avm</span>
-
+                    <span className="text-green-400">npm install @x402-avm/core @x402-avm/avm</span>
                     {"\n"}
-                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                     <span className="text-gray-400">
-                      // The x402-avm package is temporarily used untill the Algorand
-                      {"\n"}
-                      implementationa and exact spec gets merged into @coinbase/x402 repository!
-                      {"\n"}
-                      After merger developers can simply npm install @coinbase/x402
+                      // Core protocol + Algorand mechanism
                     </span>
                   </pre>
                 </div>
               </div>
               <p className="text-gray-300 leading-relaxed text-xl mb-8">
-                Built atop x402 core package, x402 integration has been made easy using npm packages
-                built for different, most existing backend & frontend libraries and frameworks,
-                including: commonly used,{" "}
-                <span className="font-bold">ExpressJS, Hono, NextJS, Fetch and Axios</span>.
+                Built atop @x402-avm/core, integration packages exist for the most popular backend
+                and frontend frameworks:{" "}
+                <span className="font-bold">Express, Hono, Next.js, Fetch, and Axios</span>.
               </p>
               <p className="text-gray-300 leading-relaxed text-xl mb-8">
                 {" "}
@@ -453,12 +487,10 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install x402-avm-express</span>
-
+                    <span className="text-green-400">npm install @x402-avm/express</span>
                     {"\n"}
-                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                     <span className="text-gray-400">
-                      // This install the x402 middleware for ExpressJS!
+                      // x402 payment middleware for Express.js
                     </span>
                   </pre>
                 </div>
@@ -466,14 +498,10 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install x402-avm-hono</span>
-
+                    <span className="text-green-400">npm install @x402-avm/hono</span>
                     {"\n"}
-                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                     <span className="text-gray-400">
-                      // This install the x402 middleware for Hono which can be used in serverless
-                      {"\n"}
-                      runtimes like Cloudflare workers and Deno environments!
+                      // x402 payment middleware for Hono (Cloudflare Workers, Deno)
                     </span>
                   </pre>
                 </div>
@@ -481,12 +509,10 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install x402-avm-next</span>
-
+                    <span className="text-green-400">npm install @x402-avm/next</span>
                     {"\n"}
-                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                     <span className="text-gray-400">
-                      // This install the x402 middleware for NextJS SSR environments.
+                      // x402 payment middleware for Next.js (App Router)
                     </span>
                   </pre>
                 </div>
@@ -498,14 +524,10 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install x402-avm-fetch</span>
-
+                    <span className="text-green-400">npm install @x402-avm/fetch</span>
                     {"\n"}
-                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                     <span className="text-gray-400">
-                      // This install the x402 utilities to be used in global Fetch web APIs!
-                      {"\n"}
-                      usable in browsers and client side runtimes!
+                      // x402 client wrapper for the Fetch API
                     </span>
                   </pre>
                 </div>
@@ -513,14 +535,25 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install x402-avm-axios</span>
-
+                    <span className="text-green-400">npm install @x402-avm/axios</span>
                     {"\n"}
-                    {/* eslint-disable-next-line react/jsx-no-comment-textnodes */}
                     <span className="text-gray-400">
-                      // This install the x402 utilities to be used with Axios library,
-                      {"\n"}
-                      usable in browsers and client side runtimes!
+                      // x402 client wrapper for Axios
+                    </span>
+                  </pre>
+                </div>
+              </div>
+              <p className="text-gray-300 leading-relaxed text-xl mb-8">
+                {" "}
+                <span className="font-bold">Python:</span>
+              </p>
+              <div className="mb-8">
+                <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
+                  <pre className="syntax-highlight">
+                    <span className="text-green-400">pip install &quot;x402-avm[avm,fastapi]&quot;</span>
+                    {"\n"}
+                    <span className="text-gray-400">
+                      // Python package with extras: [avm], [fastapi], [flask], [httpx], [requests], [extensions], [all]
                     </span>
                   </pre>
                 </div>

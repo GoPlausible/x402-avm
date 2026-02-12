@@ -26,8 +26,6 @@
     "@x402-avm/paywall": "workspace:*",
     "@x402-avm/svm": "workspace:*",
     "@x402-avm/avm": "workspace:*",
-    "lottie-react": "^2.4.1",
-    "motion": "^11.18.0",
     "next": "^16.0.10",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",

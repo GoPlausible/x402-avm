@@ -1,8 +1,7 @@
 import Image from "next/image";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { NavBar } from "../../components/NavBar";
-import { Footer } from "../../components/Footer";
+import NavBar from "../../components/NavBar";
 
 const pageTitle = "Introducing x402 V2: Evolving the Standard for Internet-native Payments";
 const pageDescription =
@@ -391,7 +390,27 @@ export default function X402V2LaunchPage() {
         </article>
       </div>
 
-      <Footer />
+      <footer className="relative z-10 py-8 text-center text-sm text-gray-400">
+        By using this site, you agree to be bound by the GoPlausible&apos;s{" "}
+        <a
+          href="https://goplausible.com/terms"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500"
+        >
+          Terms of Service
+        </a>{" "}
+        and{" "}
+        <a
+          href="https://goplausible.com/privacy"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-blue-500"
+        >
+          Privacy Policy
+        </a>
+        .
+      </footer>
     </div>
   );
 }

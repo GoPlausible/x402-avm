@@ -41,9 +41,9 @@ const facilitatorClient = new HTTPFacilitatorClient({ url: facilitatorUrl });
 
 // Build the paywall provider
 const paywall = createPaywall()
+  .withNetwork(avmPaywall)
   .withNetwork(evmPaywall)
   .withNetwork(svmPaywall)
-  .withNetwork(avmPaywall)
   .withConfig({
     appName: "x402 Demo",
     appLogo: "/logos/x402-examples.png",
@@ -51,6 +51,12 @@ const paywall = createPaywall()
   .build();
 
 const accepts = [
+  {
+    payTo: avmPayeeAddress,
+    scheme: "exact",
+    price: "$0.01",
+    network: AVM_NETWORK,
+  },
   {
     payTo: evmPayeeAddress,
     scheme: "exact",
@@ -63,18 +69,12 @@ const accepts = [
     price: "$0.01",
     network: SVM_NETWORK,
   },
-  {
-    payTo: avmPayeeAddress,
-    scheme: "exact",
-    price: "$0.01",
-    network: AVM_NETWORK,
-  },
 ];
 
 const schemes = [
+  { network: AVM_NETWORK, server: new ExactAvmScheme() },
   { network: EVM_NETWORK, server: new ExactEvmScheme() },
   { network: SVM_NETWORK, server: new ExactSvmScheme() },
-  { network: AVM_NETWORK, server: new ExactAvmScheme() },
 ];
 
 const x402PaymentProxy = paymentProxyFromConfig(
@@ -82,6 +82,10 @@ const x402PaymentProxy = paymentProxyFromConfig(
     "/protected": {
       accepts,
       description: "Access to protected content",
+    },
+    "/examples/price": {
+      accepts,
+      description: "Access to protected price API",
     },
   },
   facilitatorClient,

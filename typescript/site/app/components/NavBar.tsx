@@ -1,18 +1,29 @@
+'use client';
+
 import Link from "next/link";
-import {
-  QuestionMarkCircleIcon,
-  ArrowDownTrayIcon,
-  BriefcaseIcon,
-} from "@heroicons/react/24/outline";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import GithubIcon from "../assets/github.svg";
-// import DiscordIcon from "../assets/discord.svg";
 import LogoIcon from "../assets/logo.svg";
 import AlgoIcon from "../assets/algorand-logomark-white-RGB.svg";
+import { useState, useRef, useEffect } from "react";
 
 const NavBar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   return (
     <section className="max-w-6xl mx-auto px-4 pt-4 relative z-20">
-      <div className="flex gap-4 md:gap-8 justify-between sm:justify-end">
+      <div className="flex gap-4 md:gap-8 justify-between sm:justify-end items-center">
         <Link
           href="https://goplausible.com"
           target="_blank"
@@ -22,24 +33,51 @@ const NavBar = () => {
           <LogoIcon className="w-4 h-4 mr-1" />
           GoPlausible
         </Link>
-        <Link
-          href="/x402.pdf"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono hover:text-blue-400 transition-colors flex items-center gap-1 text-sm"
-        >
-          <ArrowDownTrayIcon className="w-4 h-4 mr-1" />
-          One-pager
-        </Link>
-        {/* <Link
-          href="/x402_brand_kit.zip"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="font-mono hover:text-blue-400 transition-colors flex items-center gap-1 text-sm"
-        >
-          <BriefcaseIcon className="w-4 h-4 mr-1" />
-          Brand kit
-        </Link> */}
+
+        {/* Coinbase x402 dropdown */}
+        <div className="relative" ref={menuRef}>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="font-mono hover:text-blue-400 transition-colors flex items-center gap-1 text-sm cursor-pointer"
+          >
+            Coinbase x402
+            <ChevronDownIcon
+              className={`w-3.5 h-3.5 transition-transform ${isOpen ? "rotate-180" : ""}`}
+            />
+          </button>
+          {isOpen && (
+            <div className="absolute right-0 mt-2 w-56 bg-gray-900/95 backdrop-blur-xl border border-gray-700/50 rounded-lg shadow-xl overflow-hidden">
+              <Link
+                href="https://x402.gitbook.io/x402"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-3 text-sm font-mono text-gray-300 hover:text-blue-400 hover:bg-gray-800/50 transition-colors"
+                onClick={() => setIsOpen(false)}
+              >
+                Coinbase x402 docs
+              </Link>
+              <Link
+                href="/x402.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-3 text-sm font-mono text-gray-300 hover:text-blue-400 hover:bg-gray-800/50 transition-colors border-t border-gray-700/30"
+                onClick={() => setIsOpen(false)}
+              >
+                x402 one pager
+              </Link>
+              <Link
+                href="/x402-whitepaper.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block px-4 py-3 text-sm font-mono text-gray-300 hover:text-blue-400 hover:bg-gray-800/50 transition-colors border-t border-gray-700/30"
+                onClick={() => setIsOpen(false)}
+              >
+                x402 white paper
+              </Link>
+            </div>
+          )}
+        </div>
+
         <Link
           href="https://github.com/GoPlausible"
           target="_blank"
