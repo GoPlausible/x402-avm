@@ -174,6 +174,35 @@ export function createThemedPaywall(basePaywall: PaywallProvider): PaywallProvid
       // Inject nav header after <body> (before the root div)
       themed = themed.replace('<div id="root">', `${navHeader}\n<div id="root">`);
 
+      // Replace USDC faucet link with Circle faucet
+      themed = themed.replace(
+        /https:\/\/dispenser\.testnet\.aws\.algodev\.network\//g,
+        "https://faucet.circle.com/",
+      );
+
+      // Add "Need Testnet Algo?" link after the USDC faucet line
+      // The bundled HTML contains the compiled React output; we inject via script
+      themed = themed.replace("</body>", `
+        <script>
+          (function() {
+            var observer = new MutationObserver(function(mutations, obs) {
+              var instructions = document.querySelectorAll('.instructions');
+              if (instructions.length > 0) {
+                var last = instructions[instructions.length - 1];
+                if (!document.getElementById('algo-faucet-link')) {
+                  var p = document.createElement('p');
+                  p.className = 'instructions';
+                  p.id = 'algo-faucet-link';
+                  p.innerHTML = 'Need Testnet Algo? <a href="https://lora.algokit.io/testnet/fund" target="_blank" rel="noopener noreferrer">Get some <u>here</u>.</a>';
+                  last.parentNode.insertBefore(p, last.nextSibling);
+                }
+              }
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+          })();
+        </script>
+      </body>`);
+
       return themed;
     },
   };
