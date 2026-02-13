@@ -1,6 +1,6 @@
 {
   "name": "GoPlausible",
-  "description": "GoPlausible provides infrastructure, services and tools for W3C DIDs, VCs and AI Agentic toolings atop, for Algorand",
+  "description": "GoPlausible provides infrastructure, services and tools for W3C DIDs, VCs and AI Agentic toolings atop, for Algorand. GoPlausible provided x402 reference implementation, documentation, example codes and Algorand dedicated x402 Facilitator.",
   "logoUrl": "/logos/goplausible-logo-vertical.png",
   "websiteUrl": "https://goplausible.com",
   "category": "Ecosystem Infrastructure & Tooling",
