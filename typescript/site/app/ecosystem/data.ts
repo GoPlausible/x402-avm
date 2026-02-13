@@ -17,6 +17,10 @@ export interface CategoryInfo {
 // These categories will be used for filtering and can be referenced in partner metadata.json
 export const categories: CategoryInfo[] = [
   {
+    id: "blockchain-foundation",
+    name: "Blockchain Foundation",
+  },
+  {
     id: "client-side-integrations",
     name: "Client-Side Integrations",
   },
@@ -27,6 +31,10 @@ export const categories: CategoryInfo[] = [
   {
     id: "ecosystem-infrastructure",
     name: "Ecosystem Infrastructure & Tooling",
+  },
+  {
+    id: "indexing-monitoring",
+    name: "Indexing & Monitoring Services",
   },
   {
     id: "learning-community",
