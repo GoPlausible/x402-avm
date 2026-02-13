@@ -160,16 +160,29 @@ export default function Home() {
                 href="/protected"
                 className="px-6 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-mono transition-colors flex items-center gap-2 text-lg"
               >
-                <CodeBracketIcon className="w-5 h-5 mr-1" />
+                <CloudIcon className="w-5 h-5 mr-2" />
                 Protected Page (TestNet)
               </Link>
               <Link
                 href="/examples/weather"
-                className="px-6 py-4 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-mono transition-colors flex items-center gap-2 text-lg"
+                className="px-6 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-mono transition-colors flex items-center gap-2 text-lg"
               >
-                <CloudIcon className="w-5 h-5 mr-1" />
+                <ServerIcon className="w-5 h-5 mr-5" />
                 Protected API (TestNet)
               </Link>
+              <Link
+                href="/ecosystem"
+                className="px-6 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-mono transition-colors flex items-center gap-2 text-lg"
+              >
+                <CodeBracketIcon className="w-5 h-5 mr-1" />
+                x402 Algorand Ecosystem
+              </Link>
+              {/* <Link
+                href="/ecosystem"
+                className="font-mono hover:text-blue-400 transition-colors flex items-center gap-1 text-sm"
+              >
+                Ecosystem
+              </Link> */}
             </div>
             <div className="flex flex-wrap gap-4 mb-8 justify-center">
               <Link

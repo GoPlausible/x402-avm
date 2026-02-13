@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Link from "next/link";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
@@ -136,13 +136,6 @@ const NavBar = () => {
             </div>
           )}
         </div>
-
-        <Link
-          href="/ecosystem"
-          className="font-mono hover:text-blue-400 transition-colors flex items-center gap-1 text-sm"
-        >
-          Ecosystem
-        </Link>
       </div>
     </section>
   );
