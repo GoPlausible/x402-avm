@@ -109,8 +109,7 @@ const useCaseFeatures = [
   },
   {
     title: "Subscriptions and renewals",
-    description:
-      "Autonomous subscription payment renewals executed by agents on behalf of users.",
+    description: "Autonomous subscription payment renewals executed by agents on behalf of users.",
     icon: <ArrowPathIcon className="w-5 h-5 text-indigo-400" />,
   },
   {
@@ -140,15 +139,15 @@ export default function Home() {
               <Image
                 src="/x402-logo.png"
                 alt="x402 logo"
-                width={320}
-                height={160}
+                width={200}
+                height={120}
                 className="inline-block"
               />
               <Image
                 src="/algorand-logomark-white-RGB.png"
                 alt="Algorand logo"
-                width={100}
-                height={100}
+                width={65}
+                height={65}
                 className="inline-block"
               />
             </div>
@@ -183,13 +182,22 @@ export default function Home() {
                 Documentation
               </Link>
               <Link
+                href="https://github.com/algorand-devrel/algorand-agent-skills"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
+              >
+                <UserGroupIcon className="w-5 h-5 mr-1" />
+                Agent Skills
+              </Link>
+              <Link
                 href="https://facilitator.goplausible.xyz"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
               >
                 <ServerIcon className="w-5 h-5 mr-1" />
-                X402 Facilitator
+                Facilitator
               </Link>
               <Link
                 href="https://facilitator.goplausible.xyz/docs"
@@ -198,16 +206,7 @@ export default function Home() {
                 className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
               >
                 <WrenchScrewdriverIcon className="w-5 h-5 mr-1" />
-                Facilitator API Docs
-              </Link>
-              <Link
-                href="https://github.com/algorand-devrel/algorand-agent-skills"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
-              >
-                <UserGroupIcon className="w-5 h-5 mr-1" />
-                x402 Agent Skills
+                Facilitator Docs
               </Link>
             </div>
           </div>
@@ -579,7 +578,9 @@ export default function Home() {
                 </div>
               </div>
 
-              <p className="text-gray-400 text-sm mb-3 font-mono">Extensions and Paywall Examples:</p>
+              <p className="text-gray-400 text-sm mb-3 font-mono">
+                Extensions and Paywall Examples:
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
@@ -603,7 +604,9 @@ export default function Home() {
                 </div>
               </div>
 
-              <p className="text-gray-400 text-sm mb-3 font-mono">Back-end Framework-Specific Middleware Examples:</p>
+              <p className="text-gray-400 text-sm mb-3 font-mono">
+                Back-end Framework-Specific Middleware Examples:
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
@@ -627,7 +630,9 @@ export default function Home() {
                 </div>
               </div>
 
-              <p className="text-gray-400 text-sm mb-3 font-mono">Fullstack Framework-Specific Examples:</p>
+              <p className="text-gray-400 text-sm mb-3 font-mono">
+                Fullstack Framework-Specific Examples:
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
@@ -666,9 +671,7 @@ export default function Home() {
               </div>
 
               <br />
-              <p className="text-gray-300 leading-relaxed text-xl mb-6">
-                Python Code Examples:
-              </p>
+              <p className="text-gray-300 leading-relaxed text-xl mb-6">Python Code Examples:</p>
 
               <p className="text-gray-400 text-sm mb-3 font-mono">Core and Mechanism Examples:</p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
@@ -698,7 +701,9 @@ export default function Home() {
                 </div>
               </div>
 
-              <p className="text-gray-400 text-sm mb-3 font-mono">Back-end Framework-Specific Middleware Examples:</p>
+              <p className="text-gray-400 text-sm mb-3 font-mono">
+                Back-end Framework-Specific Middleware Examples:
+              </p>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
@@ -759,18 +764,16 @@ export default function Home() {
               </div>
               <p className="text-gray-300 leading-relaxed text-xl mb-8">
                 x402 protocol comes with exact specifications for each blockchain virtual machine
-                type, <span className="font-bold">EVM, AVM, SVM</span>, as well as a core
-                package and per-framework integration packages published as scoped npm packages
-                and a Python package on PyPI.
+                type, <span className="font-bold">EVM, AVM, SVM</span>, as well as a core package
+                and per-framework integration packages published as scoped npm packages and a Python
+                package on PyPI.
               </p>
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
                     <span className="text-green-400">npm install @x402-avm/core @x402-avm/avm</span>
                     {"\n"}
-                    <span className="text-gray-400">
-                      // Core protocol + Algorand mechanism
-                    </span>
+                    <span className="text-gray-400">// Core protocol + Algorand mechanism</span>
                   </pre>
                 </div>
               </div>
@@ -788,9 +791,7 @@ export default function Home() {
                   <pre className="syntax-highlight">
                     <span className="text-green-400">npm install @x402-avm/express</span>
                     {"\n"}
-                    <span className="text-gray-400">
-                      // x402 payment middleware for Express.js
-                    </span>
+                    <span className="text-gray-400">// x402 payment middleware for Express.js</span>
                   </pre>
                 </div>
               </div>
@@ -825,9 +826,7 @@ export default function Home() {
                   <pre className="syntax-highlight">
                     <span className="text-green-400">npm install @x402-avm/fetch</span>
                     {"\n"}
-                    <span className="text-gray-400">
-                      // x402 client wrapper for the Fetch API
-                    </span>
+                    <span className="text-gray-400">// x402 client wrapper for the Fetch API</span>
                   </pre>
                 </div>
               </div>
@@ -836,9 +835,7 @@ export default function Home() {
                   <pre className="syntax-highlight">
                     <span className="text-green-400">npm install @x402-avm/axios</span>
                     {"\n"}
-                    <span className="text-gray-400">
-                      // x402 client wrapper for Axios
-                    </span>
+                    <span className="text-gray-400">// x402 client wrapper for Axios</span>
                   </pre>
                 </div>
               </div>
@@ -849,10 +846,13 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">pip install &quot;x402-avm[avm,fastapi]&quot;</span>
+                    <span className="text-green-400">
+                      pip install &quot;x402-avm[avm,fastapi]&quot;
+                    </span>
                     {"\n"}
                     <span className="text-gray-400">
-                      // Python package with extras: [avm], [fastapi], [flask], [httpx], [requests], [extensions], [all]
+                      // Python package with extras: [avm], [fastapi], [flask], [httpx], [requests],
+                      [extensions], [all]
                     </span>
                   </pre>
                 </div>
