@@ -31,7 +31,8 @@ async function getPartners(): Promise<Partner[]> {
     }
   });
 
-  return allPartnersData.filter(partner => partner !== null) as Partner[];
+  return (allPartnersData.filter(partner => partner !== null) as Partner[])
+    .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
 }
 
 export default async function EcosystemPage() {
