@@ -26,12 +26,6 @@ const accepts = [
   {
     scheme: "exact",
     price: "$0.001",
-    network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=" as const,
-    payTo: avmAddress,
-  },
-  {
-    scheme: "exact",
-    price: "$0.001",
     network: "eip155:84532" as const,
     payTo: evmAddress,
   },
@@ -40,6 +34,12 @@ const accepts = [
     price: "$0.001",
     network: "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1" as const,
     payTo: svmAddress,
+  },
+  {
+    scheme: "exact",
+    price: "$0.001",
+    network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=" as const,
+    payTo: avmAddress,
   },
 ];
 

@@ -57,12 +57,6 @@ server.register(SVM_NETWORK, ExactSvmServerScheme())
 weather_accepts = [
     PaymentOption(
         scheme="exact",
-        pay_to=AVM_ADDRESS,
-        price="$0.01",
-        network=AVM_NETWORK,
-    ),
-    PaymentOption(
-        scheme="exact",
         pay_to=EVM_ADDRESS,
         price="$0.01",
         network=EVM_NETWORK,
@@ -72,6 +66,12 @@ weather_accepts = [
         pay_to=SVM_ADDRESS,
         price="$0.01",
         network=SVM_NETWORK,
+    ),
+    PaymentOption(
+        scheme="exact",
+        pay_to=AVM_ADDRESS,
+        price="$0.01",
+        network=AVM_NETWORK,
     ),
 ]
 

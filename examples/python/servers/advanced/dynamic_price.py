@@ -62,15 +62,15 @@ server.on_after_verify(after_verify)
 dynamic_price_accepts = [
     PaymentOption(
         scheme="exact",
-        pay_to=AVM_ADDRESS,
-        price=get_dynamic_price,
-        network=AVM_NETWORK,
-    ),
-    PaymentOption(
-        scheme="exact",
         pay_to=EVM_ADDRESS,
         price=get_dynamic_price,
         network=EVM_NETWORK,
+    ),
+    PaymentOption(
+        scheme="exact",
+        pay_to=AVM_ADDRESS,
+        price=get_dynamic_price,
+        network=AVM_NETWORK,
     ),
 ]
 

@@ -85,15 +85,15 @@ def get_dynamic_avm_pay_to(context: HTTPRequestContext) -> str:
 dynamic_pay_to_accepts = [
     PaymentOption(
         scheme="exact",
-        pay_to=get_dynamic_avm_pay_to,
-        price="$0.001",
-        network=AVM_NETWORK,
-    ),
-    PaymentOption(
-        scheme="exact",
         pay_to=get_dynamic_pay_to,
         price="$0.001",
         network=EVM_NETWORK,
+    ),
+    PaymentOption(
+        scheme="exact",
+        pay_to=get_dynamic_avm_pay_to,
+        price="$0.001",
+        network=AVM_NETWORK,
     ),
 ]
 

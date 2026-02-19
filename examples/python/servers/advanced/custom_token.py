@@ -84,15 +84,15 @@ server.register(AVM_NETWORK, avm_scheme)
 custom_token_accepts = [
     PaymentOption(
         scheme="exact",
-        pay_to=AVM_ADDRESS,
-        price="$0.001",
-        network=AVM_NETWORK,
-    ),
-    PaymentOption(
-        scheme="exact",
         pay_to=EVM_ADDRESS,
         price="$0.001",
         network=EVM_NETWORK,
+    ),
+    PaymentOption(
+        scheme="exact",
+        pay_to=AVM_ADDRESS,
+        price="$0.001",
+        network=AVM_NETWORK,
     ),
 ]
 
