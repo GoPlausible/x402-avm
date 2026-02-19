@@ -29,21 +29,21 @@ const accepts: {
     {
       scheme: "exact",
       price: context => {
+        const tier = context.adapter.getQueryParam?.("tier") ?? "standard";
+        return tier === "premium" ? "$0.005" : "$0.001";
+      },
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: avmAddress,
+    },
+    {
+      scheme: "exact",
+      price: context => {
         // Dynamic pricing based on HTTP request context
         const tier = context.adapter.getQueryParam?.("tier") ?? "standard";
         return tier === "premium" ? "$0.005" : "$0.001";
       },
       network: "eip155:84532",
       payTo: evmAddress,
-    },
-    {
-      scheme: "exact",
-      price: context => {
-        const tier = context.adapter.getQueryParam?.("tier") ?? "standard";
-        return tier === "premium" ? "$0.005" : "$0.001";
-      },
-      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
-      payTo: avmAddress,
     },
   ];
 

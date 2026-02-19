@@ -62,14 +62,14 @@ const routeAccepts: ResourceConfig[] = [
   {
     scheme: "exact",
     price: "$0.001",
-    network: "eip155:84532",
-    payTo: evmAddress,
+    network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+    payTo: avmAddress,
   },
   {
     scheme: "exact",
     price: "$0.001",
-    network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
-    payTo: avmAddress,
+    network: "eip155:84532",
+    payTo: evmAddress,
   },
 ];
 
