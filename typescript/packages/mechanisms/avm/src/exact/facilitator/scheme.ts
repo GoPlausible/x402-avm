@@ -32,10 +32,11 @@ export const VerifyErrorReason = {
   INVALID_PAYMENT_INDEX: "Payment index out of bounds",
   INVALID_TRANSACTION: "Invalid transaction encoding",
   INVALID_GROUP_ID: "Transactions have inconsistent group IDs",
-  PAYMENT_NOT_ASSET_TRANSFER: "Payment transaction is not an asset transfer",
+  PAYMENT_INVALID_TYPE: "Payment transaction must be an asset transfer or application call",
   AMOUNT_MISMATCH: "Payment amount does not match requirements",
   RECEIVER_MISMATCH: "Payment receiver does not match payTo address",
   ASSET_MISMATCH: "Payment asset does not match requirements",
+  APP_CALL_MISSING_ARGS: "Application call missing required ABI arguments",
   INVALID_FEE_PAYER: "Fee payer transaction has invalid parameters",
   FEE_TOO_HIGH: "Fee payer transaction fee exceeds maximum",
   PAYMENT_NOT_SIGNED: "Payment transaction is not signed",
@@ -417,7 +418,15 @@ export class ExactAvmScheme implements SchemeNetworkFacilitator {
   }
 
   /**
-   * Verifies the payment transaction matches requirements
+   * Verifies the payment transaction matches requirements.
+   *
+   * Supports two transaction types:
+   * - `axfer`: Standard ASA transfer (receiver, amount, asset checked directly)
+   * - `appl`: Application call for Smart ASA transfers (e.g. ARC-20 frozen assets
+   *   that require contract-mediated clawback). Receiver and amount are extracted
+   *   from ABI-encoded arguments; the required asset must be in foreignAssets.
+   *
+   * In both cases, transaction simulation provides the final safety net.
    */
   private verifyPaymentTransaction(
     stxn: algosdk.SignedTransaction,
@@ -426,68 +435,22 @@ export class ExactAvmScheme implements SchemeNetworkFacilitator {
   ): VerifyResponse {
     const txn = stxn.txn;
 
-    // Must be an asset transfer
-    if (txn.type !== "axfer") {
+    let paymentCheck: VerifyResponse;
+
+    if (txn.type === "axfer") {
+      paymentCheck = this.verifyAssetTransferPayment(txn, requirements);
+    } else if (txn.type === "appl") {
+      paymentCheck = this.verifyAppCallPayment(txn, requirements);
+    } else {
       return {
         isValid: false,
-        invalidReason: VerifyErrorReason.PAYMENT_NOT_ASSET_TRANSFER,
+        invalidReason: VerifyErrorReason.PAYMENT_INVALID_TYPE,
       };
     }
 
-    // Access asset transfer properties via assetTransfer (algosdk v3 structure)
-    // In v3, asset transfer fields are nested: txn.assetTransfer.{amount, receiver, assetIndex}
-    const assetTransfer = (txn as unknown as {
-      assetTransfer?: {
-        amount?: bigint;
-        assetIndex?: bigint;
-        receiver?: { publicKey: Uint8Array };
-        assetSender?: { publicKey: Uint8Array };
-        closeRemainderTo?: { publicKey: Uint8Array };
-      }
-    }).assetTransfer;
+    if (!paymentCheck.isValid) return paymentCheck;
 
-    if (!assetTransfer) {
-      return {
-        isValid: false,
-        invalidReason: `${VerifyErrorReason.PAYMENT_NOT_ASSET_TRANSFER}: missing assetTransfer data`,
-      };
-    }
-
-    // Use BigInt comparison to avoid string format mismatches (e.g. "1000" vs "1000.0")
-    const amount = assetTransfer.amount ?? BigInt(0);
-
-    if (amount !== BigInt(requirements.amount)) {
-      return {
-        isValid: false,
-        invalidReason: `${VerifyErrorReason.AMOUNT_MISMATCH}: expected ${requirements.amount}, got ${amount.toString()}`,
-      };
-    }
-
-    // Verify receiver address matches payTo.
-    // Note: Receiver opt-in to the asset is validated during transaction simulation —
-    // if the receiver has not opted in, simulation will fail with a clear error.
-    const receiver = assetTransfer.receiver
-      ? algosdk.encodeAddress(assetTransfer.receiver.publicKey)
-      : "";
-
-    if (receiver !== requirements.payTo) {
-      return {
-        isValid: false,
-        invalidReason: `${VerifyErrorReason.RECEIVER_MISMATCH}: expected ${requirements.payTo}, got ${receiver}`,
-      };
-    }
-
-    // Verify asset
-    const assetId = assetTransfer.assetIndex?.toString() ?? "";
-
-    if (assetId !== requirements.asset) {
-      return {
-        isValid: false,
-        invalidReason: `${VerifyErrorReason.ASSET_MISMATCH}: expected ${requirements.asset}, got ${assetId}`,
-      };
-    }
-
-    // Verify signature exists
+    // Verify signature exists (common to both transaction types)
     const txnBytes = decodeTransaction(encodedTxn);
     if (!hasSignature(txnBytes)) {
       return {
@@ -511,6 +474,160 @@ export class ExactAvmScheme implements SchemeNetworkFacilitator {
           invalidReason: VerifyErrorReason.INVALID_SIGNATURE,
         };
       }
+    }
+
+    return { isValid: true };
+  }
+
+  /**
+   * Verifies a standard ASA transfer payment transaction.
+   */
+  private verifyAssetTransferPayment(
+    txn: algosdk.Transaction,
+    requirements: PaymentRequirements,
+  ): VerifyResponse {
+    // Access asset transfer properties via assetTransfer (algosdk v3 structure)
+    const assetTransfer = (txn as unknown as {
+      assetTransfer?: {
+        amount?: bigint;
+        assetIndex?: bigint;
+        receiver?: { publicKey: Uint8Array };
+        assetSender?: { publicKey: Uint8Array };
+        closeRemainderTo?: { publicKey: Uint8Array };
+      }
+    }).assetTransfer;
+
+    if (!assetTransfer) {
+      return {
+        isValid: false,
+        invalidReason: `${VerifyErrorReason.PAYMENT_INVALID_TYPE}: missing assetTransfer data`,
+      };
+    }
+
+    const amount = assetTransfer.amount ?? BigInt(0);
+    if (amount !== BigInt(requirements.amount)) {
+      return {
+        isValid: false,
+        invalidReason: `${VerifyErrorReason.AMOUNT_MISMATCH}: expected ${requirements.amount}, got ${amount.toString()}`,
+      };
+    }
+
+    const receiver = assetTransfer.receiver
+      ? algosdk.encodeAddress(assetTransfer.receiver.publicKey)
+      : "";
+    if (receiver !== requirements.payTo) {
+      return {
+        isValid: false,
+        invalidReason: `${VerifyErrorReason.RECEIVER_MISMATCH}: expected ${requirements.payTo}, got ${receiver}`,
+      };
+    }
+
+    const assetId = assetTransfer.assetIndex?.toString() ?? "";
+    if (assetId !== requirements.asset) {
+      return {
+        isValid: false,
+        invalidReason: `${VerifyErrorReason.ASSET_MISMATCH}: expected ${requirements.asset}, got ${assetId}`,
+      };
+    }
+
+    return { isValid: true };
+  }
+
+  /**
+   * Verifies an application call payment transaction for Smart ASA transfers.
+   *
+   * Smart ASAs (e.g. ARC-20 with DefaultFrozen=True) cannot use standard `axfer`.
+   * Instead, a contract method performs the transfer via clawback. This method
+   * extracts the receiver and amount from ABI-encoded app args and verifies the
+   * required asset is referenced in foreignAssets.
+   *
+   * ABI arg matching:
+   * - 32-byte arg matching `requirements.payTo` → receiver address
+   * - 8-byte arg matching `requirements.amount` → transfer amount (uint64)
+   * - `foreignAssets` must include `requirements.asset`
+   *
+   * Transaction simulation provides the final correctness guarantee.
+   */
+  private verifyAppCallPayment(
+    txn: algosdk.Transaction,
+    requirements: PaymentRequirements,
+  ): VerifyResponse {
+    const appCall = (txn as unknown as {
+      applicationCall?: {
+        appIndex?: bigint;
+        appArgs?: Uint8Array[];
+        foreignAssets?: bigint[];
+        accounts?: Array<{ publicKey: Uint8Array }>;
+      }
+    }).applicationCall;
+
+    if (!appCall) {
+      return {
+        isValid: false,
+        invalidReason: `${VerifyErrorReason.PAYMENT_INVALID_TYPE}: missing applicationCall data`,
+      };
+    }
+
+    const appArgs = appCall.appArgs ?? [];
+
+    // Must have at least a method selector + args
+    if (appArgs.length < 2) {
+      return {
+        isValid: false,
+        invalidReason: `${VerifyErrorReason.APP_CALL_MISSING_ARGS}: expected method selector + arguments`,
+      };
+    }
+
+    // Verify the required asset is in foreignAssets
+    const foreignAssets = appCall.foreignAssets ?? [];
+    const requiredAssetId = BigInt(requirements.asset);
+    const hasRequiredAsset = foreignAssets.some(a => a === requiredAssetId);
+
+    if (!hasRequiredAsset) {
+      return {
+        isValid: false,
+        invalidReason: `${VerifyErrorReason.ASSET_MISMATCH}: required asset ${requirements.asset} not in foreignAssets`,
+      };
+    }
+
+    // Extract receiver and amount from ABI-encoded args (skip method selector at index 0)
+    const expectedReceiver = algosdk.decodeAddress(requirements.payTo).publicKey;
+    const expectedAmount = BigInt(requirements.amount);
+
+    let foundReceiver = false;
+    let foundAmount = false;
+
+    for (let i = 1; i < appArgs.length; i++) {
+      const arg = appArgs[i];
+
+      // Check for 32-byte address arg matching receiver
+      if (!foundReceiver && arg.length === 32) {
+        if (arg.every((byte, idx) => byte === expectedReceiver[idx])) {
+          foundReceiver = true;
+        }
+      }
+
+      // Check for 8-byte uint64 arg matching amount
+      if (!foundAmount && arg.length === 8) {
+        const value = new DataView(arg.buffer, arg.byteOffset, 8).getBigUint64(0);
+        if (value === expectedAmount) {
+          foundAmount = true;
+        }
+      }
+    }
+
+    if (!foundReceiver) {
+      return {
+        isValid: false,
+        invalidReason: `${VerifyErrorReason.RECEIVER_MISMATCH}: payTo address not found in application call arguments`,
+      };
+    }
+
+    if (!foundAmount) {
+      return {
+        isValid: false,
+        invalidReason: `${VerifyErrorReason.AMOUNT_MISMATCH}: required amount not found in application call arguments`,
+      };
     }
 
     return { isValid: true };

@@ -30,7 +30,11 @@ export interface ExactAvmPayloadV2 {
 
   /**
    * Zero-based index of the payment transaction within paymentGroup.
-   * This transaction must be an ASA transfer to the payTo address.
+   * This transaction must be either:
+   * - An ASA transfer (`axfer`) to the payTo address, or
+   * - An application call (`appl`) for Smart ASA transfers (e.g. ARC-20 frozen
+   *   assets transferred via contract clawback), with the receiver address and
+   *   amount encoded in ABI arguments and the asset in foreignAssets.
    */
   paymentIndex: number;
 }
