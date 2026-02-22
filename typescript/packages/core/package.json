@@ -1,6 +1,6 @@
 {
   "name": "@x402-avm/core",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/cjs/index.d.ts",
