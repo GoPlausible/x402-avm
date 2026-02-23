@@ -5,6 +5,7 @@ import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
 import { ExactSvmScheme } from "@x402-avm/svm/exact/server";
 import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
 import { HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 config();
 
 const evmAddress = process.env.EVM_ADDRESS as `0x${string}`;
@@ -57,6 +58,18 @@ app.use(
         accepts,
         description: "Weather data",
         mimeType: "application/json",
+        extensions: {
+          ...declareDiscoveryExtension({
+            input: { city: "San Francisco" },
+            inputSchema: {
+              properties: { city: { type: "string", description: "City name" } },
+              required: ["city"],
+            },
+            output: {
+              example: { report: { weather: "sunny", temperature: 70 } },
+            },
+          }),
+        },
       },
     },
     server,
