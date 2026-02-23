@@ -23,6 +23,17 @@ import {
 } from "../../utils";
 import { MAX_ATOMIC_GROUP_SIZE, MAX_REASONABLE_FEE } from "../../constants";
 
+// Allowed Smart ASA contract app IDs (env-driven, comma-separated).
+// When set, app calls to these contracts are accepted as payment transactions.
+// When empty, only standard axfer payments are accepted.
+const SMART_ASA_ALLOWED_APP_IDS = new Set(
+  (typeof process !== "undefined" && process.env?.SMART_ASA_ALLOWED_APP_IDS || "")
+    .split(",")
+    .map(s => s.trim())
+    .filter(Boolean)
+    .map(Number),
+);
+
 /**
  * Verification error reasons
  */
@@ -37,6 +48,8 @@ export const VerifyErrorReason = {
   RECEIVER_MISMATCH: "Payment receiver does not match payTo address",
   ASSET_MISMATCH: "Payment asset does not match requirements",
   APP_CALL_MISSING_ARGS: "Application call missing required ABI arguments",
+  APP_ID_NOT_ALLOWED: "Application call targets a contract not in the allow list",
+  INNER_TRANSFER_NOT_FOUND: "Simulation did not produce the expected inner asset transfer",
   INVALID_FEE_PAYER: "Fee payer transaction has invalid parameters",
   FEE_TOO_HIGH: "Fee payer transaction fee exceeds maximum",
   PAYMENT_NOT_SIGNED: "Payment transaction is not signed",
@@ -175,8 +188,13 @@ export class ExactAvmScheme implements SchemeNetworkFacilitator {
     const prepared = await this.prepareSignedGroup(decoded.txns, paymentGroup);
     if ("error" in prepared) return prepared.error;
 
-    // Simulate the assembled group
-    const simResult = await this.simulateTransactionGroup(prepared.signedTxns, requirements.network);
+    // Simulate the assembled group.
+    // For app call payments, also verify inner transactions match the expected transfer.
+    const isAppCallPayment = decoded.txns[paymentIndex].txn.type === "appl";
+    const simResult = await this.simulateTransactionGroup(
+      prepared.signedTxns, requirements.network,
+      isAppCallPayment ? { paymentIndex, requirements } : undefined,
+    );
     if (!simResult.isValid) return simResult;
 
     return { isValid: true, payer };
@@ -291,21 +309,60 @@ export class ExactAvmScheme implements SchemeNetworkFacilitator {
 
   /**
    * Simulates the transaction group and returns the verification result.
+   *
+   * For app call payments, also inspects inner transactions to verify the
+   * expected asset transfer actually occurred (amount, receiver, asset, sender).
    */
   private async simulateTransactionGroup(
     signedTxns: Uint8Array[],
     network: Network,
+    appCallCheck?: { paymentIndex: number; requirements: PaymentRequirements },
   ): Promise<VerifyResponse> {
     try {
-      const simResult = await this.signer.simulateTransactions(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const simResult: any = await this.signer.simulateTransactions(
         signedTxns, network,
-      ) as { txnGroups?: Array<{ failureMessage?: string }> };
+      );
 
       if (simResult.txnGroups?.[0]?.failureMessage) {
         return {
           isValid: false,
           invalidReason: `${VerifyErrorReason.SIMULATION_FAILED}: ${simResult.txnGroups[0].failureMessage}`,
         };
+      }
+
+      // For app call payments: verify inner transactions contain the expected transfer
+      if (appCallCheck) {
+        const { paymentIndex, requirements } = appCallCheck;
+        const txnResults = simResult.txnGroups?.[0]?.txnResults;
+        const paymentResult = txnResults?.[paymentIndex];
+        const innerTxns = paymentResult?.txnResult?.innerTxns ?? [];
+
+        const expectedAssetId = BigInt(requirements.asset);
+        const expectedAmount = BigInt(requirements.amount);
+
+        // Find an inner axfer matching the expected transfer
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const matchingTransfer = innerTxns.find((inner: any) => {
+          const innerTxn = inner?.txn?.txn;
+          if (!innerTxn || innerTxn.type !== "axfer") return false;
+          const at = innerTxn.assetTransfer;
+          if (!at) return false;
+          const assetMatch = BigInt(at.assetIndex ?? 0) === expectedAssetId;
+          const amountMatch = BigInt(at.amount ?? 0) === expectedAmount;
+          const receiver = at.receiver
+            ? algosdk.encodeAddress(at.receiver.publicKey)
+            : "";
+          const receiverMatch = receiver === requirements.payTo;
+          return assetMatch && amountMatch && receiverMatch;
+        });
+
+        if (!matchingTransfer) {
+          return {
+            isValid: false,
+            invalidReason: `${VerifyErrorReason.INNER_TRANSFER_NOT_FOUND}: expected ${requirements.amount} of asset ${requirements.asset} to ${requirements.payTo}`,
+          };
+        }
       }
 
       return { isValid: true };
@@ -439,7 +496,7 @@ export class ExactAvmScheme implements SchemeNetworkFacilitator {
 
     if (txn.type === "axfer") {
       paymentCheck = this.verifyAssetTransferPayment(txn, requirements);
-    } else if (txn.type === "appl") {
+    } else if (txn.type === "appl" && SMART_ASA_ALLOWED_APP_IDS.size > 0) {
       paymentCheck = this.verifyAppCallPayment(txn, requirements);
     } else {
       return {
@@ -565,6 +622,15 @@ export class ExactAvmScheme implements SchemeNetworkFacilitator {
       return {
         isValid: false,
         invalidReason: `${VerifyErrorReason.PAYMENT_INVALID_TYPE}: missing applicationCall data`,
+      };
+    }
+
+    // Verify the app call targets an allowed contract
+    const appId = Number(appCall.appIndex ?? 0);
+    if (!SMART_ASA_ALLOWED_APP_IDS.has(appId)) {
+      return {
+        isValid: false,
+        invalidReason: `${VerifyErrorReason.APP_ID_NOT_ALLOWED}: app ${appId}`,
       };
     }
 
