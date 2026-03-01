@@ -2,7 +2,7 @@
 
 ## X402 Development
 
-x402 is an HTTP-native payment protocol built on the HTTP 402 "Payment Required" status code. Three components work together: **Client** requests a protected resource, **Server** responds with 402 and structured payment requirements, and **Facilitator** verifies and settles the payment on-chain. The client signs a transaction, retries the request with an `X-PAYMENT` header, and the server forwards it to the facilitator for verification and settlement before granting access.
+x402 is an HTTP-native payment protocol built on the HTTP 402 "Payment Required" status code. Three components work together: **Client** requests a protected resource, **Server** responds with 402 and structured payment requirements, and **Facilitator** verifies and settles the payment on-chain. The client signs a transaction, retries the request with an `PAYMENT-SIGNATURE` header, and the server forwards it to the facilitator for verification and settlement before granting access.
 
 Algorand (AVM) is a **first-class citizen** alongside EVM (Ethereum) and SVM (Solana) — never conditional, always registered unconditionally. It uses CAIP-2 network identifiers and supports fee abstraction (facilitator pays transaction fees), ASA payments (USDC, ALGO), atomic transaction groups, and 3.3-second finality.
 
@@ -16,7 +16,7 @@ Client                  Resource Server           Facilitator           Algorand
   | 2. 402 + requirements    |                        |                    |
   |<-------------------------|                        |                    |
   | 3. Build + sign txn      |                        |                    |
-  | 4. GET + X-PAYMENT header|                        |                    |
+  | 4. GET + PAYMENT-SIGNATURE header|                        |                    |
   |------------------------->| 5. verify(payload)     |                    |
   |                          |----------------------->| 6. simulate_group  |
   |                          |                        |------------------->|
@@ -40,7 +40,7 @@ Client                  Resource Server           Facilitator           Algorand
 
 ### X402 Components
 
-**Client** — Wraps HTTP clients (fetch/axios/httpx/requests) to automatically handle 402 responses. Builds Algorand transaction groups using `ClientAvmSigner`, signs them, encodes as `X-PAYMENT` header, and retries the request.
+**Client** — Wraps HTTP clients (fetch/axios/httpx/requests) to automatically handle 402 responses. Builds Algorand transaction groups using `ClientAvmSigner`, signs them, encodes as `PAYMENT-SIGNATURE` header, and retries the request.
 
 **Resource Server** — Middleware for Express/Hono/Next.js/FastAPI/Flask that intercepts requests to protected routes. Returns 402 with `PaymentRequirements` (scheme, network, payTo, price, asset) when no payment header is present. Forwards valid payments to facilitator for verification and settlement.
 
@@ -93,44 +93,47 @@ Protocol definitions live in the SDK; implementations are provided by users/exam
 
 ### X402 Skills
 
-**Educational:**
+Skills are aggregated into two parent skills with nested references and examples:
 
-| Task                    | Skill                              |
-| ----------------------- | ---------------------------------- |
-| Teach x402 concepts     | `teach-algorand-x402`              |
-| Explain x402 for Python | `explain-algorand-x402-python`     |
-| Explain x402 for TS     | `explain-algorand-x402-typescript` |
+| Skill                        | Language   | Covers                                                                                           |
+| ---------------------------- | ---------- | ------------------------------------------------------------------------------------------------ |
+| `algorand-x402-typescript`   | TypeScript | Clients (fetch/axios), servers (Express/Hono), Next.js, facilitators, Bazaar, paywalls, core/AVM |
+| `algorand-x402-python`       | Python     | Clients (httpx/requests), servers (FastAPI/Flask), facilitators, Bazaar, core/AVM                 |
 
-**TypeScript:**
+Each parent skill contains nested references organized by component. Every component has three files:
+- **`{name}.md`** — Step-by-step implementation guide
+- **`{name}-reference.md`** — API details and type signatures
+- **`{name}-examples.md`** — Complete, runnable code samples
 
-| Task                     | Skill                                |
-| ------------------------ | ------------------------------------ |
-| TS client (fetch/axios)  | `create-typescript-x402-client`      |
-| TS server (Express/Hono) | `create-typescript-x402-server`      |
-| TS facilitator + Bazaar  | `create-typescript-x402-facilitator` |
-| TS paywall UI            | `create-typescript-x402-paywall`     |
-| TS Next.js fullstack     | `create-typescript-x402-nextjs`      |
-| TS core/AVM direct usage | `use-typescript-x402-core-avm`       |
+**TypeScript references** (under `algorand-x402-typescript`):
 
-**Python:**
+| Reference prefix                          | Topic                                   |
+| ----------------------------------------- | --------------------------------------- |
+| `explain-algorand-x402-typescript`        | Package ecosystem, signer interfaces    |
+| `create-typescript-x402-client`           | Fetch/Axios clients with 402 handling   |
+| `create-typescript-x402-server`           | Express/Hono server middleware          |
+| `create-typescript-x402-nextjs`           | Next.js fullstack integration           |
+| `create-typescript-x402-facilitator`      | Facilitator + Bazaar discovery          |
+| `create-typescript-x402-paywall`          | Browser paywall UI components           |
+| `use-typescript-x402-core-avm`            | Low-level core/AVM SDK usage            |
 
-| Task                       | Skill                                   |
-| -------------------------- | --------------------------------------- |
-| Py client (httpx/requests) | `create-python-x402-client`             |
-| Py server (FastAPI/Flask)  | `create-python-x402-server`             |
-| Py facilitator             | `create-python-x402-facilitator`        |
-| Py facilitator + Bazaar    | `create-python-x402-facilitator-bazaar` |
-| Py core/AVM direct usage   | `use-python-x402-core-avm`              |
+**Python references** (under `algorand-x402-python`):
+
+| Reference prefix                          | Topic                                   |
+| ----------------------------------------- | --------------------------------------- |
+| `explain-algorand-x402-python`            | Package ecosystem, encoding boundaries  |
+| `create-python-x402-client`               | httpx/requests clients with 402 handling|
+| `create-python-x402-server`               | FastAPI/Flask server middleware          |
+| `create-python-x402-facilitator`          | Facilitator + Bazaar discovery          |
+| `use-python-x402-core-avm`               | Low-level core/AVM SDK usage            |
 
 ### Building X402 Applications
 
-1. **Understand**: Load `teach-algorand-x402` to explain the protocol, components, and payment flow
+1. **Understand**: Load `algorand-x402-typescript` or `algorand-x402-python` — each includes explanation references covering the protocol, components, and payment flow
 2. **Choose components**: Client, server, facilitator, paywall — or a subset
 3. **Pick language**: TypeScript (`@x402-avm/*` packages) or Python (`x402-avm[extras]`)
-4. **Load creation skill**: Use the appropriate skill for each component (see tables above)
+4. **Navigate references**: Each parent skill lists nested references by component — read the `{name}.md` guide, consult `{name}-reference.md` for APIs, use `{name}-examples.md` for runnable code
 5. **Implement signers**: `ClientAvmSigner` for clients, `FacilitatorAvmSigner` for facilitators — protocol definitions are in the SDK, implementations in your code
-6. **Use core skills**: `use-typescript-x402-core-avm` or `use-python-x402-core-avm` for direct AVM integration beyond the HTTP wrappers
-7. **Use explanation skills**: `explain-algorand-x402-typescript` or `explain-algorand-x402-python` to understand language-specific patterns
 
 ### Environment Variables
 

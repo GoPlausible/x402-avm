@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "x402-cloudflare-example",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Environment variables — set secrets via `wrangler secret put <NAME>`
+  // For local dev, create a `.dev.vars` file (see .dev.vars.example)
+  "vars": {
+    "EVM_ADDRESS": "0xcccBd107b00b5c03965a0BBd3983DDA109022605",
+    "SVM_ADDRESS": "Ek7KWCKKqXDSDfNT1wapejrXvi4X5ot3PrVkb6GA7f6e",
+    "AVM_ADDRESS": "MPY54CLPH2OKEGC6S5N2LDAFDNO5BVNV532NBZ5VD6GOND3STPNXZYXOFE",
+    "FACILITATOR_URL": "https://facilitator.goplausible.xyz",
+  },
+
+  // Static assets served from public/ (favicon, logo)
+  "assets": {
+    "directory": "public"
+  },
+
+  "routes": [
+    { "pattern": "example.x402.goplausible.xyz/*", "zone_name": "goplausible.xyz" }
+  ]
+}
