@@ -15,26 +15,8 @@ type Bindings = {
 
 const app = new Hono<{ Bindings: Bindings }>();
 
-// Lazy-initialized middleware per isolate (Cloudflare Workers reuse isolates)
-let cachedMiddleware: ReturnType<typeof paymentMiddleware> | null = null;
-let cachedBindingsKey = "";
-
-function getPaymentMiddleware(env: Bindings) {
-  // Re-create if bindings changed (different env in preview vs production)
-  const key = `${env.FACILITATOR_URL}:${env.AVM_ADDRESS}:${env.EVM_ADDRESS}:${env.SVM_ADDRESS}`;
-  if (cachedMiddleware && cachedBindingsKey === key) {
-    console.log("[x402] Payment middleware cache hit (reusing existing)");
-    return cachedMiddleware;
-  }
-
-  console.log("[x402] Initializing payment middleware...");
-  console.log("[x402]   Facilitator URL:", env.FACILITATOR_URL);
-  console.log("[x402]   AVM payTo:", env.AVM_ADDRESS);
-  console.log("[x402]   EVM payTo:", env.EVM_ADDRESS);
-  console.log("[x402]   SVM payTo:", env.SVM_ADDRESS);
-
+function createPaymentMiddleware(env: Bindings) {
   const facilitatorClient = new HTTPFacilitatorClient({ url: env.FACILITATOR_URL });
-  console.log("[x402] HTTPFacilitatorClient created");
 
   const avm = {
     scheme: "exact",
@@ -55,7 +37,6 @@ function getPaymentMiddleware(env: Bindings) {
     payTo: env.SVM_ADDRESS,
   };
 
-  // Each network-prefixed route has its own network first in accepts
   const avmAccepts = [avm, evm, svm];
   const evmAccepts = [evm, avm, svm];
   const svmAccepts = [svm, avm, evm];
@@ -77,8 +58,6 @@ function getPaymentMiddleware(env: Bindings) {
     .register("eip155:84532", new ExactEvmScheme())
     .register("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1", new ExactSvmScheme())
     .register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme());
-
-  console.log("[x402] Registered schemes: ExactEvmScheme, ExactSvmScheme, ExactAvmScheme");
 
   const routes = {
     "GET /avm/weather": {
@@ -116,13 +95,7 @@ function getPaymentMiddleware(env: Bindings) {
     },
   };
 
-  console.log("[x402] Protected routes:", Object.keys(routes).join(", "));
-
-  cachedMiddleware = paymentMiddleware(routes, server);
-  cachedBindingsKey = key;
-
-  console.log("[x402] Payment middleware initialized successfully");
-  return cachedMiddleware;
+  return paymentMiddleware(routes, server);
 }
 
 // --- Global request/response logging middleware ---
@@ -134,30 +107,30 @@ app.use("/*", async (c, next) => {
   const requestId = crypto.randomUUID().slice(0, 8);
 
   // Log incoming request
-  console.log(`[${requestId}] --> ${method} ${path}`);
-  console.log(`[${requestId}]     URL: ${url}`);
-  console.log(`[${requestId}]     User-Agent: ${c.req.header("user-agent") ?? "(none)"}`);
-  console.log(`[${requestId}]     Accept: ${c.req.header("accept") ?? "(none)"}`);
+  console.log(`[x402] --> ${method} ${path}`);
+  console.log(`[x402]     URL: ${url}`);
+  console.log(`[x402]     User-Agent: ${c.req.header("user-agent") ?? "(none)"}`);
+  console.log(`[x402]     Accept: ${c.req.header("accept") ?? "(none)"}`);
 
   // Log payment-related headers
   const paymentSig = c.req.header("payment-signature");
   const xPayment = c.req.header("x-payment");
   if (paymentSig) {
-    console.log(`[${requestId}]     PAYMENT-SIGNATURE: ${paymentSig.slice(0, 80)}...`);
+    console.log(`[x402]     PAYMENT-SIGNATURE: ${paymentSig}`);
   } else if (xPayment) {
-    console.log(`[${requestId}]     X-PAYMENT: ${xPayment.slice(0, 80)}...`);
+    console.log(`[x402]     X-PAYMENT: ${xPayment}`);
   } else {
-    console.log(`[${requestId}]     Payment header: (none)`);
+    console.log(`[x402]     Payment header: (none)`);
   }
 
   try {
     await next();
   } catch (err) {
     const elapsed = Date.now() - start;
-    console.error(`[${requestId}] !!! ${method} ${path} threw after ${elapsed}ms`);
-    console.error(`[${requestId}]     Error: ${err instanceof Error ? err.message : String(err)}`);
+    console.error(`[x402] !!! ${method} ${path} threw after ${elapsed}ms`);
+    console.error(`[x402]     Error: ${err instanceof Error ? err.message : String(err)}`);
     if (err instanceof Error && err.stack) {
-      console.error(`[${requestId}]     Stack: ${err.stack}`);
+      console.error(`[x402]     Stack: ${err.stack}`);
     }
     throw err;
   }
@@ -167,29 +140,29 @@ app.use("/*", async (c, next) => {
 
   // Log response
   if (status === 402) {
-    console.log(`[${requestId}] <-- ${status} Payment Required (${elapsed}ms)`);
+    console.log(`[x402] <-- ${status} Payment Required (${elapsed}ms)`);
     const paymentRequired = c.res.headers.get("PAYMENT-REQUIRED");
     if (paymentRequired) {
-      console.log(`[${requestId}]     PAYMENT-REQUIRED header set (${paymentRequired.length} chars)`);
+      console.log(`[x402]     PAYMENT-REQUIRED header set (${paymentRequired.length} chars)`);
     }
   } else if (status >= 400) {
-    console.warn(`[${requestId}] <-- ${status} ${method} ${path} (${elapsed}ms)`);
-    console.warn(`[${requestId}]     Content-Type: ${c.res.headers.get("content-type") ?? "(none)"}`);
+    console.warn(`[x402] <-- ${status} ${method} ${path} (${elapsed}ms)`);
+    console.warn(`[x402]     Content-Type: ${c.res.headers.get("content-type") ?? "(none)"}`);
   } else {
-    console.log(`[${requestId}] <-- ${status} OK (${elapsed}ms)`);
+    console.log(`[x402] <-- ${status} OK (${elapsed}ms)`);
   }
 
   // Log settlement header if present
   const paymentResponse = c.res.headers.get("PAYMENT-RESPONSE");
   if (paymentResponse) {
-    console.log(`[${requestId}]     PAYMENT-RESPONSE header set — settlement succeeded`);
+    console.log(`[x402]     PAYMENT-RESPONSE header set — settlement succeeded`);
   }
 });
 
 // --- Payment middleware (applied after logging) ---
 app.use("/*", async (c, next) => {
   console.log(`[x402] Running payment middleware for ${c.req.method} ${c.req.path}`);
-  const middleware = getPaymentMiddleware(c.env);
+  const middleware = createPaymentMiddleware(c.env);
   return middleware(c, next);
 });
 
