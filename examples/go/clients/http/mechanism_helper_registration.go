@@ -2,8 +2,11 @@ package main
 
 import (
 	x402 "github.com/coinbase/x402/go"
+	avm "github.com/coinbase/x402/go/mechanisms/avm"
+	avmclient "github.com/coinbase/x402/go/mechanisms/avm/exact/client"
 	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/client"
 	svm "github.com/coinbase/x402/go/mechanisms/svm/exact/client"
+	avmsigners "github.com/coinbase/x402/go/signers/avm"
 	evmsigners "github.com/coinbase/x402/go/signers/evm"
 	svmsigners "github.com/coinbase/x402/go/signers/svm"
 )
@@ -18,20 +21,27 @@ import (
  * all networks of a particular type with the same signer.
  */
 
-func createMechanismHelperRegistrationClient(evmPrivateKey, svmPrivateKey string) (*x402.X402Client, error) {
-	// Create signers from private keys
-	evmSigner, err := evmsigners.NewClientSignerFromPrivateKey(evmPrivateKey)
-	if err != nil {
-		return nil, err
-	}
-
+func createMechanismHelperRegistrationClient(evmPrivateKey, svmPrivateKey, avmPrivateKey string) (*x402.X402Client, error) {
 	// Start with a new client
 	client := x402.Newx402Client()
 
-	// Register EVM scheme for all EVM networks using wildcard
-	// This registers:
-	// - eip155:* (all EVM networks in v2)
-	client.Register("eip155:*", evm.NewExactEvmScheme(evmSigner))
+	// Register AVM scheme if key is provided (alphabetic order)
+	if avmPrivateKey != "" {
+		avmSigner, err := avmsigners.NewClientSignerFromPrivateKey(avmPrivateKey)
+		if err != nil {
+			return nil, err
+		}
+		client.Register("algorand:*", avmclient.NewExactAvmScheme(avmSigner, &avm.ClientConfig{}))
+	}
+
+	// Register EVM scheme if key is provided
+	if evmPrivateKey != "" {
+		evmSigner, err := evmsigners.NewClientSignerFromPrivateKey(evmPrivateKey)
+		if err != nil {
+			return nil, err
+		}
+		client.Register("eip155:*", evm.NewExactEvmScheme(evmSigner))
+	}
 
 	// Register SVM scheme if key is provided
 	if svmPrivateKey != "" {
@@ -39,17 +49,8 @@ func createMechanismHelperRegistrationClient(evmPrivateKey, svmPrivateKey string
 		if err != nil {
 			return nil, err
 		}
-
-		// Register for all Solana networks using wildcard
-		// This registers:
-		// - solana:* (all Solana networks in v2)
 		client.Register("solana:*", svm.NewExactSvmScheme(svmSigner))
 	}
-
-	// The fluent API allows chaining for clean code:
-	// client := x402.Newx402Client().
-	//     Register("eip155:*", evm.NewExactEvmScheme(evmSigner)).
-	//     Register("solana:*", svm.NewExactSvmScheme(svmSigner))
 
 	return client, nil
 }

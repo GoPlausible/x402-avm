@@ -9,6 +9,8 @@ import (
 	x402 "github.com/coinbase/x402/go"
 	x402http "github.com/coinbase/x402/go/http"
 	ginmw "github.com/coinbase/x402/go/http/gin"
+	avm "github.com/coinbase/x402/go/mechanisms/avm"
+	avmserver "github.com/coinbase/x402/go/mechanisms/avm/exact/server"
 	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/server"
 	svm "github.com/coinbase/x402/go/mechanisms/svm/exact/server"
 	ginfw "github.com/gin-gonic/gin"
@@ -22,7 +24,7 @@ import (
  * optional chain configuration via environment variables.
  *
  * New chain support should be added here in alphabetic order by network prefix
- * (e.g., "eip155" before "solana").
+ * (e.g., "algorand" before "eip155" before "solana").
  */
 
 const (
@@ -33,12 +35,13 @@ func main() {
 	godotenv.Load()
 
 	// Configuration - optional per network
+	avmAddress := os.Getenv("AVM_PAYEE_ADDRESS")
 	evmAddress := os.Getenv("EVM_PAYEE_ADDRESS")
 	svmAddress := os.Getenv("SVM_PAYEE_ADDRESS")
 
 	// Validate at least one address is provided
-	if evmAddress == "" && svmAddress == "" {
-		fmt.Println("❌ At least one of EVM_PAYEE_ADDRESS or SVM_PAYEE_ADDRESS is required")
+	if avmAddress == "" && evmAddress == "" && svmAddress == "" {
+		fmt.Println("❌ At least one of AVM_PAYEE_ADDRESS, EVM_PAYEE_ADDRESS, or SVM_PAYEE_ADDRESS is required")
 		os.Exit(1)
 	}
 
@@ -50,10 +53,15 @@ func main() {
 	}
 
 	// Network configuration
+	avmNetwork := x402.Network(avm.AlgorandTestnetCAIP2)                  // Algorand Testnet
 	evmNetwork := x402.Network("eip155:84532")                            // Base Sepolia
 	svmNetwork := x402.Network("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1") // Solana Devnet
 
 	fmt.Printf("🚀 Starting All Networks Server...\n")
+	if avmAddress != "" {
+		fmt.Printf("   AVM Payee address: %s\n", avmAddress)
+		fmt.Printf("   AVM Network: %s\n", avmNetwork)
+	}
 	if evmAddress != "" {
 		fmt.Printf("   EVM Payee address: %s\n", evmAddress)
 		fmt.Printf("   EVM Network: %s\n", evmNetwork)
@@ -74,6 +82,14 @@ func main() {
 
 	// Build accepts array dynamically based on configured addresses
 	paymentOptions := x402http.PaymentOptions{}
+	if avmAddress != "" {
+		paymentOptions = append(paymentOptions, x402http.PaymentOption{
+			Scheme:  "exact",
+			Price:   "$0.001",
+			Network: avmNetwork,
+			PayTo:   avmAddress,
+		})
+	}
 	if evmAddress != "" {
 		paymentOptions = append(paymentOptions, x402http.PaymentOption{
 			Scheme:  "exact",
@@ -102,6 +118,12 @@ func main() {
 
 	// Build scheme config dynamically based on configured addresses
 	schemes := []ginmw.SchemeConfig{}
+	if avmAddress != "" {
+		schemes = append(schemes, ginmw.SchemeConfig{
+			Network: avmNetwork,
+			Server:  avmserver.NewExactAvmScheme(),
+		})
+	}
 	if evmAddress != "" {
 		schemes = append(schemes, ginmw.SchemeConfig{
 			Network: evmNetwork,

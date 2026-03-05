@@ -4,11 +4,16 @@ import (
 	"bytes"
 	"context"
 	"crypto/ecdsa"
+	"encoding/base64"
 	"fmt"
 	"math/big"
 	"strings"
 	"time"
 
+	algodClient "github.com/algorand/go-algorand-sdk/v2/client/v2/algod"
+	algocrypto "github.com/algorand/go-algorand-sdk/v2/crypto"
+	"github.com/algorand/go-algorand-sdk/v2/encoding/msgpack"
+	algotypes "github.com/algorand/go-algorand-sdk/v2/types"
 	evmmech "github.com/coinbase/x402/go/mechanisms/evm"
 	svmmech "github.com/coinbase/x402/go/mechanisms/svm"
 	"github.com/ethereum/go-ethereum"
@@ -26,6 +31,7 @@ import (
 const (
 	DefaultEvmRPC = "https://sepolia.base.org"
 	DefaultSvmRPC = "https://api.devnet.solana.com"
+	DefaultAvmRPC = "https://testnet-api.algonode.cloud"
 )
 
 // ============================================================================
@@ -570,6 +576,123 @@ func (s *facilitatorSvmSigner) ConfirmTransaction(ctx context.Context, signature
 
 func (s *facilitatorSvmSigner) GetAddresses(ctx context.Context, network string) []solana.PublicKey {
 	return []solana.PublicKey{s.privateKey.PublicKey()}
+}
+
+// ============================================================================
+// AVM (Algorand) Facilitator Signer
+// ============================================================================
+
+// facilitatorAvmSigner implements the FacilitatorAvmSigner interface
+type facilitatorAvmSigner struct {
+	privateKey  []byte
+	address     string
+	algodClient *algodClient.Client
+}
+
+// newFacilitatorAvmSigner creates a new AVM facilitator signer
+//
+// Args:
+//
+//	privateKeyBase64: Base64-encoded 64-byte Ed25519 key (32-byte seed + 32-byte pubkey)
+//	algodURL: Algod endpoint URL
+//	algodToken: Algod API token
+//
+// Returns:
+//
+//	*facilitatorAvmSigner or error
+func newFacilitatorAvmSigner(privateKeyBase64 string, algodURL string, algodToken string) (*facilitatorAvmSigner, error) {
+	keyBytes, err := base64.StdEncoding.DecodeString(privateKeyBase64)
+	if err != nil {
+		return nil, fmt.Errorf("failed to decode private key: %w", err)
+	}
+
+	account, err := algocrypto.AccountFromPrivateKey(keyBytes)
+	if err != nil {
+		return nil, fmt.Errorf("failed to derive account: %w", err)
+	}
+
+	client, err := algodClient.MakeClient(algodURL, algodToken)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create algod client: %w", err)
+	}
+
+	return &facilitatorAvmSigner{
+		privateKey:  keyBytes,
+		address:     account.Address.String(),
+		algodClient: client,
+	}, nil
+}
+
+func (s *facilitatorAvmSigner) GetAddresses(ctx context.Context, network string) []string {
+	return []string{s.address}
+}
+
+func (s *facilitatorAvmSigner) SignTransaction(ctx context.Context, txnBytes []byte, senderAddress string, network string) ([]byte, error) {
+	if senderAddress != s.address {
+		return nil, fmt.Errorf("no signer for address %s, have %s", senderAddress, s.address)
+	}
+
+	var txn algotypes.Transaction
+	if err := msgpack.Decode(txnBytes, &txn); err != nil {
+		var stxn algotypes.SignedTxn
+		if err2 := msgpack.Decode(txnBytes, &stxn); err2 != nil {
+			return nil, fmt.Errorf("failed to decode transaction: %w", err)
+		}
+		txn = stxn.Txn
+	}
+
+	_, signedBytes, err := algocrypto.SignTransaction(s.privateKey, txn)
+	if err != nil {
+		return nil, fmt.Errorf("failed to sign transaction: %w", err)
+	}
+
+	return signedBytes, nil
+}
+
+func (s *facilitatorAvmSigner) GetAlgodClient(network string) (*algodClient.Client, error) {
+	return s.algodClient, nil
+}
+
+func (s *facilitatorAvmSigner) SimulateTransactions(ctx context.Context, txns [][]byte, network string) error {
+	return nil
+}
+
+func (s *facilitatorAvmSigner) SendTransactions(ctx context.Context, signedTxns [][]byte, network string) (string, error) {
+	var combined []byte
+	for _, stxn := range signedTxns {
+		combined = append(combined, stxn...)
+	}
+
+	txID, err := s.algodClient.SendRawTransaction(combined).Do(ctx)
+	if err != nil {
+		return "", fmt.Errorf("failed to send transactions: %w", err)
+	}
+
+	return txID, nil
+}
+
+func (s *facilitatorAvmSigner) WaitForConfirmation(ctx context.Context, txID string, network string, waitRounds uint64) error {
+	status, err := s.algodClient.Status().Do(ctx)
+	if err != nil {
+		return fmt.Errorf("failed to get status: %w", err)
+	}
+
+	lastRound := status.LastRound
+	for i := uint64(0); i < waitRounds; i++ {
+		info, _, err := s.algodClient.PendingTransactionInformation(txID).Do(ctx)
+		if err != nil {
+			return fmt.Errorf("failed to get pending transaction: %w", err)
+		}
+
+		if info.ConfirmedRound > 0 {
+			return nil
+		}
+
+		lastRound++
+		s.algodClient.StatusAfterBlock(lastRound).Do(ctx)
+	}
+
+	return fmt.Errorf("transaction %s not confirmed after %d rounds", txID, waitRounds)
 }
 
 // ============================================================================

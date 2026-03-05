@@ -10,8 +10,11 @@ import (
 
 	x402 "github.com/coinbase/x402/go"
 	x402http "github.com/coinbase/x402/go/http"
+	avm "github.com/coinbase/x402/go/mechanisms/avm"
+	avmclient "github.com/coinbase/x402/go/mechanisms/avm/exact/client"
 	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/client"
 	svm "github.com/coinbase/x402/go/mechanisms/svm/exact/client"
+	avmsigners "github.com/coinbase/x402/go/signers/avm"
 	evmsigners "github.com/coinbase/x402/go/signers/evm"
 	svmsigners "github.com/coinbase/x402/go/signers/svm"
 )
@@ -26,11 +29,21 @@ import (
  * (e.g., "eip155" before "solana").
  */
 
-func runAllNetworksExample(ctx context.Context, evmPrivateKey, svmPrivateKey, url string) error {
+func runAllNetworksExample(ctx context.Context, evmPrivateKey, svmPrivateKey, avmPrivateKey, url string) error {
 	fmt.Println("📦 Creating client with all available networks...\n")
 
 	// Create x402 client
 	client := x402.Newx402Client()
+
+	// Register AVM scheme if private key is provided (alphabetic order)
+	if avmPrivateKey != "" {
+		avmSigner, err := avmsigners.NewClientSignerFromPrivateKey(avmPrivateKey)
+		if err != nil {
+			return fmt.Errorf("failed to create AVM signer: %w", err)
+		}
+		client.Register("algorand:*", avmclient.NewExactAvmScheme(avmSigner, &avm.ClientConfig{}))
+		fmt.Printf("✅ Registered AVM networks (algorand:*)\n")
+	}
 
 	// Register EVM scheme if private key is provided
 	if evmPrivateKey != "" {

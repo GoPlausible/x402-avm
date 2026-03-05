@@ -8,8 +8,12 @@ import (
 	"sync"
 	"time"
 
+	"os"
+
 	x402 "github.com/coinbase/x402/go"
 	"github.com/coinbase/x402/go/extensions/paymentidentifier"
+	avm "github.com/coinbase/x402/go/mechanisms/avm"
+	avmfacilitator "github.com/coinbase/x402/go/mechanisms/avm/exact/facilitator"
 	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/facilitator"
 	svm "github.com/coinbase/x402/go/mechanisms/svm/exact/facilitator"
 	"github.com/gin-gonic/gin"
@@ -75,15 +79,28 @@ func (s *IdempotencyStore) GetAll() []PaymentRecord {
 	return result
 }
 
-func runPaymentIdentifierExample(evmPrivateKey, svmPrivateKey string) error {
+func runPaymentIdentifierExample(evmPrivateKey, svmPrivateKey, avmPrivateKey string) error {
 	// Network configuration
+	avmNetwork := x402.Network(avm.AlgorandTestnetCAIP2)                  // Algorand Testnet
 	evmNetwork := x402.Network("eip155:84532")                            // Base Sepolia
 	svmNetwork := x402.Network("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1") // Solana Devnet
 
 	// Initialize signers based on available keys
 	var evmSigner *facilitatorEvmSigner
 	var svmSigner *facilitatorSvmSigner
+	var avmSigner *facilitatorAvmSigner
 	var err error
+
+	if avmPrivateKey != "" {
+		algodServer := os.Getenv("ALGOD_SERVER")
+		if algodServer == "" {
+			algodServer = DefaultAvmRPC
+		}
+		avmSigner, err = newFacilitatorAvmSigner(avmPrivateKey, algodServer, os.Getenv("ALGOD_TOKEN"))
+		if err != nil {
+			return fmt.Errorf("failed to create AVM signer: %w", err)
+		}
+	}
 
 	if evmPrivateKey != "" {
 		evmSigner, err = newFacilitatorEvmSigner(evmPrivateKey, DefaultEvmRPC)
@@ -101,6 +118,11 @@ func runPaymentIdentifierExample(evmPrivateKey, svmPrivateKey string) error {
 
 	// Create facilitator
 	facilitator := x402.Newx402Facilitator()
+
+	// Register AVM scheme if signer is available
+	if avmSigner != nil {
+		facilitator.Register([]x402.Network{avmNetwork}, avmfacilitator.NewExactAvmScheme(avmSigner))
+	}
 
 	// Register EVM scheme if signer is available
 	if evmSigner != nil {

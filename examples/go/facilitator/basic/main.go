@@ -9,6 +9,8 @@ import (
 	"time"
 
 	x402 "github.com/coinbase/x402/go"
+	avm "github.com/coinbase/x402/go/mechanisms/avm"
+	avmfacilitator "github.com/coinbase/x402/go/mechanisms/avm/exact/facilitator"
 	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/facilitator"
 	evmv1 "github.com/coinbase/x402/go/mechanisms/evm/exact/v1/facilitator"
 	svm "github.com/coinbase/x402/go/mechanisms/svm/exact/facilitator"
@@ -25,44 +27,70 @@ func main() {
 	godotenv.Load()
 
 	evmPrivateKey := os.Getenv("EVM_PRIVATE_KEY")
-	if evmPrivateKey == "" {
-		fmt.Println("❌ EVM_PRIVATE_KEY environment variable is required")
-		os.Exit(1)
-	}
 
 	svmPrivateKey := os.Getenv("SVM_PRIVATE_KEY")
+	avmPrivateKey := os.Getenv("AVM_PRIVATE_KEY")
+	algodServer := os.Getenv("ALGOD_SERVER")
+	algodToken := os.Getenv("ALGOD_TOKEN")
+
+	// Validate at least one private key is provided
+	if evmPrivateKey == "" && svmPrivateKey == "" && avmPrivateKey == "" {
+		fmt.Println("❌ At least one of EVM_PRIVATE_KEY, SVM_PRIVATE_KEY, or AVM_PRIVATE_KEY is required")
+		os.Exit(1)
+	}
 
 	evmNetwork := x402.Network("eip155:84532")
 	svmNetwork := x402.Network("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1")
+	avmNetwork := x402.Network(avm.AlgorandTestnetCAIP2)
 
-	evmSigner, err := newFacilitatorEvmSigner(evmPrivateKey, DefaultEvmRPC)
-	if err != nil {
-		fmt.Printf("❌ Failed to create EVM signer: %v\n", err)
-		os.Exit(1)
+	var evmSigner *facilitatorEvmSigner
+	var svmSigner *facilitatorSvmSigner
+	var err error
+
+	if evmPrivateKey != "" {
+		evmSigner, err = newFacilitatorEvmSigner(evmPrivateKey, DefaultEvmRPC)
+		if err != nil {
+			fmt.Printf("❌ Failed to create EVM signer: %v\n", err)
+			os.Exit(1)
+		}
 	}
 
-	var svmSigner *facilitatorSvmSigner
 	if svmPrivateKey != "" {
 		svmSigner, _ = newFacilitatorSvmSigner(svmPrivateKey, DefaultSvmRPC)
 	}
 
 	facilitator := x402.Newx402Facilitator()
-	
-	// Register V2 EVM scheme with smart wallet deployment enabled
-	evmConfig := &evm.ExactEvmSchemeConfig{
-		DeployERC4337WithEIP6492: true,
-	}
-	facilitator.Register([]x402.Network{evmNetwork}, evm.NewExactEvmScheme(evmSigner, evmConfig))
 
-	// Register V1 EVM scheme with smart wallet deployment enabled
-	evmV1Config := &evmv1.ExactEvmSchemeV1Config{
-		DeployERC4337WithEIP6492: true,
+	// Register EVM scheme if signer is available
+	if evmSigner != nil {
+		evmConfig := &evm.ExactEvmSchemeConfig{
+			DeployERC4337WithEIP6492: true,
+		}
+		facilitator.Register([]x402.Network{evmNetwork}, evm.NewExactEvmScheme(evmSigner, evmConfig))
+
+		evmV1Config := &evmv1.ExactEvmSchemeV1Config{
+			DeployERC4337WithEIP6492: true,
+		}
+		facilitator.RegisterV1([]x402.Network{"base-sepolia"}, evmv1.NewExactEvmSchemeV1(evmSigner, evmV1Config))
 	}
-	facilitator.RegisterV1([]x402.Network{"base-sepolia"}, evmv1.NewExactEvmSchemeV1(evmSigner, evmV1Config))
 
 	if svmSigner != nil {
 		facilitator.Register([]x402.Network{svmNetwork}, svm.NewExactSvmScheme(svmSigner))
 		facilitator.RegisterV1([]x402.Network{"solana-devnet"}, svmv1.NewExactSvmSchemeV1(svmSigner))
+	}
+
+	// Register AVM (Algorand) scheme if key is provided
+	var avmSigner *facilitatorAvmSigner
+	if avmPrivateKey != "" {
+		if algodServer == "" {
+			algodServer = DefaultAvmRPC
+		}
+		avmSigner, err = newFacilitatorAvmSigner(avmPrivateKey, algodServer, algodToken)
+		if err != nil {
+			fmt.Printf("❌ Failed to create AVM signer: %v\n", err)
+			os.Exit(1)
+		}
+		facilitator.Register([]x402.Network{avmNetwork}, avmfacilitator.NewExactAvmScheme(avmSigner))
 	}
 
 	facilitator.OnAfterVerify(func(ctx x402.FacilitatorVerifyResultContext) error {
@@ -153,9 +181,14 @@ func main() {
 	})
 
 	fmt.Printf("🚀 Facilitator listening on http://localhost:%s\n", DefaultPort)
-	fmt.Printf("   EVM: %s on %s\n", evmSigner.GetAddresses()[0], evmNetwork)
+	if evmSigner != nil {
+		fmt.Printf("   EVM: %s on %s\n", evmSigner.GetAddresses()[0], evmNetwork)
+	}
 	if svmSigner != nil {
 		fmt.Printf("   SVM: %s on %s\n", svmSigner.GetAddresses(context.Background(), string(svmNetwork))[0], svmNetwork)
+	}
+	if avmSigner != nil {
+		fmt.Printf("   AVM: %s on %s\n", avmSigner.GetAddresses(context.Background(), string(avmNetwork))[0], avmNetwork)
 	}
 	fmt.Println()
 

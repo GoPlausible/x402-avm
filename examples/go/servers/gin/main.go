@@ -9,6 +9,8 @@ import (
 	x402 "github.com/coinbase/x402/go"
 	x402http "github.com/coinbase/x402/go/http"
 	ginmw "github.com/coinbase/x402/go/http/gin"
+	avm "github.com/coinbase/x402/go/mechanisms/avm"
+	avmserver "github.com/coinbase/x402/go/mechanisms/avm/exact/server"
 	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/server"
 	svm "github.com/coinbase/x402/go/mechanisms/svm/exact/server"
 	ginfw "github.com/gin-gonic/gin"
@@ -22,15 +24,12 @@ const (
 func main() {
 	godotenv.Load()
 
+	avmAddress := os.Getenv("AVM_PAYEE_ADDRESS")
 	evmAddress := os.Getenv("EVM_PAYEE_ADDRESS")
-	if evmAddress == "" {
-		fmt.Println("❌ EVM_PAYEE_ADDRESS environment variable is required")
-		os.Exit(1)
-	}
-
 	svmAddress := os.Getenv("SVM_PAYEE_ADDRESS")
-	if svmAddress == "" {
-		fmt.Println("❌ SVM_PAYEE_ADDRESS environment variable is required")
+
+	if avmAddress == "" && evmAddress == "" && svmAddress == "" {
+		fmt.Println("❌ At least one of AVM_PAYEE_ADDRESS, EVM_PAYEE_ADDRESS, or SVM_PAYEE_ADDRESS is required")
 		os.Exit(1)
 	}
 
@@ -41,15 +40,24 @@ func main() {
 		os.Exit(1)
 	}
 
-	// Network configuration - Base Sepolia testnet
-	evmNetwork := x402.Network("eip155:84532")
-	svmNetwork := x402.Network("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1")
+	// Network configuration
+	avmNetwork := x402.Network(avm.AlgorandTestnetCAIP2)                  // Algorand Testnet
+	evmNetwork := x402.Network("eip155:84532")                            // Base Sepolia
+	svmNetwork := x402.Network("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1") // Solana Devnet
 
 	fmt.Printf("🚀 Starting Gin x402 server...\n")
-	fmt.Printf("   EVM Payee address: %s\n", evmAddress)
-	fmt.Printf("   SVM Payee address: %s\n", svmAddress)
-	fmt.Printf("   EVM Network: %s\n", evmNetwork)
-	fmt.Printf("   SVM Network: %s\n", svmNetwork)
+	if avmAddress != "" {
+		fmt.Printf("   AVM Payee address: %s\n", avmAddress)
+		fmt.Printf("   AVM Network: %s\n", avmNetwork)
+	}
+	if evmAddress != "" {
+		fmt.Printf("   EVM Payee address: %s\n", evmAddress)
+		fmt.Printf("   EVM Network: %s\n", evmNetwork)
+	}
+	if svmAddress != "" {
+		fmt.Printf("   SVM Payee address: %s\n", svmAddress)
+		fmt.Printf("   SVM Network: %s\n", svmNetwork)
+	}
 	fmt.Printf("   Facilitator: %s\n", facilitatorURL)
 
 	// Create Gin router
@@ -67,36 +75,69 @@ func main() {
 	 * When a client accesses a protected route without payment, they receive
 	 * a 402 Payment Required response with payment details.
 	 */
+
+	// Build accepts array dynamically based on configured addresses
+	paymentOptions := x402http.PaymentOptions{}
+	if avmAddress != "" {
+		paymentOptions = append(paymentOptions, x402http.PaymentOption{
+			Scheme:  "exact",
+			Price:   "$0.001",
+			Network: avmNetwork,
+			PayTo:   avmAddress,
+		})
+	}
+	if evmAddress != "" {
+		paymentOptions = append(paymentOptions, x402http.PaymentOption{
+			Scheme:  "exact",
+			Price:   "$0.001",
+			Network: evmNetwork,
+			PayTo:   evmAddress,
+		})
+	}
+	if svmAddress != "" {
+		paymentOptions = append(paymentOptions, x402http.PaymentOption{
+			Scheme:  "exact",
+			Price:   "$0.001",
+			Network: svmNetwork,
+			PayTo:   svmAddress,
+		})
+	}
+
 	routes := x402http.RoutesConfig{
 		"GET /weather": {
-			Accepts: x402http.PaymentOptions{
-				{
-					Scheme:  "exact",
-					Price:   "$0.001",
-					Network: "eip155:84532",
-					PayTo:   evmAddress,
-				},
-				{
-					Scheme:  "exact",
-					Price:   "$0.001",
-					Network: "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1",
-					PayTo:   svmAddress,
-				},
-			},
+			Accepts:     paymentOptions,
 			Description: "Get weather data for a city",
 			MimeType:    "application/json",
 		},
+	}
+
+	// Build scheme config dynamically based on configured addresses
+	schemes := []ginmw.SchemeConfig{}
+	if avmAddress != "" {
+		schemes = append(schemes, ginmw.SchemeConfig{
+			Network: avmNetwork,
+			Server:  avmserver.NewExactAvmScheme(),
+		})
+	}
+	if evmAddress != "" {
+		schemes = append(schemes, ginmw.SchemeConfig{
+			Network: evmNetwork,
+			Server:  evm.NewExactEvmScheme(),
+		})
+	}
+	if svmAddress != "" {
+		schemes = append(schemes, ginmw.SchemeConfig{
+			Network: svmNetwork,
+			Server:  svm.NewExactSvmScheme(),
+		})
 	}
 
 	// Apply x402 payment middleware
 	r.Use(ginmw.X402Payment(ginmw.Config{
 		Routes:      routes,
 		Facilitator: facilitatorClient,
-		Schemes: []ginmw.SchemeConfig{
-			ginmw.SchemeConfig{Network: "eip155:84532", Server: evm.NewExactEvmScheme()},
-			ginmw.SchemeConfig{Network: "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1", Server: svm.NewExactSvmScheme()},
-		},
-		Timeout:    30 * time.Second,
+		Schemes:     schemes,
+		Timeout:     30 * time.Second,
 	}))
 
 	/**
@@ -147,4 +188,3 @@ func main() {
 		os.Exit(1)
 	}
 }
-

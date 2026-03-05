@@ -7,7 +7,11 @@ import (
 	"net/http"
 	"time"
 
+	"os"
+
 	x402 "github.com/coinbase/x402/go"
+	avm "github.com/coinbase/x402/go/mechanisms/avm"
+	avmfacilitator "github.com/coinbase/x402/go/mechanisms/avm/exact/facilitator"
 	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/facilitator"
 	svm "github.com/coinbase/x402/go/mechanisms/svm/exact/facilitator"
 	"github.com/gin-gonic/gin"
@@ -27,14 +31,16 @@ const (
 	defaultPort = "4022"
 )
 
-func runAllNetworksExample(evmPrivateKey, svmPrivateKey string) error {
+func runAllNetworksExample(evmPrivateKey, svmPrivateKey, avmPrivateKey string) error {
 	// Network configuration
 	evmNetwork := x402.Network("eip155:84532")                            // Base Sepolia
 	svmNetwork := x402.Network("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1") // Solana Devnet
+	avmNetwork := x402.Network(avm.AlgorandTestnetCAIP2)                  // Algorand Testnet
 
 	// Initialize signers based on available keys
 	var evmSigner *facilitatorEvmSigner
 	var svmSigner *facilitatorSvmSigner
+	var avmSigner *facilitatorAvmSigner
 	var err error
 
 	if evmPrivateKey != "" {
@@ -51,8 +57,25 @@ func runAllNetworksExample(evmPrivateKey, svmPrivateKey string) error {
 		}
 	}
 
+	if avmPrivateKey != "" {
+		algodServer := os.Getenv("ALGOD_SERVER")
+		if algodServer == "" {
+			algodServer = DefaultAvmRPC
+		}
+		algodToken := os.Getenv("ALGOD_TOKEN")
+		avmSigner, err = newFacilitatorAvmSigner(avmPrivateKey, algodServer, algodToken)
+		if err != nil {
+			return fmt.Errorf("failed to create AVM signer: %w", err)
+		}
+	}
+
 	// Create facilitator
 	facilitator := x402.Newx402Facilitator()
+
+	// Register AVM scheme if signer is available (alphabetic order: algorand before eip155)
+	if avmSigner != nil {
+		facilitator.Register([]x402.Network{avmNetwork}, avmfacilitator.NewExactAvmScheme(avmSigner))
+	}
 
 	// Register EVM scheme if signer is available (only explicitly specified networks)
 	if evmSigner != nil {
@@ -144,6 +167,9 @@ func runAllNetworksExample(evmPrivateKey, svmPrivateKey string) error {
 
 	// Print startup info
 	fmt.Printf("🚀 All Networks Facilitator listening on http://localhost:%s\n", defaultPort)
+	if avmSigner != nil {
+		fmt.Printf("   AVM: %s on %s\n", avmSigner.GetAddresses(context.Background(), string(avmNetwork))[0], avmNetwork)
+	}
 	if evmSigner != nil {
 		fmt.Printf("   EVM: %s on %s\n", evmSigner.GetAddresses()[0], evmNetwork)
 	}

@@ -42,12 +42,13 @@ func main() {
 
 	// Get configuration
 	evmPrivateKey := os.Getenv("EVM_PRIVATE_KEY")
-	if evmPrivateKey == "" {
-		fmt.Println("❌ EVM_PRIVATE_KEY environment variable is required")
+	svmPrivateKey := os.Getenv("SVM_PRIVATE_KEY")
+	avmPrivateKey := os.Getenv("AVM_PRIVATE_KEY")
+
+	if evmPrivateKey == "" && svmPrivateKey == "" && avmPrivateKey == "" {
+		fmt.Println("❌ At least one of EVM_PRIVATE_KEY, SVM_PRIVATE_KEY, or AVM_PRIVATE_KEY is required")
 		os.Exit(1)
 	}
-
-	svmPrivateKey := os.Getenv("SVM_PRIVATE_KEY")
 
 	url := os.Getenv("SERVER_URL")
 	if url == "" {
@@ -60,9 +61,9 @@ func main() {
 
 	switch pattern {
 	case "builder-pattern":
-		client, err = createBuilderPatternClient(evmPrivateKey, svmPrivateKey)
+		client, err = createBuilderPatternClient(evmPrivateKey, svmPrivateKey, avmPrivateKey)
 	case "mechanism-helper-registration":
-		client, err = createMechanismHelperRegistrationClient(evmPrivateKey, svmPrivateKey)
+		client, err = createMechanismHelperRegistrationClient(evmPrivateKey, svmPrivateKey, avmPrivateKey)
 	default:
 		fmt.Printf("❌ Unknown pattern: %s\n", pattern)
 		fmt.Println("Available patterns: builder-pattern, mechanism-helper-registration")
