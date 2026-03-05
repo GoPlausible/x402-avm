@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "x402.org",
-  description: "An open standard for internet-native payments",
+  title: "x402 Algorand Integration",
+  description:
+    "x402 Algorand Integration is a collection of tools and resources for developers building with x402 protocol on the Algorand blockchain.",
 };
 
 export default function RootLayout({
