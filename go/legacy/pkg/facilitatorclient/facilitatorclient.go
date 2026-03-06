@@ -7,11 +7,11 @@ import (
 	"io"
 	"net/http"
 
-	"github.com/coinbase/x402/go/pkg/types"
+	"github.com/GoPlausible/x402-avm/go/pkg/types"
 )
 
 // DefaultFacilitatorURL is the default URL for the x402 facilitator service
-const DefaultFacilitatorURL = "https://x402.org/facilitator"
+const DefaultFacilitatorURL = "https://facilitator.goplausible.xyz"
 
 // FacilitatorClient represents a facilitator client for verifying and settling payments
 type FacilitatorClient struct {

@@ -15,13 +15,13 @@ import (
 	"github.com/algorand/go-algorand-sdk/v2/encoding/msgpack"
 	"github.com/algorand/go-algorand-sdk/v2/types"
 
-	x402 "github.com/coinbase/x402/go"
-	avm "github.com/coinbase/x402/go/mechanisms/avm"
-	avmclient "github.com/coinbase/x402/go/mechanisms/avm/exact/client"
-	avmfacilitator "github.com/coinbase/x402/go/mechanisms/avm/exact/facilitator"
-	avmserver "github.com/coinbase/x402/go/mechanisms/avm/exact/server"
-	avmsigners "github.com/coinbase/x402/go/signers/avm"
-	x402types "github.com/coinbase/x402/go/types"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	avm "github.com/GoPlausible/x402-avm/go/mechanisms/avm"
+	avmclient "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/client"
+	avmfacilitator "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/facilitator"
+	avmserver "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/server"
+	avmsigners "github.com/GoPlausible/x402-avm/go/signers/avm"
+	x402types "github.com/GoPlausible/x402-avm/go/types"
 )
 
 // newRealClientAvmSigner creates a client signer using the helper

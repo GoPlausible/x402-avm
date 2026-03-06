@@ -9,7 +9,7 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	x402 "github.com/coinbase/x402/go"
+	x402 "github.com/GoPlausible/x402-avm/go"
 )
 
 // Test helper functions

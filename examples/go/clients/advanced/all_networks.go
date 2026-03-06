@@ -8,15 +8,15 @@ import (
 	"net/http"
 	"time"
 
-	x402 "github.com/coinbase/x402/go"
-	x402http "github.com/coinbase/x402/go/http"
-	avm "github.com/coinbase/x402/go/mechanisms/avm"
-	avmclient "github.com/coinbase/x402/go/mechanisms/avm/exact/client"
-	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/client"
-	svm "github.com/coinbase/x402/go/mechanisms/svm/exact/client"
-	avmsigners "github.com/coinbase/x402/go/signers/avm"
-	evmsigners "github.com/coinbase/x402/go/signers/evm"
-	svmsigners "github.com/coinbase/x402/go/signers/svm"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	x402http "github.com/GoPlausible/x402-avm/go/http"
+	avm "github.com/GoPlausible/x402-avm/go/mechanisms/avm"
+	avmclient "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/client"
+	evm "github.com/GoPlausible/x402-avm/go/mechanisms/evm/exact/client"
+	svm "github.com/GoPlausible/x402-avm/go/mechanisms/svm/exact/client"
+	avmsigners "github.com/GoPlausible/x402-avm/go/signers/avm"
+	evmsigners "github.com/GoPlausible/x402-avm/go/signers/evm"
+	svmsigners "github.com/GoPlausible/x402-avm/go/signers/svm"
 )
 
 /**

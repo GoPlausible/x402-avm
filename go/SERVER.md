@@ -54,7 +54,7 @@ func main() {
     
     // 2. Create facilitator client
     facilitator := x402http.NewHTTPFacilitatorClient(&x402http.FacilitatorConfig{
-        URL: "https://x402.org/facilitator",
+        URL: "https://facilitator.goplausible.xyz",
     })
     
     // 3. Add payment middleware
@@ -157,7 +157,7 @@ Servers use facilitator clients to verify and settle payments.
 
 ```go
 facilitator := x402http.NewHTTPFacilitatorClient(&x402http.FacilitatorConfig{
-    URL: "https://x402.org/facilitator",
+    URL: "https://facilitator.goplausible.xyz",
 })
 
 // Verify payment (called by middleware)
@@ -707,7 +707,7 @@ See [`test/integration/`](test/integration/) for examples testing against real f
 **Testnet:**
 ```go
 facilitator := x402http.NewHTTPFacilitatorClient(&x402http.FacilitatorConfig{
-    URL: "https://x402.org/facilitator", // Testnet
+    URL: "https://facilitator.goplausible.xyz", // Testnet
 })
 ```
 

@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 
-	x402 "github.com/coinbase/x402/go"
-	"github.com/coinbase/x402/go/types"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	"github.com/GoPlausible/x402-avm/go/types"
 )
 
 // parseExtension converts an extension interface{} to a PaymentIdentifierExtension.

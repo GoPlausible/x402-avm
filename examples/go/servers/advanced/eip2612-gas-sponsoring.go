@@ -6,11 +6,11 @@ import (
 	"os"
 	"time"
 
-	x402 "github.com/coinbase/x402/go"
-	"github.com/coinbase/x402/go/extensions/eip2612gassponsor"
-	x402http "github.com/coinbase/x402/go/http"
-	ginmw "github.com/coinbase/x402/go/http/gin"
-	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/server"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	"github.com/GoPlausible/x402-avm/go/extensions/eip2612gassponsor"
+	x402http "github.com/GoPlausible/x402-avm/go/http"
+	ginmw "github.com/GoPlausible/x402-avm/go/http/gin"
+	evm "github.com/GoPlausible/x402-avm/go/mechanisms/evm/exact/server"
 	ginfw "github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )

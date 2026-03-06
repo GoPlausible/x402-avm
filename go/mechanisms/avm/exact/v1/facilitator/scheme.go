@@ -13,9 +13,9 @@ import (
 	"github.com/algorand/go-algorand-sdk/v2/encoding/msgpack"
 	"github.com/algorand/go-algorand-sdk/v2/types"
 
-	x402 "github.com/coinbase/x402/go"
-	"github.com/coinbase/x402/go/mechanisms/avm"
-	x402types "github.com/coinbase/x402/go/types"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	"github.com/GoPlausible/x402-avm/go/mechanisms/avm"
+	x402types "github.com/GoPlausible/x402-avm/go/types"
 )
 
 // ExactAvmSchemeV1 implements the SchemeNetworkFacilitatorV1 interface for AVM (Algorand) exact payments (V1)

@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	x402 "github.com/coinbase/x402/go"
+	x402 "github.com/GoPlausible/x402-avm/go"
 	"github.com/joho/godotenv"
 )
 

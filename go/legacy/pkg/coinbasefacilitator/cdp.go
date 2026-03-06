@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/coinbase/cdp-sdk/go/auth"
-	"github.com/coinbase/x402/go/pkg/types"
+	"github.com/GoPlausible/x402-avm/go/pkg/types"
 )
 
 // SDKVersion represents the current version of the SDK
@@ -17,7 +17,7 @@ const SDKVersion = "0.0.0"
 // Parameters:
 //   - apiKeyId: The api key ID
 //   - apiKeySecret: The api key secret
-//   - requestHost: The host for the request (e.g. 'https://x402.org/facilitator')
+//   - requestHost: The host for the request (e.g. 'https://facilitator.goplausible.xyz')
 //   - requestPath: The path for the request (e.g. '/verify')
 //
 // Returns:

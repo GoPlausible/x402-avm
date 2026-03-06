@@ -4,9 +4,9 @@ package unit_test
 import (
 	"testing"
 
-	x402 "github.com/coinbase/x402/go"
-	avm "github.com/coinbase/x402/go/mechanisms/avm"
-	avmserver "github.com/coinbase/x402/go/mechanisms/avm/exact/server"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	avm "github.com/GoPlausible/x402-avm/go/mechanisms/avm"
+	avmserver "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/server"
 )
 
 // TestAlgorandServerPriceParsing tests V2 server price parsing

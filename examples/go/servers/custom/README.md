@@ -13,7 +13,7 @@ Gin server demonstrating how to implement x402 payment handling manually without
 1. Create a `.env` file with required environment variables:
 
 ```bash
-FACILITATOR_URL=https://x402.org/facilitator
+FACILITATOR_URL=https://facilitator.goplausible.xyz
 EVM_PAYEE_ADDRESS=0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb
 ```
 

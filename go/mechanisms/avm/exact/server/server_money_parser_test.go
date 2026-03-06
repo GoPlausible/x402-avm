@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"testing"
 
-	x402 "github.com/coinbase/x402/go"
-	"github.com/coinbase/x402/go/mechanisms/avm"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	"github.com/GoPlausible/x402-avm/go/mechanisms/avm"
 )
 
 // TestRegisterMoneyParser_SingleCustomParser tests a single custom money parser

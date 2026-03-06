@@ -9,10 +9,10 @@ import (
 
 	"github.com/ethereum/go-ethereum/crypto"
 
-	"github.com/coinbase/x402/go/mechanisms/evm"
-	evmclient "github.com/coinbase/x402/go/mechanisms/evm/exact/client"
-	evmfacilitator "github.com/coinbase/x402/go/mechanisms/evm/exact/facilitator"
-	"github.com/coinbase/x402/go/types"
+	"github.com/GoPlausible/x402-avm/go/mechanisms/evm"
+	evmclient "github.com/GoPlausible/x402-avm/go/mechanisms/evm/exact/client"
+	evmfacilitator "github.com/GoPlausible/x402-avm/go/mechanisms/evm/exact/facilitator"
+	"github.com/GoPlausible/x402-avm/go/types"
 )
 
 // =========================================================================

@@ -9,10 +9,10 @@ import (
 
 	"github.com/ethereum/go-ethereum/common"
 
-	x402 "github.com/coinbase/x402/go"
-	"github.com/coinbase/x402/go/extensions/eip2612gassponsor"
-	"github.com/coinbase/x402/go/mechanisms/evm"
-	"github.com/coinbase/x402/go/types"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	"github.com/GoPlausible/x402-avm/go/extensions/eip2612gassponsor"
+	"github.com/GoPlausible/x402-avm/go/mechanisms/evm"
+	"github.com/GoPlausible/x402-avm/go/types"
 )
 
 // VerifyPermit2 verifies a Permit2 payment payload.

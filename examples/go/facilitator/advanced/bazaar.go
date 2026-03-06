@@ -10,13 +10,13 @@ import (
 
 	"os"
 
-	x402 "github.com/coinbase/x402/go"
-	"github.com/coinbase/x402/go/extensions/bazaar"
-	exttypes "github.com/coinbase/x402/go/extensions/types"
-	avm "github.com/coinbase/x402/go/mechanisms/avm"
-	avmfacilitator "github.com/coinbase/x402/go/mechanisms/avm/exact/facilitator"
-	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/facilitator"
-	svm "github.com/coinbase/x402/go/mechanisms/svm/exact/facilitator"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	"github.com/GoPlausible/x402-avm/go/extensions/bazaar"
+	exttypes "github.com/GoPlausible/x402-avm/go/extensions/types"
+	avm "github.com/GoPlausible/x402-avm/go/mechanisms/avm"
+	avmfacilitator "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/facilitator"
+	evm "github.com/GoPlausible/x402-avm/go/mechanisms/evm/exact/facilitator"
+	svm "github.com/GoPlausible/x402-avm/go/mechanisms/svm/exact/facilitator"
 	"github.com/gin-gonic/gin"
 )
 

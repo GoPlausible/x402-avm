@@ -8,9 +8,9 @@ import (
 	"strconv"
 	"strings"
 
-	x402 "github.com/coinbase/x402/go"
-	"github.com/coinbase/x402/go/mechanisms/evm"
-	"github.com/coinbase/x402/go/types"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	"github.com/GoPlausible/x402-avm/go/mechanisms/evm"
+	"github.com/GoPlausible/x402-avm/go/types"
 )
 
 // ExactEvmScheme implements the SchemeNetworkServer interface for EVM exact payments (V2)

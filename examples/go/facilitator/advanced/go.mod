@@ -1,14 +1,14 @@
-module github.com/coinbase/x402/examples/go/facilitator
+module github.com/GoPlausible/x402-avm/examples/go/facilitator
 
 go 1.24.0
 
 toolchain go1.24.1
 
-replace github.com/coinbase/x402/go => ../../../../go
+replace github.com/GoPlausible/x402-avm/go => ../../../../go
 
 require (
+	github.com/GoPlausible/x402-avm/go v0.0.0-00010101000000-000000000000
 	github.com/algorand/go-algorand-sdk/v2 v2.6.0
-	github.com/coinbase/x402/go v0.0.0-00010101000000-000000000000
 	github.com/ethereum/go-ethereum v1.16.7
 	github.com/gagliardetto/solana-go v1.14.0
 	github.com/gin-gonic/gin v1.11.0

@@ -1,13 +1,13 @@
-module github.com/coinbase/x402/examples/go/clients/http
+module github.com/GoPlausible/x402-avm/examples/go/clients/http
 
 go 1.24.0
 
 toolchain go1.24.1
 
-replace github.com/coinbase/x402/go => ../../../../go
+replace github.com/GoPlausible/x402-avm/go => ../../../../go
 
 require (
-	github.com/coinbase/x402/go v0.0.0-00010101000000-000000000000
+	github.com/GoPlausible/x402-avm/go v0.0.0-00010101000000-000000000000
 	github.com/joho/godotenv v1.5.1
 )
 

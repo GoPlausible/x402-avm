@@ -7,9 +7,9 @@ import (
 	"strconv"
 	"strings"
 
-	x402 "github.com/coinbase/x402/go"
-	"github.com/coinbase/x402/go/mechanisms/avm"
-	"github.com/coinbase/x402/go/types"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	"github.com/GoPlausible/x402-avm/go/mechanisms/avm"
+	"github.com/GoPlausible/x402-avm/go/types"
 )
 
 // ExactAvmScheme implements the SchemeNetworkServer interface for AVM (Algorand) exact payments (V2)

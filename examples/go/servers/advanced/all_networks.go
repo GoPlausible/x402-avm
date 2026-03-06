@@ -6,13 +6,13 @@ import (
 	"os"
 	"time"
 
-	x402 "github.com/coinbase/x402/go"
-	x402http "github.com/coinbase/x402/go/http"
-	ginmw "github.com/coinbase/x402/go/http/gin"
-	avm "github.com/coinbase/x402/go/mechanisms/avm"
-	avmserver "github.com/coinbase/x402/go/mechanisms/avm/exact/server"
-	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/server"
-	svm "github.com/coinbase/x402/go/mechanisms/svm/exact/server"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	x402http "github.com/GoPlausible/x402-avm/go/http"
+	ginmw "github.com/GoPlausible/x402-avm/go/http/gin"
+	avm "github.com/GoPlausible/x402-avm/go/mechanisms/avm"
+	avmserver "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/server"
+	evm "github.com/GoPlausible/x402-avm/go/mechanisms/evm/exact/server"
+	svm "github.com/GoPlausible/x402-avm/go/mechanisms/svm/exact/server"
 	ginfw "github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -48,7 +48,7 @@ func main() {
 	facilitatorURL := os.Getenv("FACILITATOR_URL")
 	if facilitatorURL == "" {
 		fmt.Println("❌ FACILITATOR_URL environment variable is required")
-		fmt.Println("   Example: https://x402.org/facilitator")
+		fmt.Println("   Example: https://facilitator.goplausible.xyz")
 		os.Exit(1)
 	}
 

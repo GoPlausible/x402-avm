@@ -3,8 +3,8 @@ package main
 import (
 	"math/big"
 
-	x402gin "github.com/coinbase/x402/go/pkg/gin"
-	"github.com/coinbase/x402/go/pkg/types"
+	x402gin "github.com/GoPlausible/x402-avm/go/pkg/gin"
+	"github.com/GoPlausible/x402-avm/go/pkg/types"
 	"github.com/gin-gonic/gin"
 )
 

@@ -9,8 +9,8 @@ import (
 	"net/http"
 	"time"
 
-	x402 "github.com/coinbase/x402/go"
-	"github.com/coinbase/x402/go/types"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	"github.com/GoPlausible/x402-avm/go/types"
 )
 
 // ============================================================================
@@ -58,7 +58,7 @@ type FacilitatorConfig struct {
 }
 
 // DefaultFacilitatorURL is the default public facilitator
-const DefaultFacilitatorURL = "https://x402.org/facilitator"
+const DefaultFacilitatorURL = "https://facilitator.goplausible.xyz"
 
 // NewHTTPFacilitatorClient creates a new HTTP facilitator client
 func NewHTTPFacilitatorClient(config *FacilitatorConfig) *HTTPFacilitatorClient {

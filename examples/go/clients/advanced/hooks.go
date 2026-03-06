@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"net/http"
 
-	x402 "github.com/coinbase/x402/go"
-	x402http "github.com/coinbase/x402/go/http"
-	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/client"
-	evmsigners "github.com/coinbase/x402/go/signers/evm"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	x402http "github.com/GoPlausible/x402-avm/go/http"
+	evm "github.com/GoPlausible/x402-avm/go/mechanisms/evm/exact/client"
+	evmsigners "github.com/GoPlausible/x402-avm/go/signers/evm"
 )
 
 /**

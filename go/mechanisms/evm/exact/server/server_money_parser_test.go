@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"testing"
 
-	x402 "github.com/coinbase/x402/go"
+	x402 "github.com/GoPlausible/x402-avm/go"
 )
 
 // Base mainnet USDC address

@@ -20,7 +20,7 @@ cp .env-example .env
 2. Configure environment variables:
 
    - `EVM_ADDRESS`: Your EVM wallet address to receive payments
-   - `FACILITATOR_URL`: x402 facilitator URL (default: https://x402.org/facilitator)
+   - `FACILITATOR_URL`: x402 facilitator URL (default: https://facilitator.goplausible.xyz)
    - `PORT`: Server port (default: 4022)
 
 3. Install dependencies:

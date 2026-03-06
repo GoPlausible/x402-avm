@@ -27,7 +27,7 @@ func main() {
 	r := gin.Default()
 
 	facilitator := x402http.NewHTTPFacilitatorClient(&x402http.FacilitatorConfig{
-		URL: "https://facilitator.x402.org",
+		URL: "https://facilitator.goplausible.xyz",
 	})
 
 	routes := x402http.RoutesConfig{
@@ -236,7 +236,7 @@ func main() {
 	r := gin.Default()
 
 	facilitator := x402http.NewHTTPFacilitatorClient(&x402http.FacilitatorConfig{
-		URL: "https://facilitator.x402.org",
+		URL: "https://facilitator.goplausible.xyz",
 	})
 
 	routes := x402http.RoutesConfig{
@@ -312,6 +312,6 @@ r.Use(ginmw.SimplePaymentMiddleware(
 	"0xYourAddress",
 	"$0.10",
 	"eip155:84532",
-	"https://facilitator.x402.org",
+	"https://facilitator.goplausible.xyz",
 ))
 ```

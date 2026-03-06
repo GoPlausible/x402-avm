@@ -5,8 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	x402 "github.com/coinbase/x402/go"
-	x402http "github.com/coinbase/x402/go/http"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	x402http "github.com/GoPlausible/x402-avm/go/http"
 )
 
 // wrapHTTPClient wraps a standard HTTP client with x402 payment handling

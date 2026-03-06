@@ -9,8 +9,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/coinbase/x402/go/pkg/facilitatorclient"
-	"github.com/coinbase/x402/go/pkg/types"
+	"github.com/GoPlausible/x402-avm/go/pkg/facilitatorclient"
+	"github.com/GoPlausible/x402-avm/go/pkg/types"
 )
 
 const x402Version = 1

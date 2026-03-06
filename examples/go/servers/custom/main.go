@@ -10,9 +10,9 @@ import (
 	"sync"
 	"time"
 
-	x402 "github.com/coinbase/x402/go"
-	x402http "github.com/coinbase/x402/go/http"
-	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/server"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	x402http "github.com/GoPlausible/x402-avm/go/http"
+	evm "github.com/GoPlausible/x402-avm/go/mechanisms/evm/exact/server"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 )
@@ -219,18 +219,17 @@ func handlePaymentVerified(c *gin.Context, server *x402http.HTTPServer, ctx cont
 	fmt.Printf("💰 Settling payment...\n")
 
 	// Process settlement through x402
-	settlementHeaders, err := server.ProcessSettlement(
+	settleResult := server.ProcessSettlement(
 		ctx,
 		*result.PaymentPayload,
 		*result.PaymentRequirements,
-		capture.statusCode,
 	)
 
-	if err != nil {
-		fmt.Printf("❌ Settlement failed: %v\n", err)
+	if !settleResult.Success {
+		fmt.Printf("❌ Settlement failed: %s\n", settleResult.ErrorReason)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"error":   "Settlement failed",
-			"details": err.Error(),
+			"details": settleResult.ErrorReason,
 		})
 		return
 	}
@@ -238,14 +237,14 @@ func handlePaymentVerified(c *gin.Context, server *x402http.HTTPServer, ctx cont
 	fmt.Printf("✅ Settlement successful\n")
 
 	// Add settlement headers to response
-	if settlementHeaders != nil {
-		for key, value := range settlementHeaders {
+	if settleResult.Headers != nil {
+		for key, value := range settleResult.Headers {
 			c.Header(key, value)
 		}
 
 		// Log settlement details
-		if settlementHeaders["PAYMENT-RESPONSE"] != "" {
-			logSettlementDetails(settlementHeaders)
+		if settleResult.Headers["PAYMENT-RESPONSE"] != "" {
+			logSettlementDetails(settleResult.Headers)
 		}
 	}
 

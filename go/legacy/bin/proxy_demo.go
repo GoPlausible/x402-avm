@@ -8,8 +8,8 @@ import (
 	"net/url"
 	"os"
 
-	x402gin "github.com/coinbase/x402/go/pkg/gin"
-	"github.com/coinbase/x402/go/pkg/types"
+	x402gin "github.com/GoPlausible/x402-avm/go/pkg/gin"
+	"github.com/GoPlausible/x402-avm/go/pkg/types"
 	"github.com/gin-gonic/gin"
 )
 
@@ -114,7 +114,7 @@ func proxyHandler(targetURL string, headers map[string]string) gin.HandlerFunc {
 func loadConfig(configPath string) (*ProxyConfig, error) {
 	config := &ProxyConfig{
 		// default values
-		FacilitatorURL:    "https://x402.org/facilitator",
+		FacilitatorURL:    "https://facilitator.goplausible.xyz",
 		Testnet:           true,
 		MaxTimeoutSeconds: 60,
 	}

@@ -7,13 +7,13 @@ import (
 	"strings"
 	"testing"
 
-	x402 "github.com/coinbase/x402/go"
-	avm "github.com/coinbase/x402/go/mechanisms/avm"
-	avmclient "github.com/coinbase/x402/go/mechanisms/avm/exact/client"
-	avmfacilitator "github.com/coinbase/x402/go/mechanisms/avm/exact/facilitator"
-	avmv1client "github.com/coinbase/x402/go/mechanisms/avm/exact/v1/client"
-	avmv1facilitator "github.com/coinbase/x402/go/mechanisms/avm/exact/v1/facilitator"
-	"github.com/coinbase/x402/go/types"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	avm "github.com/GoPlausible/x402-avm/go/mechanisms/avm"
+	avmclient "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/client"
+	avmfacilitator "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/facilitator"
+	avmv1client "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/v1/client"
+	avmv1facilitator "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/v1/facilitator"
+	"github.com/GoPlausible/x402-avm/go/types"
 
 	algodClient "github.com/algorand/go-algorand-sdk/v2/client/v2/algod"
 )

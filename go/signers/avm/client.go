@@ -10,7 +10,7 @@ import (
 	"github.com/algorand/go-algorand-sdk/v2/encoding/msgpack"
 	"github.com/algorand/go-algorand-sdk/v2/types"
 
-	x402avm "github.com/coinbase/x402/go/mechanisms/avm"
+	x402avm "github.com/GoPlausible/x402-avm/go/mechanisms/avm"
 )
 
 // ClientSigner implements x402avm.ClientAvmSigner using an Ed25519 private key.

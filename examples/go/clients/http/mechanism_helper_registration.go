@@ -1,14 +1,14 @@
 package main
 
 import (
-	x402 "github.com/coinbase/x402/go"
-	avm "github.com/coinbase/x402/go/mechanisms/avm"
-	avmclient "github.com/coinbase/x402/go/mechanisms/avm/exact/client"
-	evm "github.com/coinbase/x402/go/mechanisms/evm/exact/client"
-	svm "github.com/coinbase/x402/go/mechanisms/svm/exact/client"
-	avmsigners "github.com/coinbase/x402/go/signers/avm"
-	evmsigners "github.com/coinbase/x402/go/signers/evm"
-	svmsigners "github.com/coinbase/x402/go/signers/svm"
+	x402 "github.com/GoPlausible/x402-avm/go"
+	avm "github.com/GoPlausible/x402-avm/go/mechanisms/avm"
+	avmclient "github.com/GoPlausible/x402-avm/go/mechanisms/avm/exact/client"
+	evm "github.com/GoPlausible/x402-avm/go/mechanisms/evm/exact/client"
+	svm "github.com/GoPlausible/x402-avm/go/mechanisms/svm/exact/client"
+	avmsigners "github.com/GoPlausible/x402-avm/go/signers/avm"
+	evmsigners "github.com/GoPlausible/x402-avm/go/signers/evm"
+	svmsigners "github.com/GoPlausible/x402-avm/go/signers/svm"
 )
 
 /**
