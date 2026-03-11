@@ -3,6 +3,14 @@
   "version": "1.2.0",
   "private": true,
   "type": "module",
+  "author": "GoPlausible <info@goplausible.com> (https://goplausible.com)",
+  "homepage": "https://x402.goplausible.xyz",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GoPlausible/x402-avm/tree/branch-algorand-v2-typescript-algokit-pr-publish",
+    "directory": "examples/typescript/servers/cloudflare"
+  },
+  "license": "Apache-2.0",
   "scripts": {
     "dev": "wrangler dev",
     "deploy": "wrangler deploy --minify",
