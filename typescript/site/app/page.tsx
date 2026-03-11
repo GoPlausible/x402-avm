@@ -18,6 +18,9 @@ import {
   ArrowPathIcon,
   CommandLineIcon,
   UserGroupIcon,
+  GlobeAltIcon,
+  PuzzlePieceIcon,
+  CircleStackIcon,
 } from "@heroicons/react/24/outline";
 
 import { FeatureItem } from "./components/FeatureItem";
@@ -220,6 +223,44 @@ export default function Home() {
               >
                 <WrenchScrewdriverIcon className="w-5 h-5 mr-1" />
                 Facilitator Docs
+              </Link>
+            </div>
+            <div className="flex flex-wrap gap-4 mb-8 justify-center">
+              <Link
+                href="https://example.x402.goplausible.xyz/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
+              >
+                <GlobeAltIcon className="w-5 h-5 mr-1" />
+                Testing x402 Resources
+              </Link>
+              <Link
+                href="https://www.npmjs.com/package/@goplausible/openclaw-algorand-plugin"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
+              >
+                <PuzzlePieceIcon className="w-5 h-5 mr-1" />
+                OpenClaw Plugin
+              </Link>
+              <Link
+                href="https://github.com/GoPlausible/claude-algorand-plugin"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
+              >
+                <CommandLineIcon className="w-5 h-5 mr-1" />
+                Claude Code Plugin
+              </Link>
+              <Link
+                href="https://www.npmjs.com/package/@goplausible/algorand-mcp"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
+              >
+                <CircleStackIcon className="w-5 h-5 mr-1" />
+                Algorand MCP Server
               </Link>
             </div>
           </div>
@@ -435,6 +476,46 @@ export default function Home() {
                     className="text-blue-400 font-bold block mb-2"
                   >
                     Python Example Packages
+                  </a>
+                </div>
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://example.x402.goplausible.xyz/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    Testing x402 Resources
+                  </a>
+                </div>
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://www.npmjs.com/package/@goplausible/openclaw-algorand-plugin"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402 enabled OpenClaw Plugin
+                  </a>
+                </div>
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://github.com/GoPlausible/claude-algorand-plugin"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402 enabled Claude Code Plugin
+                  </a>
+                </div>
+                <div className="bg-black/50 rounded-lg p-4">
+                  <a
+                    href="https://www.npmjs.com/package/@goplausible/algorand-mcp"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 font-bold block mb-2"
+                  >
+                    x402 enabled Algorand MCP Server
                   </a>
                 </div>
               </div>
