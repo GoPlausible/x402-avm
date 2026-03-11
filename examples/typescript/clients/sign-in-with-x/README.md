@@ -3,10 +3,10 @@
 Client demonstrating how to use Sign-In-With-X authentication with x402, allowing wallet signatures to prove prior payment and skip re-payment on subsequent requests.
 
 ```typescript
-import { x402Client, x402HTTPClient, wrapFetchWithPayment } from "@x402/fetch";
-import { registerExactEvmScheme } from "@x402/evm/exact/client";
-import { registerExactSvmScheme } from "@x402/svm/exact/client";
-import { createSIWxClientHook } from "@x402/extensions/sign-in-with-x";
+import { x402Client, x402HTTPClient, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { createSIWxClientHook } from "@x402-avm/extensions/sign-in-with-x";
 import { privateKeyToAccount } from "viem/accounts";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 
@@ -42,7 +42,7 @@ const response2 = await fetchWithPayment("http://localhost:4021/weather");
 
 - Node.js v20+ (install via [nvm](https://github.com/nvm-sh/nvm))
 - pnpm v10 (install via [pnpm.io/installation](https://pnpm.io/installation))
-- At least one private key (EVM or SVM) for payments and SIWX authentication
+- At least one private key (EVM, SVM, or AVM) for payments and SIWX authentication
 - Running SIWX server (see [server example](../../servers/sign-in-with-x/))
 
 ## Setup
@@ -57,9 +57,10 @@ and provide at least one private key:
 
 - `EVM_PRIVATE_KEY` - (Optional) Ethereum private key for EVM payments and SIWX authentication
 - `SVM_PRIVATE_KEY` - (Optional) Solana private key for SVM payments and SIWX authentication
+- `AVM_PRIVATE_KEY` - (Optional) Base64-encoded 64-byte Algorand private key for AVM payments and SIWX authentication
 - `RESOURCE_SERVER_URL` - (Optional) Server URL (defaults to `http://localhost:4021`)
 
-**Note:** At least one private key (EVM or SVM) is required. SIWX supports both EVM signatures (EIP-191) and Solana signatures (Ed25519), so authentication works with either key type.
+**Note:** At least one private key (EVM, SVM, or AVM) is required. SIWX supports EVM signatures (EIP-191), Solana signatures (Ed25519), and Algorand signatures (Ed25519), so authentication works with any key type.
 
 2. Install and build from typescript examples root:
 

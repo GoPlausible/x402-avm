@@ -1,4 +1,4 @@
-import { PaymentRequirements, PaymentPayloadResult } from "@x402/core/types";
+import { PaymentRequirements, PaymentPayloadResult } from "@x402-avm/core/types";
 import { encodeFunctionData, getAddress } from "viem";
 import {
   permit2WitnessTypes,

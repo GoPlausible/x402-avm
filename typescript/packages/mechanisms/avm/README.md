@@ -1,11 +1,11 @@
-# @x402/avm
+# @x402-avm/avm
 
-AVM (Algorand Virtual Machine) implementation of the x402 payment protocol using the **Exact** payment scheme with ASA (Algorand Standard Asset) transfers.
+AVM (Algorand Virtual Machine) implementation of the x402 payment protocol using the **Exact** payment scheme with ASA (Algorand Standard Asset) transfers. This is the primary blockchain mechanism for the x402-avm fork, providing first-class Algorand support alongside EVM and SVM.
 
 ## Installation
 
 ```bash
-npm install @x402/avm
+npm install @x402-avm/avm
 ```
 
 ## Overview
@@ -18,7 +18,7 @@ This package provides three main components for handling x402 payments on Algora
 
 ## Package Exports
 
-### Main Package (`@x402/avm`)
+### Main Package (`@x402-avm/avm`)
 
 **V2 Protocol Support** - Modern x402 protocol with CAIP-2 network identifiers
 
@@ -33,7 +33,7 @@ This package provides three main components for handling x402 payments on Algora
 **Service:**
 - `ExactAvmServer` - V2 service for building payment requirements
 
-### V1 Package (`@x402/avm/v1`)
+### V1 Package (`@x402-avm/avm/v1`)
 
 **V1 Protocol Support** - Legacy x402 protocol with simple network names
 
@@ -71,9 +71,9 @@ This package provides three main components for handling x402 payments on Algora
 ### 1. Direct Registration
 
 ```typescript
-import { x402Client } from "@x402/core/client";
-import { ExactAvmClient } from "@x402/avm";
-import { ExactAvmClientV1 } from "@x402/avm/v1";
+import { x402Client } from "@x402-avm/core/client";
+import { ExactAvmClient } from "@x402-avm/avm";
+import { ExactAvmClientV1 } from "@x402-avm/avm/v1";
 
 const client = new x402Client()
   .register("algorand:*", new ExactAvmClient(signer))
@@ -84,8 +84,8 @@ const client = new x402Client()
 ### 2. Using Config (Flexible)
 
 ```typescript
-import { x402Client } from "@x402/core/client";
-import { ExactAvmClient } from "@x402/avm";
+import { x402Client } from "@x402-avm/core/client";
+import { ExactAvmClient } from "@x402-avm/avm";
 
 const client = x402Client.fromConfig({
   schemes: [
@@ -227,10 +227,40 @@ pnpm lint
 pnpm format
 ```
 
+## Server-Side Usage
+
+Register the AVM scheme on your resource server to accept Algorand payments:
+
+```typescript
+import { x402ResourceServer, HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
+
+const facilitatorClient = new HTTPFacilitatorClient({
+  url: "https://facilitator.x402.goplausible.xyz",
+});
+
+const resourceServer = new x402ResourceServer(facilitatorClient)
+  .register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme());
+
+// Route configuration
+const routes = {
+  "GET /api/data": {
+    accepts: {
+      scheme: "exact",
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: process.env.AVM_ADDRESS!,
+      price: "$0.01",
+    },
+    description: "Premium data access",
+  },
+};
+```
+
 ## Related Packages
 
-- `@x402/core` - Core protocol types and client
-- `@x402/fetch` - HTTP wrapper with automatic payment handling
-- `@x402/evm` - EVM/Ethereum implementation
-- `@x402/svm` - Solana/SVM implementation
+- `@x402-avm/core` - Core protocol types and client
+- `@x402-avm/fetch` - HTTP wrapper with automatic payment handling
+- `@x402-avm/evm` - EVM/Ethereum implementation
+- `@x402-avm/svm` - Solana/SVM implementation
+- `@x402-avm/stellar` - Stellar implementation
 - `@algorandfoundation/algokit-utils` - Algorand utility library (dependency)

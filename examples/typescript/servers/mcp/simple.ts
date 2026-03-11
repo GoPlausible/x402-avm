@@ -10,9 +10,9 @@
 import { config } from "dotenv";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { createPaymentWrapper, x402ResourceServer } from "@x402/mcp";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { createPaymentWrapper, x402ResourceServer } from "@x402-avm/mcp";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 import express from "express";
 import { z } from "zod";
 

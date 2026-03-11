@@ -115,6 +115,7 @@ cp .env-local .env
 
    - `OPENAI_API_KEY`: Get from https://platform.openai.com/api-keys
    - `EVM_PRIVATE_KEY`: Your wallet private key (needs funds on Base Sepolia)
+   - `AVM_PRIVATE_KEY`: (Optional) Base64-encoded 64-byte Algorand private key
    - `MCP_SERVER_URL`: MCP server URL (default: http://localhost:4022)
 
 3. Install dependencies:

@@ -8,8 +8,8 @@
  */
 
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
-import { ExactEvmScheme, type ExactEvmSchemeOptions } from "@x402/evm/exact/client";
-import { createx402MCPClient } from "@x402/mcp";
+import { ExactEvmScheme, type ExactEvmSchemeOptions } from "@x402-avm/evm/exact/client";
+import { createx402MCPClient } from "@x402-avm/mcp";
 import { privateKeyToAccount } from "viem/accounts";
 
 interface E2EResult {

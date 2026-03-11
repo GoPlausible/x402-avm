@@ -11,7 +11,7 @@ import { STELLAR_TESTNET_CAIP2 } from "../../src/constants";
 import { ExactStellarScheme } from "../../src/exact/client/scheme";
 import { gatherAuthEntrySignatureStatus, handleSimulationResult } from "../../src/shared";
 import { createEd25519Signer } from "../../src/signer";
-import type { PaymentRequirements } from "@x402/core/types";
+import type { PaymentRequirements } from "@x402-avm/core/types";
 
 describe("Stellar Shared Utilities", () => {
   describe("handleSimulationResult", () => {

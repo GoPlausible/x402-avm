@@ -1,5 +1,5 @@
 {
-  "name": "@x402/advanced-facilitator-example",
+  "name": "@x402-avm/advanced-facilitator-example",
   "version": "2.0.0",
   "type": "module",
   "private": true,
@@ -16,13 +16,13 @@
   "dependencies": {
     "@scure/base": "^1.2.6",
     "@solana/kit": "^6.1.0",
-    "@x402/core": "workspace:*",
-    "@x402/evm": "workspace:*",
-    "@x402/extensions": "workspace:*",
-    "@x402/avm": "workspace:*",
-    "@x402/svm": "workspace:*",
+    "@x402-avm/core": "workspace:*",
+    "@x402-avm/evm": "workspace:*",
+    "@x402-avm/extensions": "workspace:*",
+    "@x402-avm/avm": "workspace:*",
+    "@x402-avm/svm": "workspace:*",
     "@algorandfoundation/algokit-utils": "10.0.0-alpha.39",
-    "@x402/stellar": "workspace:*",
+    "@x402-avm/stellar": "workspace:*",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "viem": "^2.21.54"

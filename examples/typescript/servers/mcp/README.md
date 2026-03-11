@@ -20,7 +20,8 @@ cp .env-local .env
 2. Configure environment variables:
 
    - `EVM_ADDRESS`: Your EVM wallet address to receive payments
-   - `FACILITATOR_URL`: x402 facilitator URL (default: https://x402.org/facilitator)
+   - `AVM_ADDRESS`: (Optional) Your Algorand address to receive payments
+   - `FACILITATOR_URL`: x402 facilitator URL (default: https://x402.goplausible.xyz/facilitator)
    - `PORT`: Server port (default: 4022)
 
 3. Install dependencies:
@@ -85,7 +86,7 @@ The server will start on `http://localhost:4022` with:
 
 ## Testing
 
-Use the MCP client example (`@x402/mcp-client-example`) to connect and test:
+Use the MCP client example (`@x402-avm/mcp-client-example`) to connect and test:
 
 ```bash
 cd ../../../clients/mcp

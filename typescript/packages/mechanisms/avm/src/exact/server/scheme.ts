@@ -11,7 +11,7 @@ import type {
   Price,
   SchemeNetworkServer,
   MoneyParser,
-} from '@x402/core/types'
+} from '@x402-avm/core/types'
 import { USDC_CONFIG, USDC_DECIMALS } from '../../constants'
 
 /**

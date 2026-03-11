@@ -1,11 +1,11 @@
 import { config } from "dotenv";
-import { x402Client, x402HTTPClient, wrapFetchWithPayment } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
+import { x402Client, x402HTTPClient, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import { base58 } from "@scure/base";
-import { createSIWxClientHook, type SolanaSigner } from "@x402/extensions/sign-in-with-x";
+import { createSIWxClientHook, type SolanaSigner } from "@x402-avm/extensions/sign-in-with-x";
 config();
 
 const evmPrivateKey = process.env.EVM_PRIVATE_KEY as `0x${string}` | undefined;
@@ -39,7 +39,7 @@ if (evmSigner) {
   httpClient.onPaymentRequired(createSIWxClientHook(evmSigner));
 }
 if (svmSigner) {
-  // Cast needed until @x402/extensions is rebuilt
+  // Cast needed until @x402-avm/extensions is rebuilt
   httpClient.onPaymentRequired(createSIWxClientHook(svmSigner as SolanaSigner));
 }
 

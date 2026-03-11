@@ -1,5 +1,5 @@
 {
-  "name": "@x402/payment-identifier-server-example",
+  "name": "@x402-avm/payment-identifier-server-example",
   "private": true,
   "type": "module",
   "scripts": {
@@ -12,10 +12,10 @@
   "dependencies": {
     "dotenv": "^16.4.7",
     "express": "^4.18.2",
-    "@x402/core": "workspace:*",
-    "@x402/express": "workspace:*",
-    "@x402/evm": "workspace:*",
-    "@x402/extensions": "workspace:*"
+    "@x402-avm/core": "workspace:*",
+    "@x402-avm/express": "workspace:*",
+    "@x402-avm/evm": "workspace:*",
+    "@x402-avm/extensions": "workspace:*"
   },
   "devDependencies": {
     "@eslint/js": "^9.24.0",

@@ -1,11 +1,11 @@
 # Custom x402 Client Implementation
 
-Demonstrates how to implement x402 payment handling manually using only the core packages, without convenience wrappers like `@x402/fetch` or `@x402/axios`.
+Demonstrates how to implement x402 payment handling manually using only the core packages, without convenience wrappers like `@x402-avm/fetch` or `@x402-avm/axios`.
 
 ```typescript
-import { x402Client } from "@x402/core/client";
-import { decodePaymentRequiredHeader, encodePaymentSignatureHeader } from "@x402/core/http";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
+import { x402Client } from "@x402-avm/core/client";
+import { decodePaymentRequiredHeader, encodePaymentSignatureHeader } from "@x402-avm/core/http";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 
 const client = new x402Client().register(
@@ -34,7 +34,7 @@ console.log(await response.json());
 
 - Node.js v20+ (install via [nvm](https://github.com/nvm-sh/nvm))
 - pnpm v10 (install via [pnpm.io/installation](https://pnpm.io/installation))
-- Valid EVM and SVM private keys for making payments
+- Valid EVM, SVM, and/or AVM private keys for making payments
 - A running x402 server (see [server examples](../../servers/))
 
 ## Setup
@@ -104,9 +104,10 @@ pnpm dev
 ### 1. Setting Up the Client
 
 ```typescript
-import { x402Client } from "@x402/core/client";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
+import { x402Client } from "@x402-avm/core/client";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 
 const evmSigner = privateKeyToAccount(evmPrivateKey);
@@ -119,13 +120,14 @@ const selectPayment = (_version: number, requirements: PaymentRequirements[]) =>
 
 const client = new x402Client(selectPayment)
   .register("eip155:*", new ExactEvmScheme(evmSigner))
-  .register("solana:*", new ExactSvmScheme(svmSigner));
+  .register("solana:*", new ExactSvmScheme(svmSigner))
+  .register("algorand:*", new ExactAvmScheme(avmSigner));
 ```
 
 ### 2. Detecting Payment Required
 
 ```typescript
-import { decodePaymentRequiredHeader } from "@x402/core/http";
+import { decodePaymentRequiredHeader } from "@x402-avm/core/http";
 
 if (response.status === 402) {
   const paymentRequiredHeader = response.headers.get("PAYMENT-REQUIRED");
@@ -137,7 +139,7 @@ if (response.status === 402) {
 ### 3. Creating Payment Payload
 
 ```typescript
-import { encodePaymentSignatureHeader } from "@x402/core/http";
+import { encodePaymentSignatureHeader } from "@x402-avm/core/http";
 
 const paymentPayload = await client.createPaymentPayload(paymentRequired);
 const paymentHeader = encodePaymentSignatureHeader(paymentPayload);
@@ -156,7 +158,7 @@ const response = await fetch(url, {
 ### 5. Extracting Settlement
 
 ```typescript
-import { decodePaymentResponseHeader } from "@x402/core/http";
+import { decodePaymentResponseHeader } from "@x402-avm/core/http";
 
 const settlementHeader = response.headers.get("PAYMENT-RESPONSE");
 const settlement = decodePaymentResponseHeader(settlementHeader);
@@ -165,7 +167,7 @@ const settlement = decodePaymentResponseHeader(settlementHeader);
 
 ## Wrapper vs Custom Comparison
 
-| Aspect            | With Wrapper (@x402/fetch) | Custom Implementation |
+| Aspect            | With Wrapper (@x402-avm/fetch) | Custom Implementation |
 | ----------------- | -------------------------- | --------------------- |
 | Code Complexity   | ~10 lines                  | ~100 lines            |
 | Automatic Retry   | ✅ Yes                     | ❌ Manual             |

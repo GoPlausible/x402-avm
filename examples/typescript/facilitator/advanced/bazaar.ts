@@ -5,20 +5,20 @@
  * catalogs discovered x402 resources.
  */
 
-import { toFacilitatorAvmSigner } from "@x402/avm";
-import { ExactAvmScheme } from "@x402/avm/exact/facilitator";
-import { x402Facilitator } from "@x402/core/facilitator";
+import { toFacilitatorAvmSigner } from "@x402-avm/avm";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/facilitator";
+import { x402Facilitator } from "@x402-avm/core/facilitator";
 import {
   PaymentPayload,
   PaymentRequirements,
   SettleResponse,
   VerifyResponse,
-} from "@x402/core/types";
-import { toFacilitatorEvmSigner } from "@x402/evm";
-import { ExactEvmScheme } from "@x402/evm/exact/facilitator";
-import { toFacilitatorSvmSigner } from "@x402/svm";
-import { extractDiscoveryInfo, DiscoveryInfo } from "@x402/extensions/bazaar";
-import { ExactSvmScheme } from "@x402/svm/exact/facilitator";
+} from "@x402-avm/core/types";
+import { toFacilitatorEvmSigner } from "@x402-avm/evm";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/facilitator";
+import { toFacilitatorSvmSigner } from "@x402-avm/svm";
+import { extractDiscoveryInfo, DiscoveryInfo } from "@x402-avm/extensions/bazaar";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/facilitator";
 import { base58 } from "@scure/base";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import dotenv from "dotenv";

@@ -4,16 +4,16 @@ import {
   paymentMiddlewareFromHTTPServer,
   x402ResourceServer,
   x402HTTPResourceServer,
-} from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+} from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 import {
   declarePaymentIdentifierExtension,
   extractPaymentIdentifier,
   PAYMENT_IDENTIFIER,
-} from "@x402/extensions/payment-identifier";
+} from "@x402-avm/extensions/payment-identifier";
 import { createHash } from "crypto";
-import type { PaymentPayload } from "@x402/core/types";
+import type { PaymentPayload } from "@x402-avm/core/types";
 config();
 
 /**
@@ -45,8 +45,8 @@ if (!address) {
   process.exit(1);
 }
 
-// Use default x402.org facilitator
-const facilitatorClient = new HTTPFacilitatorClient({ url: "https://x402.org/facilitator" });
+// Use default facilitator
+const facilitatorClient = new HTTPFacilitatorClient({ url: "https://facilitator.goplausible.xyz" });
 
 /**
  * Simple in-memory cache for idempotency.

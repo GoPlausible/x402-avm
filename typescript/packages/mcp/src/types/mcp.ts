@@ -5,7 +5,7 @@ import type {
   PaymentRequirements,
   Price,
   SettleResponse,
-} from "@x402/core/types";
+} from "@x402-avm/core/types";
 import { isObject } from "../utils/encoding";
 
 /**

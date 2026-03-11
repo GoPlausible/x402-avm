@@ -12,9 +12,9 @@ import {
   getAptosRpcUrl,
   getAptosChainId,
 } from "../../src/index";
-import type { PaymentRequirements } from "@x402/core/types";
+import type { PaymentRequirements } from "@x402-avm/core/types";
 
-describe("@x402/aptos", () => {
+describe("@x402-avm/aptos", () => {
   describe("exports", () => {
     it("should export main scheme classes", () => {
       expect(ExactAptosClient).toBeDefined();

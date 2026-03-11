@@ -5,8 +5,8 @@
  * Use createPaymentWrapper to wrap tool handlers with payment verification and settlement.
  */
 
-import type { PaymentRequirements } from "@x402/core/types";
-import { x402ResourceServer } from "@x402/core/server";
+import type { PaymentRequirements } from "@x402-avm/core/types";
+import { x402ResourceServer } from "@x402-avm/core/server";
 
 import type {
   MCPToolContext,

@@ -18,10 +18,10 @@ import { useEffect, useMemo, useState, useCallback } from "react";
 import { useAccount, useWalletClient, useSwitchChain, usePublicClient } from "wagmi";
 import { baseSepolia } from "wagmi/chains";
 import { sdk } from "@farcaster/miniapp-sdk";
-import { x402Client, wrapFetchWithPayment } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { toClientEvmSigner } from "@x402/evm";
-import type { ClientEvmSigner } from "@x402/evm";
+import { x402Client, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { toClientEvmSigner } from "@x402-avm/evm";
+import type { ClientEvmSigner } from "@x402-avm/evm";
 import type { WalletClient, Account } from "viem";
 
 /**

@@ -4,8 +4,8 @@
  * Registers AVM exact payment schemes to an x402ResourceServer instance.
  */
 
-import { x402ResourceServer } from '@x402/core/server'
-import type { Network } from '@x402/core/types'
+import { x402ResourceServer } from '@x402-avm/core/server'
+import type { Network } from '@x402-avm/core/types'
 import { ExactAvmScheme } from './scheme'
 
 /**
@@ -31,8 +31,8 @@ export interface AvmResourceServerConfig {
  *
  * @example
  * ```typescript
- * import { registerExactAvmScheme } from "@x402/avm/exact/server";
- * import { x402ResourceServer } from "@x402/core/server";
+ * import { registerExactAvmScheme } from "@x402-avm/avm/exact/server";
+ * import { x402ResourceServer } from "@x402-avm/core/server";
  *
  * const server = new x402ResourceServer(facilitatorClient);
  * registerExactAvmScheme(server, {});

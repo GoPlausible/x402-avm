@@ -14,9 +14,9 @@
 import { config } from "dotenv";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { x402MCPClient } from "@x402/mcp";
-import { x402Client } from "@x402/core/client";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { x402MCPClient } from "@x402-avm/mcp";
+import { x402Client } from "@x402-avm/core/client";
 import { privateKeyToAccount } from "viem/accounts";
 
 config();

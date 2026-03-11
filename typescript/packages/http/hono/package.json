@@ -1,5 +1,5 @@
 {
-  "name": "@x402/hono",
+  "name": "@x402-avm/hono",
   "version": "2.6.0",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -18,8 +18,14 @@
   "keywords": [],
   "license": "Apache-2.0",
   "author": "Coinbase Inc.",
-  "repository": "https://github.com/coinbase/x402",
-  "description": "x402 Payment Protocol",
+  "contributors": [
+    {
+      "name": "GoPlausible"
+    }
+  ],
+  "repository": "https://github.com/GoPlausible/x402-avm",
+  "homepage": "https://x402.goplausible.xyz",
+  "description": "x402 Payment Protocol with Algorand integration - Hono SDK",
   "devDependencies": {
     "@eslint/js": "^9.24.0",
     "@types/node": "^22.13.4",
@@ -39,16 +45,16 @@
     "vitest": "^3.0.5"
   },
   "dependencies": {
-    "@x402/core": "workspace:~",
-    "@x402/extensions": "workspace:~",
+    "@x402-avm/core": "workspace:~",
+    "@x402-avm/extensions": "workspace:~",
     "zod": "^3.24.2"
   },
   "peerDependencies": {
     "hono": "^4.0.0",
-    "@x402/paywall": "workspace:*"
+    "@x402-avm/paywall": "workspace:*"
   },
   "peerDependenciesMeta": {
-    "@x402/paywall": {
+    "@x402-avm/paywall": {
       "optional": true
     }
   },

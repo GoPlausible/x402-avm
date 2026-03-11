@@ -1,9 +1,9 @@
 import { config } from "dotenv";
 import express from "express";
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 config();
 
 const evmAddress = process.env.EVM_ADDRESS as `0x${string}`;
@@ -23,31 +23,32 @@ const facilitatorClient = new HTTPFacilitatorClient({ url: facilitatorUrl });
 const accepts: {
   scheme: string;
   price:
-    | string
-    | ((context: { adapter: { getQueryParam?: (param: string) => string | undefined } }) => string);
+  | string
+  | ((context: { adapter: { getQueryParam?: (param: string) => string | undefined } }) => string);
   network: `${string}:${string}`;
   payTo: string;
 }[] = [
-  {
-    scheme: "exact",
-    price: context => {
-      // Dynamic pricing based on HTTP request context
-      const tier = context.adapter.getQueryParam?.("tier") ?? "standard";
-      return tier === "premium" ? "$0.005" : "$0.001";
+    {
+      scheme: "exact",
+      price: context => {
+        const tier = context.adapter.getQueryParam?.("tier") ?? "standard";
+        return tier === "premium" ? "$0.005" : "$0.001";
+      },
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: avmAddress,
     },
-    network: "eip155:84532",
-    payTo: evmAddress,
-  },
-  {
-    scheme: "exact",
-    price: context => {
-      const tier = context.adapter.getQueryParam?.("tier") ?? "standard";
-      return tier === "premium" ? "$0.005" : "$0.001";
+    {
+      scheme: "exact",
+      price: context => {
+        // Dynamic pricing based on HTTP request context
+        const tier = context.adapter.getQueryParam?.("tier") ?? "standard";
+        return tier === "premium" ? "$0.005" : "$0.001";
+      },
+      network: "eip155:84532",
+      payTo: evmAddress,
     },
-    network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
-    payTo: avmAddress,
-  },
-];
+
+  ];
 
 const server = new x402ResourceServer(facilitatorClient)
   .register("eip155:84532", new ExactEvmScheme())

@@ -7,7 +7,7 @@ This is an example client that demonstrates how to use the x402 payment protocol
 - Node.js v20+ (install via [nvm](https://github.com/nvm-sh/nvm))
 - pnpm v10 (install via [pnpm.io/installation](https://pnpm.io/installation))
 - A running x402 server (you can use the example express server at `examples/typescript/servers/express`)
-- A valid Ethereum private key and/or Solana private key for making payments
+- A valid Ethereum, Solana, and/or Algorand private key for making payments
 - Claude Desktop with MCP support
 
 ## Setup
@@ -53,9 +53,8 @@ cd clients/mcp
 ## How It Works
 
 The example demonstrates how to:
-1. Create an x402 client with EVM and SVM scheme support
-2. Register payment schemes using `@x402/evm` and `@x402/svm`
-3. Register AVM (Algorand) payment scheme using `@x402/avm`
+1. Create an x402 client with EVM, SVM, and AVM scheme support
+2. Register payment schemes using `@x402-avm/evm`, `@x402-avm/svm`, and `@x402-avm/avm`
 4. Set up an MCP server with x402 payment handling
 5. Create a tool that makes paid API requests
 6. Handle responses and errors through the MCP protocol

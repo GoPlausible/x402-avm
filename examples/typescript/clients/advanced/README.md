@@ -3,8 +3,8 @@
 Advanced patterns for x402 TypeScript clients demonstrating builder pattern registration, payment lifecycle hooks, and network preferences.
 
 ```typescript
-import { x402Client, wrapFetchWithPayment } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
+import { x402Client, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 
 const client = new x402Client()
@@ -24,7 +24,7 @@ const response = await fetchWithPayment("http://localhost:4021/weather");
 
 - Node.js v20+ (install via [nvm](https://github.com/nvm-sh/nvm))
 - pnpm v10 (install via [pnpm.io/installation](https://pnpm.io/installation))
-- Valid EVM, SVM, and/or Stellar private keys for making payments
+- Valid EVM, SVM, AVM, and/or Stellar private keys for making payments
 - A running x402 server (see [server examples](../../servers/))
 - Familiarity with the [basic fetch client](../fetch/)
 
@@ -99,10 +99,11 @@ pnpm dev:builder-pattern
 Use the builder pattern for fine-grained control over which networks are supported and with which signers:
 
 ```typescript
-import { x402Client, wrapFetchWithPayment } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
-import { ExactStellarScheme } from "@x402/stellar/exact/client";
+import { x402Client, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
+import { ExactStellarScheme } from "@x402-avm/stellar/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 
 const evmSigner = privateKeyToAccount(evmPrivateKey);
@@ -112,7 +113,8 @@ const mainnetSigner = privateKeyToAccount(mainnetPrivateKey);
 const client = new x402Client()
   .register("eip155:*", new ExactEvmScheme(evmSigner)) // All EVM networks
   .register("eip155:1", new ExactEvmScheme(mainnetSigner)) // Ethereum mainnet override
-  .register("solana:*", new ExactSvmScheme(svmSigner)); // All Solana networks
+  .register("solana:*", new ExactSvmScheme(svmSigner)) // All Solana networks
+  .register("algorand:*", new ExactAvmScheme(avmSigner)) // All Algorand networks
   .register("stellar:*", new ExactStellarScheme(stellarSigner)); // All Stellar networks
 
 const fetchWithPayment = wrapFetchWithPayment(fetch, client);
@@ -130,8 +132,8 @@ const response = await fetchWithPayment("http://localhost:4021/weather");
 Register custom logic at different payment stages for observability and control:
 
 ```typescript
-import { x402Client, wrapFetchWithPayment } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
+import { x402Client, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 
 const signer = privateKeyToAccount(process.env.EVM_PRIVATE_KEY);
@@ -173,13 +175,14 @@ Available hooks:
 Configure client-side network preferences with automatic fallback:
 
 ```typescript
-import { x402Client, wrapFetchWithPayment, type PaymentRequirements } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
-import { ExactStellarScheme } from "@x402/stellar/exact/client";
+import { x402Client, wrapFetchWithPayment, type PaymentRequirements } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
+import { ExactStellarScheme } from "@x402-avm/stellar/exact/client";
 
 // Define network preference order (most preferred first)
-const networkPreferences = ["eip155:", "solana:", "stellar:"];
+const networkPreferences = ["eip155:", "solana:", "algorand:", "stellar:"];
 
 const preferredNetworkSelector = (
   _x402Version: number,
@@ -197,6 +200,7 @@ const preferredNetworkSelector = (
 const client = new x402Client(preferredNetworkSelector)
   .register("eip155:*", new ExactEvmScheme(evmSigner))
   .register("solana:*", new ExactSvmScheme(svmSigner))
+  .register("algorand:*", new ExactAvmScheme(avmSigner))
   .register("stellar:*", new ExactStellarScheme(stellarSigner));
 
 const fetchWithPayment = wrapFetchWithPayment(fetch, client);

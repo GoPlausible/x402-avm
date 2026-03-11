@@ -1,4 +1,4 @@
-import { HTTPAdapter } from "@x402/core/server";
+import { HTTPAdapter } from "@x402-avm/core/server";
 import { Request } from "express";
 
 /**

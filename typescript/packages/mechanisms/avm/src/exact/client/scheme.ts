@@ -15,7 +15,7 @@ import type {
   PaymentRequirements,
   SchemeNetworkClient,
   PaymentPayloadResult,
-} from '@x402/core/types'
+} from '@x402-avm/core/types'
 import type { ClientAvmSigner, ClientAvmConfig } from '../../signer'
 import type { ExactAvmPayloadV2 } from '../../types'
 import { createAlgodClient, encodeTransaction } from '../../utils'

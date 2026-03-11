@@ -1,13 +1,13 @@
-# @x402/aptos
+# @x402-avm/aptos
 
 Aptos implementation of the x402 payment protocol.
 
 ## Installation
 
 ```bash
-npm install @x402/aptos
+npm install @x402-avm/aptos
 # or
-pnpm add @x402/aptos
+pnpm add @x402-avm/aptos
 ```
 
 ## Usage
@@ -16,7 +16,7 @@ pnpm add @x402/aptos
 
 ```typescript
 import { Account, Ed25519PrivateKey } from "@aptos-labs/ts-sdk";
-import { ExactAptosScheme } from "@x402/aptos/exact/client";
+import { ExactAptosScheme } from "@x402-avm/aptos/exact/client";
 
 // Create signer from private key
 const privateKey = new Ed25519PrivateKey("0x...");
@@ -30,8 +30,8 @@ client.register("aptos:*", new ExactAptosScheme(account));
 
 ```typescript
 import { Account, Ed25519PrivateKey } from "@aptos-labs/ts-sdk";
-import { ExactAptosScheme } from "@x402/aptos/exact/facilitator";
-import { toFacilitatorAptosSigner } from "@x402/aptos";
+import { ExactAptosScheme } from "@x402-avm/aptos/exact/facilitator";
+import { toFacilitatorAptosSigner } from "@x402-avm/aptos";
 
 // Create facilitator signer
 const privateKey = new Ed25519PrivateKey("0x...");
@@ -45,8 +45,8 @@ facilitator.register("aptos:2", new ExactAptosScheme(signer));
 ### Server
 
 ```typescript
-import { x402ResourceServer } from "@x402/core/server";
-import { ExactAptosScheme } from "@x402/aptos/exact/server";
+import { x402ResourceServer } from "@x402-avm/core/server";
+import { ExactAptosScheme } from "@x402-avm/aptos/exact/server";
 
 // Create and configure server
 const server = new x402ResourceServer({ facilitatorUrl: "https://..." });

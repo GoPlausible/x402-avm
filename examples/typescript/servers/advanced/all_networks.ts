@@ -10,12 +10,12 @@
 
 import { config } from "dotenv";
 import express from "express";
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactSvmScheme } from "@x402/svm/exact/server";
-import { ExactStellarScheme } from "@x402/stellar/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/server";
+import { ExactStellarScheme } from "@x402-avm/stellar/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 
 config();
 

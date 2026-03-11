@@ -4,10 +4,10 @@ import type {
   SettleResponse,
   Network,
   SchemeNetworkClient,
-} from "@x402/core/types";
-import { isPaymentRequired } from "@x402/core/schemas";
-import { x402Client } from "@x402/core/client";
-import type { x402ClientConfig } from "@x402/core/client";
+} from "@x402-avm/core/types";
+import { isPaymentRequired } from "@x402-avm/core/schemas";
+import { x402Client } from "@x402-avm/core/client";
+import type { x402ClientConfig } from "@x402-avm/core/client";
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
 
 import type {
@@ -136,9 +136,9 @@ export interface x402MCPToolCallResult {
  * @example
  * ```typescript
  * import { Client } from "@modelcontextprotocol/sdk/client/index.js";
- * import { x402MCPClient } from "@x402/mcp";
- * import { x402Client } from "@x402/core/client";
- * import { ExactEvmScheme } from "@x402/evm/exact/client";
+ * import { x402MCPClient } from "@x402-avm/mcp";
+ * import { x402Client } from "@x402-avm/core/client";
+ * import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
  *
  * const paymentClient = new x402Client()
  *   .register("eip155:84532", new ExactEvmScheme(account));
@@ -777,9 +777,9 @@ export interface x402MCPClientConfig {
  * @example
  * ```typescript
  * import { Client } from "@modelcontextprotocol/sdk/client/index.js";
- * import { wrapMCPClientWithPayment } from "@x402/mcp";
- * import { x402Client } from "@x402/core/client";
- * import { ExactEvmScheme } from "@x402/evm/exact/client";
+ * import { wrapMCPClientWithPayment } from "@x402-avm/mcp";
+ * import { x402Client } from "@x402-avm/core/client";
+ * import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
  *
  * const mcpClient = new Client({ name: "my-agent", version: "1.0.0" });
  * const paymentClient = new x402Client()
@@ -815,8 +815,8 @@ export function wrapMCPClientWithPayment(
  * @example
  * ```typescript
  * import { Client } from "@modelcontextprotocol/sdk/client/index.js";
- * import { wrapMCPClientWithPaymentFromConfig } from "@x402/mcp";
- * import { ExactEvmScheme } from "@x402/evm/exact/client";
+ * import { wrapMCPClientWithPaymentFromConfig } from "@x402-avm/mcp";
+ * import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
  *
  * const mcpClient = new Client({ name: "my-agent", version: "1.0.0" });
  *
@@ -850,8 +850,8 @@ export function wrapMCPClientWithPaymentFromConfig(
  *
  * @example
  * ```typescript
- * import { createx402MCPClient } from "@x402/mcp";
- * import { ExactEvmScheme } from "@x402/evm/exact/client";
+ * import { createx402MCPClient } from "@x402-avm/mcp";
+ * import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
  * import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
  *
  * const client = createx402MCPClient({

@@ -1,11 +1,11 @@
-# @x402/mcp
+# @x402-avm/mcp
 
-MCP (Model Context Protocol) integration for the x402 payment protocol. This package enables paid tool calls in MCP servers and automatic payment handling in MCP clients.
+MCP (Model Context Protocol) integration for the x402 payment protocol. This package enables paid tool calls in MCP servers and automatic payment handling in MCP clients, with support for EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
 
 ## Installation
 
 ```bash
-npm install @x402/mcp @x402/core @modelcontextprotocol/sdk
+npm install @x402-avm/mcp @x402-avm/core @modelcontextprotocol/sdk
 ```
 
 ## Quick Start (Recommended)
@@ -14,16 +14,16 @@ npm install @x402/mcp @x402/core @modelcontextprotocol/sdk
 
 ```typescript
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { createPaymentWrapper, x402ResourceServer } from "@x402/mcp";
-import { HTTPFacilitatorClient } from "@x402/core/server";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
+import { createPaymentWrapper, x402ResourceServer } from "@x402-avm/mcp";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
 import { z } from "zod";
 
 // Create standard MCP server
 const mcpServer = new McpServer({ name: "premium-api", version: "1.0.0" });
 
 // Set up x402 for payment handling
-const facilitatorClient = new HTTPFacilitatorClient({ url: "https://x402.org/facilitator" });
+const facilitatorClient = new HTTPFacilitatorClient({ url: "https://x402.goplausible.xyz/facilitator" });
 const resourceServer = new x402ResourceServer(facilitatorClient);
 resourceServer.register("eip155:84532", new ExactEvmScheme());
 await resourceServer.initialize();
@@ -64,8 +64,8 @@ await mcpServer.connect(transport);
 ### Client - Using Factory Function
 
 ```typescript
-import { createX402MCPClient } from "@x402/mcp";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
+import { createX402MCPClient } from "@x402-avm/mcp";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
 
 // Create client with factory (simplest approach)
@@ -207,9 +207,9 @@ const paid = createPaymentWrapper(resourceServer, {
 
 ```typescript
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-import { wrapMCPClientWithPayment, wrapMCPClientWithPaymentFromConfig } from "@x402/mcp";
-import { x402Client } from "@x402/core/client";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
+import { wrapMCPClientWithPayment, wrapMCPClientWithPaymentFromConfig } from "@x402-avm/mcp";
+import { x402Client } from "@x402-avm/core/client";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
 
 // Option 1: Wrap existing client with existing payment client
 const mcpClient = new Client({ name: "my-agent", version: "1.0.0" });
@@ -278,7 +278,7 @@ The client parses this structure to extract PaymentRequired data. This is a prag
 | Option | Type | Required | Description |
 |--------|------|----------|-------------|
 | `scheme` | `string` | Yes | Payment scheme (e.g., "exact") |
-| `network` | `Network` | Yes | CAIP-2 network ID (e.g., "eip155:84532") |
+| `network` | `Network` | Yes | CAIP-2 network ID (e.g., "eip155:84532", "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=") |
 | `price` | `Price` | Yes | Price (e.g., "$0.10" or "1000000") |
 | `payTo` | `string` | Yes | Recipient wallet address |
 | `maxTimeoutSeconds` | `number` | No | Payment timeout (default: 60) |
@@ -290,7 +290,7 @@ The client parses this structure to extract PaymentRequired data. This is a prag
 | Option | Type | Required | Description |
 |--------|------|----------|-------------|
 | `scheme` | `string` | Yes | Payment scheme (e.g., "exact") |
-| `network` | `Network` | Yes | CAIP-2 network ID (e.g., "eip155:84532") |
+| `network` | `Network` | Yes | CAIP-2 network ID (e.g., "eip155:84532", "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=") |
 | `payTo` | `string` | Yes | Recipient wallet address |
 | `price` | `Price` | No | Price - omit to specify per-tool |
 | `maxTimeoutSeconds` | `number` | No | Payment timeout (default: 60) |

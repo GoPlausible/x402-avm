@@ -1,6 +1,6 @@
 # x402 Farcaster Mini App Example (v2 SDK)
 
-This is a [Next.js](https://nextjs.org) project demonstrating how to build a [Farcaster Mini App](https://miniapps.farcaster.xyz/) with x402 payment-protected API endpoints using the `@x402/next`, `@x402/fetch` and `@x402/evm` packages.
+This is a [Next.js](https://nextjs.org) project demonstrating how to build a [Farcaster Mini App](https://miniapps.farcaster.xyz/) with x402 payment-protected API endpoints using the `@x402-avm/next`, `@x402-avm/fetch` and `@x402-avm/evm` packages.
 
 ## Prerequisites
 
@@ -42,7 +42,7 @@ Configure the following variables in your `.env`:
 
 ```bash
 # x402 Payment Configuration (required)
-FACILITATOR_URL=https://x402.org/facilitator
+FACILITATOR_URL=https://x402.goplausible.xyz/facilitator
 EVM_ADDRESS=0xYourWalletAddress
 
 # OnchainKit Configuration
@@ -71,9 +71,9 @@ The `/api/protected` endpoint uses the `withX402` wrapper for payment protection
 
 ```typescript
 // app/api/protected/route.ts
-import { withX402 } from "@x402/next";
-import { x402ResourceServer, HTTPFacilitatorClient } from "@x402/core/server";
-import { registerExactEvmScheme } from "@x402/evm/exact/server";
+import { withX402 } from "@x402-avm/next";
+import { x402ResourceServer, HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/server";
 
 const facilitatorClient = new HTTPFacilitatorClient({
   url: process.env.FACILITATOR_URL,
@@ -101,11 +101,11 @@ export const GET = withX402(
 
 ### Client-Side Payment Handling
 
-The frontend uses `@x402/fetch` to handle payments:
+The frontend uses `@x402-avm/fetch` to handle payments:
 
 ```typescript
-import { x402Client, wrapFetchWithPayment } from "@x402/fetch";
-import { registerExactEvmScheme } from "@x402/evm/exact/client";
+import { x402Client, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/client";
 
 // Create client and register EVM scheme
 const client = new x402Client();
@@ -216,9 +216,9 @@ Create a new route file (e.g., `app/api/premium/route.ts`) and use the `withX402
 ```typescript
 // app/api/premium/route.ts
 import { NextRequest, NextResponse } from "next/server";
-import { withX402 } from "@x402/next";
-import { x402ResourceServer, HTTPFacilitatorClient } from "@x402/core/server";
-import { registerExactEvmScheme } from "@x402/evm/exact/server";
+import { withX402 } from "@x402-avm/next";
+import { x402ResourceServer, HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/server";
 
 const facilitatorClient = new HTTPFacilitatorClient({
   url: process.env.FACILITATOR_URL,
@@ -254,11 +254,15 @@ Network identifiers use [CAIP-2](https://github.com/ChainAgnostic/CAIPs/blob/mai
 
 - `eip155:84532` - Base Sepolia
 - `eip155:8453` - Base Mainnet
+- `solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1` - Solana Devnet
+- `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` - Solana Mainnet
+- `algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=` - Algorand Testnet
+- `algorand:wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=` - Algorand Mainnet
 
 ## Resources
 
 - [Farcaster Mini Apps Documentation](https://miniapps.farcaster.xyz/)
-- [x402 Protocol Documentation](https://x402.org)
+- [x402 Protocol Documentation](https://x402.goplausible.xyz)
 - [OnchainKit Documentation](https://onchainkit.xyz)
 - [MiniKit Documentation](https://docs.base.org/builderkits/minikit/overview)
 - [Next.js Documentation](https://nextjs.org/docs)

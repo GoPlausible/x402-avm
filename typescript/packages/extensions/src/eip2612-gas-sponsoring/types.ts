@@ -6,7 +6,7 @@
  * facilitator submits it on-chain via `x402Permit2Proxy.settleWithPermit`.
  */
 
-import type { FacilitatorExtension } from "@x402/core/types";
+import type { FacilitatorExtension } from "@x402-avm/core/types";
 
 /**
  * Extension identifier for the EIP-2612 gas sponsoring extension.

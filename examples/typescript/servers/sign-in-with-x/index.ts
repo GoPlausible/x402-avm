@@ -4,17 +4,17 @@ import {
   paymentMiddlewareFromHTTPServer,
   x402ResourceServer,
   x402HTTPResourceServer,
-} from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactSvmScheme } from "@x402/svm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+} from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 import {
   declareSIWxExtension,
   siwxResourceServerExtension,
   createSIWxSettleHook,
   createSIWxRequestHook,
   InMemorySIWxStorage,
-} from "@x402/extensions/sign-in-with-x";
+} from "@x402-avm/extensions/sign-in-with-x";
 config();
 
 const evmAddress = process.env.EVM_ADDRESS as `0x${string}`;

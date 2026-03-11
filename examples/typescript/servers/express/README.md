@@ -1,12 +1,12 @@
-# @x402/express Example Server
+# @x402-avm/express Example Server
 
-Express.js server demonstrating how to protect API endpoints with a paywall using the `@x402/express` middleware. Supports EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
+Express.js server demonstrating how to protect API endpoints with a paywall using the `@x402-avm/express` middleware. Supports EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
 
 ```typescript
 import express from "express";
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 
 const app = express();
 
@@ -32,7 +32,7 @@ app.get("/weather", (req, res) => res.json({ weather: "sunny", temperature: 70 }
 - Node.js v20+ (install via [nvm](https://github.com/nvm-sh/nvm))
 - pnpm v10 (install via [pnpm.io/installation](https://pnpm.io/installation))
 - Valid EVM, SVM, and AVM addresses for receiving payments
-- URL of a facilitator supporting the desired payment network, see [facilitator list](https://www.x402.org/ecosystem?category=facilitators)
+- URL of a facilitator supporting the desired payment network, see [facilitator list](https://x402.goplausible.xyz/ecosystem?category=facilitators)
 
 ## Setup
 

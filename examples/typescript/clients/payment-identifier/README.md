@@ -10,8 +10,8 @@ Example client demonstrating how to use the `payment-identifier` extension to en
 4. Retry requests with the same payment ID return cached responses without re-processing payment
 
 ```typescript
-import { x402Client, wrapFetchWithPayment } from "@x402/fetch";
-import { appendPaymentIdentifierToExtensions, generatePaymentId } from "@x402/extensions/payment-identifier";
+import { x402Client, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { appendPaymentIdentifierToExtensions, generatePaymentId } from "@x402-avm/extensions/payment-identifier";
 
 const client = new x402Client();
 // ... register schemes ...

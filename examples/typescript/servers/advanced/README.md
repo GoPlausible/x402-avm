@@ -1,12 +1,12 @@
-# @x402/express Advanced Examples
+# @x402-avm/express Advanced Examples
 
 Express.js server demonstrating advanced x402 patterns including dynamic pricing, payment routing, lifecycle hooks and API discoverability.
 
 ```typescript
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactStellarScheme } from "@x402/stellar/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactStellarScheme } from "@x402-avm/stellar/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 
 const resourceServer = new x402ResourceServer(new HTTPFacilitatorClient({ url: facilitatorUrl }))
   .register("eip155:84532", new ExactEvmScheme())
@@ -43,8 +43,8 @@ app.use(
 
 - Node.js v20+ (install via [nvm](https://github.com/nvm-sh/nvm))
 - pnpm v10 (install via [pnpm.io/installation](https://pnpm.io/installation))
-- Valid EVM for receiving payments
-- URL of a facilitator supporting the desired payment network, see [facilitator list](https://www.x402.org/ecosystem?category=facilitators)
+- Valid EVM, AVM, and/or Stellar addresses for receiving payments
+- URL of a facilitator supporting the desired payment network, see [facilitator list](https://x402.goplausible.xyz/ecosystem?category=facilitators)
 
 ## Setup
 
@@ -58,6 +58,7 @@ and fill required environment variables:
 
 - `FACILITATOR_URL` - Facilitator endpoint URL
 - `EVM_ADDRESS` - Ethereum address to receive payments
+- `AVM_ADDRESS` - Algorand address to receive payments
 - `STELLAR_ADDRESS` - Stellar public address (starts with `G`) to receive payments
 
 2. Install and build all packages from the typescript examples root:
@@ -121,7 +122,7 @@ pnpm dev
 Adding the discovery extension to make your API discoverable:
 
 ```typescript
-import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
+import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 
 app.use(
   paymentMiddleware(
@@ -256,7 +257,7 @@ Available hooks:
 Accept payments in custom tokens. Register a money parser on the scheme to support alternative tokens for specific networks.
 
 ```typescript
-import { ExactEvmScheme } from "@x402/evm/exact/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
 
 const resourceServer = new x402ResourceServer(facilitatorClient).register(
   "eip155:84532",
@@ -376,8 +377,8 @@ Add to your `.env`:
 ### Registering the AVM Scheme
 
 ```typescript
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
 
 const resourceServer = new x402ResourceServer(facilitatorClient)
   .register("eip155:84532", new ExactEvmScheme())
@@ -414,8 +415,8 @@ app.use(
 Register all supported networks with their schemes and payment configurations:
 
 ```typescript
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
 
 const server = new x402ResourceServer(facilitatorClient)
   .register("eip155:84532", new ExactEvmScheme())

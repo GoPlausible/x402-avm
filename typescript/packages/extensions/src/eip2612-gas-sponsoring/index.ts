@@ -8,7 +8,7 @@
  * ## For Resource Servers
  *
  * ```typescript
- * import { declareEip2612GasSponsoringExtension } from '@x402/extensions';
+ * import { declareEip2612GasSponsoringExtension } from '@x402-avm/extensions';
  *
  * const routes = [
  *   {
@@ -27,7 +27,7 @@
  * import {
  *   extractEip2612GasSponsoringInfo,
  *   validateEip2612GasSponsoringInfo,
- * } from '@x402/extensions';
+ * } from '@x402-avm/extensions';
  *
  * const info = extractEip2612GasSponsoringInfo(paymentPayload);
  * if (info && validateEip2612GasSponsoringInfo(info)) {

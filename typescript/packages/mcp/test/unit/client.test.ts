@@ -4,7 +4,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { x402MCPClient, createx402MCPClient, wrapMCPClientWithPayment } from "../../src/client";
 import { MCP_PAYMENT_REQUIRED_CODE, MCP_PAYMENT_META_KEY } from "../../src/types";
-import type { PaymentPayload, PaymentRequired, SettleResponse } from "@x402/core/types";
+import type { PaymentPayload, PaymentRequired, SettleResponse } from "@x402-avm/core/types";
 
 // ============================================================================
 // Mock Types

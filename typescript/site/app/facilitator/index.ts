@@ -1,25 +1,25 @@
 import { Account, Ed25519PrivateKey, PrivateKey, PrivateKeyVariants } from "@aptos-labs/ts-sdk";
 import { base58 } from "@scure/base";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
-import { toFacilitatorAptosSigner } from "@x402/aptos";
-import { ExactAptosScheme } from "@x402/aptos/exact/facilitator";
-import { x402Facilitator } from "@x402/core/facilitator";
-import { Network } from "@x402/core/types";
-import { toFacilitatorEvmSigner } from "@x402/evm";
-import { ExactEvmScheme } from "@x402/evm/exact/facilitator";
-import { ExactEvmSchemeV1 } from "@x402/evm/exact/v1/facilitator";
+import { toFacilitatorAptosSigner } from "@x402-avm/aptos";
+import { ExactAptosScheme } from "@x402-avm/aptos/exact/facilitator";
+import { x402Facilitator } from "@x402-avm/core/facilitator";
+import { Network } from "@x402-avm/core/types";
+import { toFacilitatorEvmSigner } from "@x402-avm/evm";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/facilitator";
+import { ExactEvmSchemeV1 } from "@x402-avm/evm/exact/v1/facilitator";
 import {
   EIP2612_GAS_SPONSORING,
   createErc20ApprovalGasSponsoringExtension,
-} from "@x402/extensions";
-import { createEd25519Signer } from "@x402/stellar";
-import { ExactStellarScheme } from "@x402/stellar/exact/facilitator";
-import { toFacilitatorSvmSigner } from "@x402/svm";
-import { ExactSvmScheme } from "@x402/svm/exact/facilitator";
-import { ExactSvmSchemeV1 } from "@x402/svm/exact/v1/facilitator";
-import { toFacilitatorAvmSigner } from "@x402/avm";
-import { ExactAvmScheme } from "@x402/avm/exact/facilitator";
-import { ExactAvmSchemeV1 } from "@x402/avm/exact/v1/facilitator";
+} from "@x402-avm/extensions";
+import { createEd25519Signer } from "@x402-avm/stellar";
+import { ExactStellarScheme } from "@x402-avm/stellar/exact/facilitator";
+import { toFacilitatorSvmSigner } from "@x402-avm/svm";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/facilitator";
+import { ExactSvmSchemeV1 } from "@x402-avm/svm/exact/v1/facilitator";
+import { toFacilitatorAvmSigner } from "@x402-avm/avm";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/facilitator";
+import { ExactAvmSchemeV1 } from "@x402-avm/avm/exact/v1/facilitator";
 import { createWalletClient, http, publicActions } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { baseSepolia } from "viem/chains";

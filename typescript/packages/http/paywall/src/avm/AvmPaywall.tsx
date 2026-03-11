@@ -2,9 +2,9 @@ import { useCallback, useEffect, useState, useSyncExternalStore } from "react";
 import type { WalletManager } from "@txnlab/use-wallet";
 import type { AlgodClient } from "@algorandfoundation/algokit-utils/algod-client";
 
-import { registerExactAvmScheme } from "@x402/avm/exact/client";
-import { x402Client } from "@x402/core/client";
-import type { PaymentRequired } from "@x402/core/types";
+import { registerExactAvmScheme } from "@x402-avm/avm/exact/client";
+import { x402Client } from "@x402-avm/core/client";
+import type { PaymentRequired } from "@x402-avm/core/types";
 
 import { Spinner } from "./Spinner";
 import { getNetworkDisplayName, ALGORAND_NETWORK_REFS } from "../paywallUtils";

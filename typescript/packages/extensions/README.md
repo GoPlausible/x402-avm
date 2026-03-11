@@ -1,11 +1,11 @@
-# @x402/extensions
+# @x402-avm/extensions
 
-x402 Payment Protocol Extensions. This package provides optional extensions that enhance the x402 payment protocol with additional functionality.
+x402 Payment Protocol Extensions. This package provides optional extensions that enhance the x402 payment protocol with additional functionality across EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
 
 ## Installation
 
 ```bash
-pnpm install @x402/extensions
+pnpm install @x402-avm/extensions
 ```
 
 ## Overview
@@ -36,7 +36,7 @@ Declare endpoint discovery metadata in your payment middleware configuration. Th
 #### Basic Example: GET Endpoint with Query Parameters
 
 ```typescript
-import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
+import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 
 const resources = {
   "GET /weather": {
@@ -75,7 +75,7 @@ const resources = {
 For POST, PUT, and PATCH endpoints, specify `bodyType` to indicate the request body format:
 
 ```typescript
-import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
+import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 
 const resources = {
   "POST /api/translate": {
@@ -189,7 +189,7 @@ const resources = {
 For MCP (Model Context Protocol) tools, use the `toolName` field instead of `bodyType`/`input`. The HTTP method is not relevant -- MCP tools are invoked by name.
 
 ```typescript
-import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
+import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 
 const resources = {
   "POST /mcp": {
@@ -233,12 +233,12 @@ You can optionally specify `transport` to indicate the MCP transport type (`"str
 #### Using with Next.js Middleware
 
 ```typescript
-import { paymentProxy, x402ResourceServer } from "@x402/next";
-import { HTTPFacilitatorClient } from "@x402/core/http";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
+import { paymentProxy, x402ResourceServer } from "@x402-avm/next";
+import { HTTPFacilitatorClient } from "@x402-avm/core/http";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 
-const facilitatorClient = new HTTPFacilitatorClient({ url: "https://facilitator.x402.org" });
+const facilitatorClient = new HTTPFacilitatorClient({ url: "https://facilitator.x402.goplausible.xyz" });
 const resourceServer = new x402ResourceServer(facilitatorClient)
   .register("eip155:84532", new ExactEvmScheme());
 
@@ -276,8 +276,8 @@ Extract discovery information from incoming payment requests to catalog resource
 #### Basic Usage
 
 ```typescript
-import { extractDiscoveryInfo } from "@x402/extensions/bazaar";
-import type { PaymentPayload, PaymentRequirements } from "@x402/core/types";
+import { extractDiscoveryInfo } from "@x402-avm/extensions/bazaar";
+import type { PaymentPayload, PaymentRequirements } from "@x402-avm/core/types";
 
 async function handlePayment(
   paymentPayload: PaymentPayload,
@@ -312,7 +312,7 @@ async function handlePayment(
 #### Validating Discovery Extensions
 
 ```typescript
-import { validateDiscoveryExtension, extractDiscoveryInfo } from "@x402/extensions/bazaar";
+import { validateDiscoveryExtension, extractDiscoveryInfo } from "@x402-avm/extensions/bazaar";
 
 function processPayment(paymentPayload: PaymentPayload, paymentRequirements: PaymentRequirements) {
   const discovered = extractDiscoveryInfo(paymentPayload, paymentRequirements);
@@ -338,8 +338,8 @@ function processPayment(paymentPayload: PaymentPayload, paymentRequirements: Pay
 The `bazaarResourceServerExtension` automatically enriches discovery extensions with HTTP method information from the request context:
 
 ```typescript
-import { bazaarResourceServerExtension } from "@x402/extensions/bazaar";
-import { x402ResourceServer } from "@x402/core/server";
+import { bazaarResourceServerExtension } from "@x402-avm/extensions/bazaar";
+import { x402ResourceServer } from "@x402-avm/core/server";
 
 // The extension helper automatically extracts discovery info
 const resourceServer = new x402ResourceServer(facilitatorClient)
@@ -452,7 +452,7 @@ A server extension that automatically enriches HTTP discovery extensions with me
 
 **Usage:**
 ```typescript
-import { bazaarResourceServerExtension } from "@x402/extensions/bazaar";
+import { bazaarResourceServerExtension } from "@x402-avm/extensions/bazaar";
 
 const resourceServer = new x402ResourceServer(facilitatorClient)
   .registerExtension(bazaarResourceServerExtension);
@@ -484,7 +484,7 @@ import {
   createSIWxSettleHook,
   createSIWxRequestHook,
   InMemorySIWxStorage,
-} from '@x402/extensions/sign-in-with-x';
+} from '@x402-avm/extensions/sign-in-with-x';
 
 // Storage for tracking paid addresses
 const storage = new InMemorySIWxStorage();
@@ -535,7 +535,7 @@ import {
   validateSIWxMessage,
   verifySIWxSignature,
   SIGN_IN_WITH_X,
-} from '@x402/extensions/sign-in-with-x';
+} from '@x402-avm/extensions/sign-in-with-x';
 
 // 1. Declare in PaymentRequired response
 const extensions = {
@@ -584,8 +584,8 @@ async function handleRequest(request: Request) {
 #### Recommended: Client Hook (Automatic)
 
 ```typescript
-import { createSIWxClientHook } from '@x402/extensions/sign-in-with-x';
-import { x402HTTPClient } from '@x402/fetch';
+import { createSIWxClientHook } from '@x402-avm/extensions/sign-in-with-x';
+import { x402HTTPClient } from '@x402-avm/fetch';
 
 // Configure client with SIWX hook - automatically tries SIWX auth before payment
 const httpClient = new x402HTTPClient(client)
@@ -607,7 +607,7 @@ The client hook automatically:
 import {
   createSIWxPayload,
   encodeSIWxHeader,
-} from '@x402/extensions/sign-in-with-x';
+} from '@x402-avm/extensions/sign-in-with-x';
 
 // 1. Get extension and network from 402 response
 const paymentRequired = await response.json();

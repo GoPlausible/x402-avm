@@ -1,13 +1,13 @@
-import { paymentProxy } from "@x402/next";
-import { x402ResourceServer, HTTPFacilitatorClient } from "@x402/core/server";
-import { registerExactEvmScheme } from "@x402/evm/exact/server";
-import { registerExactSvmScheme } from "@x402/svm/exact/server";
-import { registerExactAvmScheme } from "@x402/avm/exact/server";
-import { evmPaywall } from "@x402/paywall/evm";
-import { svmPaywall } from "@x402/paywall/svm";
-import { avmPaywall } from "@x402/paywall/avm";
-import { createPaywall } from "@x402/paywall";
-import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
+import { paymentProxy } from "@x402-avm/next";
+import { x402ResourceServer, HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/server";
+import { registerExactAvmScheme } from "@x402-avm/avm/exact/server";
+import { evmPaywall } from "@x402-avm/paywall/evm";
+import { svmPaywall } from "@x402-avm/paywall/svm";
+import { avmPaywall } from "@x402-avm/paywall/avm";
+import { createPaywall } from "@x402-avm/paywall";
+import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 
 const facilitatorUrl = process.env.FACILITATOR_URL;
 export const evmAddress = process.env.EVM_ADDRESS as `0x${string}`;

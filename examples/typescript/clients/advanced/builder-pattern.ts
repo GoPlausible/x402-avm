@@ -1,9 +1,9 @@
 import { privateKeyToAccount } from "viem/accounts";
-import { x402Client, wrapFetchWithPayment, x402HTTPClient } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
-import { toClientAvmSigner } from "@x402/avm";
-import { ExactAvmScheme } from "@x402/avm/exact/client";
+import { x402Client, wrapFetchWithPayment, x402HTTPClient } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { toClientAvmSigner } from "@x402-avm/avm";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import { base58 } from "@scure/base";
 

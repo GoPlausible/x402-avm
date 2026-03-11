@@ -4,8 +4,8 @@
  * Registers AVM exact payment schemes to an x402Facilitator instance.
  */
 
-import { x402Facilitator } from '@x402/core/facilitator'
-import type { Network } from '@x402/core/types'
+import { x402Facilitator } from '@x402-avm/core/facilitator'
+import type { Network } from '@x402-avm/core/types'
 import type { FacilitatorAvmSigner } from '../../signer'
 import { ExactAvmScheme } from './scheme'
 import { ExactAvmSchemeV1 } from '../v1/facilitator/scheme'
@@ -40,9 +40,9 @@ export interface AvmFacilitatorConfig {
  *
  * @example
  * ```typescript
- * import { registerExactAvmScheme } from "@x402/avm/exact/facilitator";
- * import type { FacilitatorAvmSigner } from "@x402/avm";
- * import { x402Facilitator } from "@x402/core/facilitator";
+ * import { registerExactAvmScheme } from "@x402-avm/avm/exact/facilitator";
+ * import type { FacilitatorAvmSigner } from "@x402-avm/avm";
+ * import { x402Facilitator } from "@x402-avm/core/facilitator";
  * // Create signer implementing FacilitatorAvmSigner interface
  * // See examples/typescript/facilitator for full implementation
  * const signer: FacilitatorAvmSigner = createFacilitatorSigner(

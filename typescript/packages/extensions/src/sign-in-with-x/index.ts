@@ -14,7 +14,7 @@
  *   validateSIWxMessage,
  *   verifySIWxSignature,
  *   SIGN_IN_WITH_X,
- * } from '@x402/extensions/sign-in-with-x';
+ * } from '@x402-avm/extensions/sign-in-with-x';
  *
  * // 1. Declare auth requirement in PaymentRequired response
  * const extensions = declareSIWxExtension({
@@ -50,7 +50,7 @@
  * import {
  *   createSIWxPayload,
  *   encodeSIWxHeader,
- * } from '@x402/extensions/sign-in-with-x';
+ * } from '@x402-avm/extensions/sign-in-with-x';
  *
  * // 1. Get extension info from 402 response
  * const serverInfo = paymentRequired.extensions['sign-in-with-x'].info;

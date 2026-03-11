@@ -1,9 +1,9 @@
 import { config } from "dotenv";
 import express from "express";
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 config();
 
 const evmAddress = process.env.EVM_ADDRESS as `0x${string}`;
@@ -46,29 +46,29 @@ const accepts: {
   price: string;
   network: `${string}:${string}`;
   payTo:
-    | string
-    | ((context: { adapter: { getQueryParam?: (param: string) => string | undefined } }) => string);
+  | string
+  | ((context: { adapter: { getQueryParam?: (param: string) => string | undefined } }) => string);
 }[] = [
-  {
-    scheme: "exact",
-    price: "$0.001",
-    network: "eip155:84532",
-    payTo: context => {
-      // Dynamic payTo based on HTTP request context
-      const country = context.adapter.getQueryParam?.("country") ?? "US";
-      return addressLookup[country as keyof typeof addressLookup];
+    {
+      scheme: "exact",
+      price: "$0.001",
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: context => {
+        const country = context.adapter.getQueryParam?.("country") ?? "US";
+        return avmAddressLookup[country] || avmAddress;
+      },
     },
-  },
-  {
-    scheme: "exact",
-    price: "$0.001",
-    network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
-    payTo: context => {
-      const country = context.adapter.getQueryParam?.("country") ?? "US";
-      return avmAddressLookup[country] || avmAddress;
+    {
+      scheme: "exact",
+      price: "$0.001",
+      network: "eip155:84532",
+      payTo: context => {
+        // Dynamic payTo based on HTTP request context
+        const country = context.adapter.getQueryParam?.("country") ?? "US";
+        return addressLookup[country as keyof typeof addressLookup];
+      },
     },
-  },
-];
+  ];
 
 const server = new x402ResourceServer(facilitatorClient)
   .register("eip155:84532", new ExactEvmScheme())

@@ -6,8 +6,8 @@ import {
   x402ResourceServer,
   RoutesConfig,
   FacilitatorClient,
-} from "@x402/core/server";
-import { SchemeNetworkServer, Network } from "@x402/core/types";
+} from "@x402-avm/core/server";
+import { SchemeNetworkServer, Network } from "@x402-avm/core/types";
 import { NextFunction, Request, Response } from "express";
 import { ExpressAdapter } from "./adapter";
 
@@ -57,7 +57,7 @@ export interface SchemeRegistration {
  *
  * @example
  * ```typescript
- * import { paymentMiddlewareFromHTTPServer, x402ResourceServer, x402HTTPResourceServer } from "@x402/express";
+ * import { paymentMiddlewareFromHTTPServer, x402ResourceServer, x402HTTPResourceServer } from "@x402-avm/express";
  *
  * const resourceServer = new x402ResourceServer(facilitatorClient)
  *   .register(NETWORK, new ExactEvmScheme())
@@ -87,7 +87,7 @@ export function paymentMiddlewareFromHTTPServer(
   // Skip if pre-registered (e.g., in serverless environments where static imports are used)
   let bazaarPromise: Promise<void> | null = null;
   if (checkIfBazaarNeeded(httpServer.routes) && !httpServer.server.hasExtension("bazaar")) {
-    bazaarPromise = import("@x402/extensions/bazaar")
+    bazaarPromise = import("@x402-avm/extensions/bazaar")
       .then(({ bazaarResourceServerExtension }) => {
         httpServer.server.registerExtension(bazaarResourceServerExtension);
       })
@@ -309,7 +309,7 @@ export function paymentMiddlewareFromHTTPServer(
  *
  * @example
  * ```typescript
- * import { paymentMiddleware } from "@x402/express";
+ * import { paymentMiddleware } from "@x402-avm/express";
  *
  * const server = new x402ResourceServer(myFacilitatorClient)
  *   .register(NETWORK, new ExactEvmScheme());
@@ -351,7 +351,7 @@ export function paymentMiddleware(
  *
  * @example
  * ```typescript
- * import { paymentMiddlewareFromConfig } from "@x402/express";
+ * import { paymentMiddlewareFromConfig } from "@x402-avm/express";
  *
  * app.use(paymentMiddlewareFromConfig(
  *   routes,
@@ -382,7 +382,7 @@ export function paymentMiddlewareFromConfig(
   return paymentMiddleware(routes, ResourceServer, paywallConfig, paywall, syncFacilitatorOnStart);
 }
 
-export { x402ResourceServer, x402HTTPResourceServer } from "@x402/core/server";
+export { x402ResourceServer, x402HTTPResourceServer } from "@x402-avm/core/server";
 
 export type {
   PaymentRequired,
@@ -390,12 +390,12 @@ export type {
   PaymentPayload,
   Network,
   SchemeNetworkServer,
-} from "@x402/core/types";
+} from "@x402-avm/core/types";
 
-export type { PaywallProvider, PaywallConfig } from "@x402/core/server";
+export type { PaywallProvider, PaywallConfig } from "@x402-avm/core/server";
 
-export { RouteConfigurationError } from "@x402/core/server";
+export { RouteConfigurationError } from "@x402-avm/core/server";
 
-export type { RouteValidationError } from "@x402/core/server";
+export type { RouteValidationError } from "@x402-avm/core/server";
 
 export { ExpressAdapter } from "./adapter";

@@ -1,4 +1,4 @@
-# @x402/core Changelog
+# @x402-avm/core Changelog
 
 ## 2.6.0
 
@@ -14,7 +14,7 @@
 
 ### Minor Changes
 
-- Bumped to align version with dependent packages (@x402/evm, @x402/extensions)
+- Bumped to align version with dependent packages (@x402-avm/evm, @x402-avm/extensions)
 
 ### Patch Changes
 
@@ -27,7 +27,7 @@
 
 - 57a5488: Add Aptos blockchain support to x402 payment protocol
 
-  - Introduces new `@x402/aptos` package with full client, server, and facilitator scheme implementations
+  - Introduces new `@x402-avm/aptos` package with full client, server, and facilitator scheme implementations
   - Supports exact payment mechanism for Aptos using native APT and fungible assets
   - Includes sponsored transaction support where facilitator pays gas fees
   - Provides `registerExactAptosScheme` helpers for easy client and server integration

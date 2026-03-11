@@ -1,17 +1,17 @@
 import { serve } from "@hono/node-server";
 import { Hono } from "hono";
-import { paymentMiddleware } from "@x402/hono";
-import { x402ResourceServer, HTTPFacilitatorClient } from "@x402/core/server";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactSvmScheme } from "@x402/svm/exact/server";
-import { ExactAptosScheme } from "@x402/aptos/exact/server";
-import { ExactStellarScheme } from "@x402/stellar/exact/server";
-import { bazaarResourceServerExtension, declareDiscoveryExtension } from "@x402/extensions/bazaar";
+import { paymentMiddleware } from "@x402-avm/hono";
+import { x402ResourceServer, HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/server";
+import { ExactAptosScheme } from "@x402-avm/aptos/exact/server";
+import { ExactStellarScheme } from "@x402-avm/stellar/exact/server";
+import { bazaarResourceServerExtension, declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 import {
   declareEip2612GasSponsoringExtension,
   declareErc20ApprovalGasSponsoringExtension,
-} from "@x402/extensions";
+} from "@x402-avm/extensions";
 import dotenv from "dotenv";
 
 dotenv.config();

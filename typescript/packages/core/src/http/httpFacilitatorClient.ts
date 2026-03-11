@@ -7,7 +7,7 @@ import {
   SettleError,
 } from "../types/facilitator";
 
-const DEFAULT_FACILITATOR_URL = "https://x402.org/facilitator";
+const DEFAULT_FACILITATOR_URL = "https://facilitator.goplausible.xyz";
 
 export interface FacilitatorConfig {
   url?: string;

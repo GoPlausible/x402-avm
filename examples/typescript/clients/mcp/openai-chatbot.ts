@@ -17,8 +17,8 @@
 
 import { config } from "dotenv";
 import { SSEClientTransport } from "@modelcontextprotocol/sdk/client/sse.js";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { createx402MCPClient } from "@x402/mcp";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { createx402MCPClient } from "@x402-avm/mcp";
 import { privateKeyToAccount } from "viem/accounts";
 import OpenAI from "openai";
 import * as readline from "readline";

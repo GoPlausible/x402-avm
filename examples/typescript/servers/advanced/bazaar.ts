@@ -1,10 +1,10 @@
 import { config } from "dotenv";
 import express from "express";
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { ExactAvmScheme } from "@x402/avm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
-import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 config();
 
 const evmAddress = process.env.EVM_ADDRESS as `0x${string}`;
@@ -26,14 +26,14 @@ const accepts: { scheme: string; price: string; network: `${string}:${string}`; 
     {
       scheme: "exact",
       price: "$0.001",
-      network: "eip155:84532",
-      payTo: evmAddress,
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
+      payTo: avmAddress,
     },
     {
       scheme: "exact",
       price: "$0.001",
-      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
-      payTo: avmAddress,
+      network: "eip155:84532",
+      payTo: evmAddress,
     },
   ];
 

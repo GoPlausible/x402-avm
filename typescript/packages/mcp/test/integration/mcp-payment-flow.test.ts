@@ -13,7 +13,7 @@ import type {
   VerifyResponse,
   SupportedResponse,
   FacilitatorClient,
-} from "@x402/core/types";
+} from "@x402-avm/core/types";
 import { z } from "zod";
 
 // ============================================================================

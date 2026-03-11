@@ -3,7 +3,7 @@ import {
   PaymentRequirements,
   PaymentPayloadResult,
   PaymentPayloadContext,
-} from "@x402/core/types";
+} from "@x402-avm/core/types";
 import { ClientEvmSigner } from "../../signer";
 import { AssetTransferMethod } from "../../types";
 import { PERMIT2_ADDRESS, erc20AllowanceAbi } from "../../constants";

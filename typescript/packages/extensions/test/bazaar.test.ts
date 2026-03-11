@@ -15,7 +15,7 @@ import {
 } from "../src/bazaar/index";
 import type { BodyDiscoveryInfo, McpDiscoveryInfo, DiscoveryExtension } from "../src/bazaar/types";
 import type { DiscoveredMCPResource } from "../src/bazaar/facilitator";
-import type { HTTPAdapter, HTTPRequestContext } from "@x402/core/http";
+import type { HTTPAdapter, HTTPRequestContext } from "@x402-avm/core/http";
 
 describe("Bazaar Discovery Extension", () => {
   describe("BAZAAR constant", () => {

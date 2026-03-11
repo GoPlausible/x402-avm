@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { withX402 } from "@x402/next";
-import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
+import { withX402 } from "@x402-avm/next";
+import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
 import { server, STELLAR_PAYEE_ADDRESS, STELLAR_NETWORK } from "../../../proxy";
 
 /**

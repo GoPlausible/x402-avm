@@ -2,7 +2,7 @@ import type {
   CloudFrontRequest,
   CloudFrontResponse,
 } from 'aws-lambda';
-import type { x402HTTPResourceServer } from '@x402/core/server';
+import type { x402HTTPResourceServer } from '@x402-avm/core/server';
 import { CloudFrontHTTPAdapter } from './adapter';
 import { toLambdaResponse, LambdaEdgeResponse } from './responses';
 import { createX402Server, type X402ServerConfig } from './server';
@@ -20,7 +20,7 @@ export const MiddlewareResultType = {
 export type MiddlewareResultType = typeof MiddlewareResultType[keyof typeof MiddlewareResultType];
 
 /**
- * x402 HTTP process result types (from @x402/core)
+ * x402 HTTP process result types (from @x402-avm/core)
  */
 export const HTTPProcessResultType = {
   /** Route doesn't require payment */
@@ -63,7 +63,7 @@ const PENDING_SETTLEMENT_HEADER = 'x-x402-pending-settlement';
  * import { createX402Middleware } from './lib';
  * 
  * const x402 = createX402Middleware({
- *   facilitatorUrl: 'https://x402.org/facilitator',
+ *   facilitatorUrl: 'https://facilitator.goplausible.xyz',
  *   network: 'eip155:84532',
  *   routes: {
  *     '/api/*': {

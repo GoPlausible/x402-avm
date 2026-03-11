@@ -72,8 +72,8 @@ Copy `lambda/src/` into your project and adapt the build to your tooling.
 
 > **Note**: Replace `workspace:*` dependencies with specific versions:
 > ```json
-> "@x402/core": "^2.2.0",
-> "@x402/evm": "^2.2.0"
+> "@x402-avm/core": "^2.2.0",
+> "@x402-avm/evm": "^2.2.0"
 > ```
 
 ### 2. Configure Payment Settings
@@ -81,7 +81,7 @@ Copy `lambda/src/` into your project and adapt the build to your tooling.
 Edit `config.ts`:
 
 ```typescript
-export const FACILITATOR_URL = 'https://x402.org/facilitator';
+export const FACILITATOR_URL = 'https://x402.goplausible.xyz/facilitator';
 export const PAY_TO = '0xYourPaymentAddressHere';  // Your wallet address
 export const NETWORK = 'eip155:84532';              // Base Sepolia (testnet)
 ```
@@ -121,18 +121,20 @@ import { originRequestHandler, originResponseHandler } from './index';
 
 ## Networks
 
-| Network        | ID                                        | Use        |
-| -------------- | ----------------------------------------- | ---------- |
-| Base Sepolia   | `eip155:84532`                            | Testing    |
-| Base Mainnet   | `eip155:8453`                             | Production |
-| Solana Devnet  | `solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1` | Testing    |
-| Solana Mainnet | `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` | Production |
+| Network           | ID                                                         | Use        |
+| ----------------- | ---------------------------------------------------------- | ---------- |
+| Base Sepolia      | `eip155:84532`                                             | Testing    |
+| Base Mainnet      | `eip155:8453`                                              | Production |
+| Solana Devnet     | `solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1`                 | Testing    |
+| Solana Mainnet    | `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp`                 | Production |
+| Algorand Testnet  | `algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=`   | Testing    |
+| Algorand Mainnet  | `algorand:wGHE2Pwdvd7S12BL5FaOP20EGYesN73ktiC1qzkkit8=`    | Production |
 
 ---
 
 ## Running on Mainnet
 
-To accept real payments, you need a mainnet facilitator. Each facilitator may have different authentication requirements. Browse available facilitators at the [x402 Ecosystem — Facilitators](https://www.x402.org/ecosystem?filter=facilitators).
+To accept real payments, you need a mainnet facilitator. Each facilitator may have different authentication requirements. Browse available facilitators at the [x402 Ecosystem — Facilitators](https://x402.goplausible.xyz/ecosystem?filter=facilitators).
 
 Update `config.ts` with your chosen facilitator, a mainnet network, and your wallet address:
 
@@ -187,14 +189,14 @@ cloudfront-lambda-edge/
 
 ## Middleware Pattern
 
-The `lib/` folder follows the same pattern as `@x402/express`, `@x402/hono`, etc.:
+The `lib/` folder follows the same pattern as `@x402-avm/express`, `@x402-avm/hono`, etc.:
 
 ```typescript
 import { createX402Middleware, MiddlewareResultType } from './lib';
 
 // Create middleware with config
 const x402 = createX402Middleware({
-  facilitatorUrl: 'https://x402.org/facilitator',
+  facilitatorUrl: 'https://x402.goplausible.xyz/facilitator',
   network: 'eip155:84532',
   routes: {
     '/api/*': {

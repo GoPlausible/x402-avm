@@ -84,7 +84,7 @@ importers:
       '@scure/base':
         specifier: ^1.2.6
         version: 1.2.6
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:~
         version: link:../core
       ajv:
@@ -151,7 +151,7 @@ importers:
 
   packages/http/axios:
     dependencies:
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:~
         version: link:../../core
       axios:
@@ -209,13 +209,13 @@ importers:
 
   packages/http/express:
     dependencies:
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:~
         version: link:../../core
-      '@x402/extensions':
+      '@x402-avm/extensions':
         specifier: workspace:~
         version: link:../../extensions
-      '@x402/paywall':
+      '@x402-avm/paywall':
         specifier: workspace:*
         version: link:../paywall
       viem:
@@ -279,7 +279,7 @@ importers:
 
   packages/http/fetch:
     dependencies:
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:~
         version: link:../../core
       viem:
@@ -337,13 +337,13 @@ importers:
 
   packages/http/hono:
     dependencies:
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:~
         version: link:../../core
-      '@x402/extensions':
+      '@x402-avm/extensions':
         specifier: workspace:~
         version: link:../../extensions
-      '@x402/paywall':
+      '@x402-avm/paywall':
         specifier: workspace:*
         version: link:../paywall
       zod:
@@ -401,13 +401,13 @@ importers:
 
   packages/http/next:
     dependencies:
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:~
         version: link:../../core
-      '@x402/extensions':
+      '@x402-avm/extensions':
         specifier: workspace:~
         version: link:../../extensions
-      '@x402/paywall':
+      '@x402-avm/paywall':
         specifier: workspace:*
         version: link:../paywall
       next:
@@ -519,7 +519,7 @@ importers:
       '@walletconnect/sign-client':
         specifier: ^2.23.1
         version: 2.23.8(@vercel/functions@2.2.13)(bufferutil@4.0.9)(typescript@5.9.2)(utf-8-validate@5.0.10)(zod@3.25.76)
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:~
         version: link:../../core
       lute-connect:
@@ -556,13 +556,13 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^8.29.1
         version: 8.42.0(eslint@9.34.0(jiti@2.6.1))(typescript@5.9.2)
-      '@x402/avm':
+      '@x402-avm/avm':
         specifier: workspace:~
         version: link:../../mechanisms/avm
-      '@x402/evm':
+      '@x402-avm/evm':
         specifier: workspace:~
         version: link:../../mechanisms/evm
-      '@x402/svm':
+      '@x402-avm/svm':
         specifier: workspace:~
         version: link:../../mechanisms/svm
       buffer:
@@ -1060,7 +1060,7 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.12.1
         version: 1.26.0(zod@3.25.76)
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:~
         version: link:../core
       zod:
@@ -1079,7 +1079,7 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^8.29.1
         version: 8.49.0(eslint@9.34.0(jiti@2.6.1))(typescript@5.9.2)
-      '@x402/evm':
+      '@x402-avm/evm':
         specifier: workspace:~
         version: link:../mechanisms/evm
       eslint:
@@ -1127,7 +1127,7 @@ importers:
       '@aptos-labs/ts-sdk':
         specifier: ^5.2.1
         version: 5.2.1(got@11.8.6)
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:*
         version: link:../../core
     devDependencies:
@@ -1182,7 +1182,7 @@ importers:
       '@algorandfoundation/algokit-utils':
         specifier: 10.0.0-alpha.39
         version: 10.0.0-alpha.39
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:^
         version: link:../../core
     devDependencies:
@@ -1234,7 +1234,7 @@ importers:
 
   packages/mechanisms/evm:
     dependencies:
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:~
         version: link:../../core
       viem:
@@ -1295,7 +1295,7 @@ importers:
       '@stellar/stellar-sdk':
         specifier: ^14.4.2
         version: 14.5.0
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:*
         version: link:../../core
     devDependencies:
@@ -1359,7 +1359,7 @@ importers:
       '@solana/kit':
         specifier: '>=5.1.0'
         version: 5.1.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.2)(ws@8.19.0(bufferutil@4.0.9)(utf-8-validate@5.0.10))
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:~
         version: link:../../core
     devDependencies:
@@ -1435,31 +1435,31 @@ importers:
       '@vercel/functions':
         specifier: ^2.2.8
         version: 2.2.13
-      '@x402/aptos':
+      '@x402-avm/aptos':
         specifier: workspace:*
         version: link:../packages/mechanisms/aptos
-      '@x402/avm':
+      '@x402-avm/avm':
         specifier: workspace:*
         version: link:../packages/mechanisms/avm
-      '@x402/core':
+      '@x402-avm/core':
         specifier: workspace:*
         version: link:../packages/core
-      '@x402/evm':
+      '@x402-avm/evm':
         specifier: workspace:*
         version: link:../packages/mechanisms/evm
-      '@x402/extensions':
+      '@x402-avm/extensions':
         specifier: workspace:*
         version: link:../packages/extensions
-      '@x402/next':
+      '@x402-avm/next':
         specifier: workspace:*
         version: link:../packages/http/next
-      '@x402/paywall':
+      '@x402-avm/paywall':
         specifier: workspace:*
         version: link:../packages/http/paywall
-      '@x402/stellar':
+      '@x402-avm/stellar':
         specifier: workspace:*
         version: link:../packages/mechanisms/stellar
-      '@x402/svm':
+      '@x402-avm/svm':
         specifier: workspace:*
         version: link:../packages/mechanisms/svm
       lottie-react:

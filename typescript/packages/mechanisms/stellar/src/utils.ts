@@ -10,7 +10,7 @@ import {
   USDC_PUBNET_ADDRESS,
   USDC_TESTNET_ADDRESS,
 } from "./constants";
-import type { Network } from "@x402/core/types";
+import type { Network } from "@x402-avm/core/types";
 
 export const DEFAULT_ESTIMATED_LEDGER_SECONDS = 5;
 const RPC_LEDGERS_SAMPLE_SIZE = 20;

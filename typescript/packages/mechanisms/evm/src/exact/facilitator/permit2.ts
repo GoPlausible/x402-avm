@@ -4,7 +4,7 @@ import {
   FacilitatorContext,
   SettleResponse,
   VerifyResponse,
-} from "@x402/core/types";
+} from "@x402-avm/core/types";
 import {
   extractEip2612GasSponsoringInfo,
   validateEip2612GasSponsoringInfo,

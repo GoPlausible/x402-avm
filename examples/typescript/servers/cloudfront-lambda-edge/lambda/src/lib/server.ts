@@ -1,12 +1,12 @@
-import type { RoutesConfig, FacilitatorConfig } from '@x402/core/server';
-import { x402ResourceServer, x402HTTPResourceServer, HTTPFacilitatorClient } from '@x402/core/server';
-import { ExactEvmScheme } from '@x402/evm/exact/server';
+import type { RoutesConfig, FacilitatorConfig } from '@x402-avm/core/server';
+import { x402ResourceServer, x402HTTPResourceServer, HTTPFacilitatorClient } from '@x402-avm/core/server';
+import { ExactEvmScheme } from '@x402-avm/evm/exact/server';
 
 /**
  * Configuration for creating an x402 server
  */
 export interface X402ServerConfig {
-  /** Facilitator URL (e.g., 'https://x402.org/facilitator') */
+  /** Facilitator URL (e.g., 'https://facilitator.goplausible.xyz') */
   facilitatorUrl: string;
   /** Network ID (e.g., 'eip155:84532' for Base Sepolia) */
   network: string;
@@ -23,7 +23,7 @@ export interface X402ServerConfig {
  * ```typescript
  * // Testnet (no auth)
  * const server = await createX402Server({
- *   facilitatorUrl: 'https://x402.org/facilitator',
+ *   facilitatorUrl: 'https://facilitator.goplausible.xyz',
  *   network: 'eip155:84532',
  *   routes: { ... },
  * });

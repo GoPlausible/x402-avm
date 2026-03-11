@@ -13,7 +13,7 @@ import {
 } from '@algorandfoundation/algokit-utils/transact'
 import type { Transaction } from '@algorandfoundation/algokit-utils/transact'
 import { isValidAddress } from '@algorandfoundation/algokit-utils/common'
-import type { Network } from '@x402/core/types'
+import type { Network } from '@x402-avm/core/types'
 import {
   NETWORK_TO_ALGOD,
   DEFAULT_ALGOD_TESTNET,

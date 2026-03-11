@@ -6,7 +6,7 @@ import type {
   PaymentRequirements,
   Price,
   SchemeNetworkServer,
-} from "@x402/core/types";
+} from "@x402-avm/core/types";
 import { APTOS_ADDRESS_REGEX, USDC_MAINNET_FA, USDC_TESTNET_FA } from "../../constants";
 
 /**

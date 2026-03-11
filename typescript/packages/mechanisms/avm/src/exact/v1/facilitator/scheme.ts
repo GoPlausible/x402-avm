@@ -13,7 +13,7 @@ import type {
   SettleResponse,
   VerifyResponse,
   Network,
-} from '@x402/core/types'
+} from '@x402-avm/core/types'
 import type { FacilitatorAvmSigner } from '../../../signer'
 import type { ExactAvmPayloadV1 } from '../../../types'
 import { isExactAvmPayload } from '../../../types'

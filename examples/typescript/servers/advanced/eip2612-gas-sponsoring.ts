@@ -14,11 +14,11 @@
 
 import { config } from "dotenv";
 import express from "express";
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
-import { declareDiscoveryExtension } from "@x402/extensions/bazaar";
-import { declareEip2612GasSponsoringExtension } from "@x402/extensions";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { declareDiscoveryExtension } from "@x402-avm/extensions/bazaar";
+import { declareEip2612GasSponsoringExtension } from "@x402-avm/extensions";
 config();
 
 const evmAddress = process.env.EVM_ADDRESS as `0x${string}`;

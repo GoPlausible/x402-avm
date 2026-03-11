@@ -11,7 +11,7 @@ import {
   type DiscoveryResourcesResponse,
   type ListDiscoveryResourcesParams,
 } from "../src/bazaar/facilitatorClient";
-import { HTTPFacilitatorClient } from "@x402/core/http";
+import { HTTPFacilitatorClient } from "@x402-avm/core/http";
 
 describe("Bazaar Client Extension - facilitatorClient", () => {
   describe("Type definitions", () => {
@@ -112,7 +112,7 @@ describe("Bazaar Client Extension - facilitatorClient", () => {
 
     it("should extend client with discovery.listResources method", () => {
       const facilitatorClient = new HTTPFacilitatorClient({
-        url: "https://x402.org/facilitator",
+        url: "https://facilitator.goplausible.xyz",
       });
 
       const extendedClient = withBazaar(facilitatorClient);
@@ -124,7 +124,7 @@ describe("Bazaar Client Extension - facilitatorClient", () => {
 
     it("should preserve existing extensions when chaining", () => {
       const facilitatorClient = new HTTPFacilitatorClient({
-        url: "https://x402.org/facilitator",
+        url: "https://facilitator.goplausible.xyz",
       });
 
       // Simulate a client with existing extensions
@@ -155,7 +155,7 @@ describe("Bazaar Client Extension - facilitatorClient", () => {
       });
 
       const facilitatorClient = new HTTPFacilitatorClient({
-        url: "https://x402.org/facilitator",
+        url: "https://facilitator.goplausible.xyz",
       });
       const extendedClient = withBazaar(facilitatorClient);
 
@@ -163,7 +163,7 @@ describe("Bazaar Client Extension - facilitatorClient", () => {
 
       expect(mockFetch).toHaveBeenCalledTimes(1);
       const [url, options] = mockFetch.mock.calls[0];
-      expect(url).toBe("https://x402.org/facilitator/discovery/resources");
+      expect(url).toBe("https://facilitator.goplausible.xyz/discovery/resources");
       expect(options.method).toBe("GET");
       expect(result).toEqual(mockResponse);
     });
@@ -181,7 +181,7 @@ describe("Bazaar Client Extension - facilitatorClient", () => {
       });
 
       const facilitatorClient = new HTTPFacilitatorClient({
-        url: "https://x402.org/facilitator",
+        url: "https://facilitator.goplausible.xyz",
       });
       const extendedClient = withBazaar(facilitatorClient);
 
@@ -206,7 +206,7 @@ describe("Bazaar Client Extension - facilitatorClient", () => {
       });
 
       const facilitatorClient = new HTTPFacilitatorClient({
-        url: "https://x402.org/facilitator",
+        url: "https://facilitator.goplausible.xyz",
       });
       const extendedClient = withBazaar(facilitatorClient);
 
@@ -252,7 +252,7 @@ describe("Bazaar Client Extension - facilitatorClient", () => {
       });
 
       const facilitatorClient = new HTTPFacilitatorClient({
-        url: "https://x402.org/facilitator",
+        url: "https://facilitator.goplausible.xyz",
       });
       const extendedClient = withBazaar(facilitatorClient);
 

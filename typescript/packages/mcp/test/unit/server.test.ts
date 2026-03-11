@@ -9,7 +9,7 @@ import type {
   PaymentRequirements,
   SettleResponse,
   VerifyResponse,
-} from "@x402/core/types";
+} from "@x402-avm/core/types";
 
 // ============================================================================
 // Mock Types

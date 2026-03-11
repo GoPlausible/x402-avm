@@ -9,13 +9,13 @@
  */
 
 import { config } from "dotenv";
-import { x402Client, wrapFetchWithPayment, x402HTTPClient } from "@x402/fetch";
-import { toClientAvmSigner } from "@x402/avm";
-import { ExactAvmScheme } from "@x402/avm/exact/client";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
-import { ExactStellarScheme } from "@x402/stellar/exact/client";
-import { createEd25519Signer } from "@x402/stellar";
+import { x402Client, wrapFetchWithPayment, x402HTTPClient } from "@x402-avm/fetch";
+import { toClientAvmSigner } from "@x402-avm/avm";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { ExactStellarScheme } from "@x402-avm/stellar/exact/client";
+import { createEd25519Signer } from "@x402-avm/stellar";
 import { base58 } from "@scure/base";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import { privateKeyToAccount } from "viem/accounts";
@@ -32,7 +32,7 @@ const endpointPath = process.env.ENDPOINT_PATH || "/weather";
 const url = `${baseURL}${endpointPath}`;
 
 /**
- * Example demonstrating how to use @x402/fetch with all supported networks.
+ * Example demonstrating how to use @x402-avm/fetch with all supported networks.
  * Schemes are registered directly for networks where private keys are provided.
  */
 async function main(): Promise<void> {

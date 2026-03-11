@@ -6,7 +6,7 @@
  * - Refresh time-based fields per request (nonce, issuedAt, expirationTime)
  */
 
-import type { ResourceServerExtension, PaymentRequiredContext } from "@x402/core/types";
+import type { ResourceServerExtension, PaymentRequiredContext } from "@x402-avm/core/types";
 import type { SIWxExtension, SIWxExtensionInfo, SupportedChain, DeclareSIWxOptions } from "./types";
 import { SIGN_IN_WITH_X } from "./types";
 import { getSignatureType, type SIWxDeclaration } from "./declare";
@@ -21,7 +21,7 @@ import { buildSIWxSchema } from "./schema";
  *
  * @example
  * ```typescript
- * import { siwxResourceServerExtension } from "@x402/extensions/sign-in-with-x";
+ * import { siwxResourceServerExtension } from "@x402-avm/extensions/sign-in-with-x";
  *
  * const resourceServer = new x402ResourceServer(facilitator)
  *   .registerExtension(siwxResourceServerExtension)

@@ -1,11 +1,11 @@
 import { config } from "dotenv";
-import { x402Client, wrapFetchWithPayment, x402HTTPClient } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
+import { x402Client, wrapFetchWithPayment, x402HTTPClient } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 import {
   appendPaymentIdentifierToExtensions,
   generatePaymentId,
-} from "@x402/extensions/payment-identifier";
+} from "@x402-avm/extensions/payment-identifier";
 
 config();
 

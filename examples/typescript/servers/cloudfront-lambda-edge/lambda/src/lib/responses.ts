@@ -1,4 +1,4 @@
-import { decodePaymentRequiredHeader } from '@x402/core/http';
+import { decodePaymentRequiredHeader } from '@x402-avm/core/http';
 
 /**
  * Lambda@Edge response format

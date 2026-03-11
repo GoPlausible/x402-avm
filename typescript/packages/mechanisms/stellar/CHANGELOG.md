@@ -1,4 +1,4 @@
-# @x402/stellar Changelog
+# @x402-avm/stellar Changelog
 
 ## 2.6.0
 

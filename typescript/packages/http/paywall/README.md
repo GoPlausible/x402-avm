@@ -1,20 +1,20 @@
-# @x402/paywall
+# @x402-avm/paywall
 
-Modular paywall UI for the x402 payment protocol with support for EVM and Solana networks.
+Modular paywall UI for the x402 payment protocol with support for EVM (Ethereum), SVM (Solana), and AVM (Algorand) networks.
 
 ## Features
 
 - Pre-built paywall UI out of the box
 - Wallet connection (MetaMask, Coinbase Wallet, Phantom, etc.)
 - USDC balance checking
-- Multi-network support (EVM + Solana)
+- Multi-network support (EVM + Solana + Algorand)
 - Tree-shakeable - only bundle what you need
 - Fully customizable via builder pattern
 
 ## Installation
 
 ```bash
-pnpm add @x402/paywall
+pnpm add @x402-avm/paywall
 ```
 
 ## Bundle Sizes
@@ -23,17 +23,18 @@ Choose the import that matches your needs:
 
 | Import | Size | Networks | Use Case |
 |--------|------|----------|----------|
-| `@x402/paywall` | 3.5MB | EVM + Solana | Multi-network apps |
-| `@x402/paywall/evm` | 3.4MB | EVM only | Base, Ethereum, Polygon, etc. |
-| `@x402/paywall/svm` | 1.0MB | Solana only | Solana apps |
+| `@x402-avm/paywall` | 3.5MB | EVM + Solana + Algorand | Multi-network apps |
+| `@x402-avm/paywall/evm` | 3.4MB | EVM only | Base, Ethereum, Polygon, etc. |
+| `@x402-avm/paywall/svm` | 1.0MB | Solana only | Solana apps |
+| `@x402-avm/paywall/avm` | 0.5MB | Algorand only | Algorand apps |
 
 ## Usage
 
 ### Option 1: EVM Only
 
 ```typescript
-import { createPaywall } from '@x402/paywall';
-import { evmPaywall } from '@x402/paywall/evm';
+import { createPaywall } from '@x402-avm/paywall';
+import { evmPaywall } from '@x402-avm/paywall/evm';
 
 const paywall = createPaywall()
   .withNetwork(evmPaywall)
@@ -50,8 +51,8 @@ app.use(paymentMiddleware(routes, facilitators, schemes, undefined, paywall));
 ### Option 2: Solana Only
 
 ```typescript
-import { createPaywall } from '@x402/paywall';
-import { svmPaywall } from '@x402/paywall/svm';
+import { createPaywall } from '@x402-avm/paywall';
+import { svmPaywall } from '@x402-avm/paywall/svm';
 
 const paywall = createPaywall()
   .withNetwork(svmPaywall)
@@ -62,16 +63,33 @@ const paywall = createPaywall()
   .build();
 ```
 
-### Option 3: Multi-Network
+### Option 3: Algorand Only
 
 ```typescript
-import { createPaywall } from '@x402/paywall';
-import { evmPaywall } from '@x402/paywall/evm';
-import { svmPaywall } from '@x402/paywall/svm';
+import { createPaywall } from '@x402-avm/paywall';
+import { avmPaywall } from '@x402-avm/paywall/avm';
+
+const paywall = createPaywall()
+  .withNetwork(avmPaywall)
+  .withConfig({
+    appName: 'My Algorand App',
+    testnet: true
+  })
+  .build();
+```
+
+### Option 4: Multi-Network
+
+```typescript
+import { createPaywall } from '@x402-avm/paywall';
+import { evmPaywall } from '@x402-avm/paywall/evm';
+import { svmPaywall } from '@x402-avm/paywall/svm';
+import { avmPaywall } from '@x402-avm/paywall/avm';
 
 const paywall = createPaywall()
   .withNetwork(evmPaywall)   // First-match priority
   .withNetwork(svmPaywall)   // Fallback option
+  .withNetwork(avmPaywall)   // Algorand support
   .withConfig({
     appName: 'Multi-chain App',
     testnet: true
@@ -127,15 +145,18 @@ const paywall = createPaywall()
 **Solana Networks** (via `svmPaywall`):
 - CAIP-2: `solana:*` (e.g., `solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp` for mainnet)
 
+**Algorand Networks** (via `avmPaywall`):
+- CAIP-2: `algorand:*` (e.g., `algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=` for testnet)
+
 ## With HTTP Middleware
 
 ### Express
 
 ```typescript
 import express from 'express';
-import { paymentMiddleware } from '@x402/express';
-import { createPaywall } from '@x402/paywall';
-import { evmPaywall } from '@x402/paywall/evm';
+import { paymentMiddleware } from '@x402-avm/express';
+import { createPaywall } from '@x402-avm/paywall';
+import { evmPaywall } from '@x402-avm/paywall/evm';
 
 const app = express();
 
@@ -155,12 +176,12 @@ app.use(paymentMiddleware(
 
 ### Automatic Detection
 
-If you provide `paywallConfig` without a custom paywall, `@x402/core` automatically:
-1. Tries to load `@x402/paywall` if installed
+If you provide `paywallConfig` without a custom paywall, `@x402-avm/core` automatically:
+1. Tries to load `@x402-avm/paywall` if installed
 2. Falls back to basic HTML if not installed
 
 ```typescript
-// Simple usage - auto-detects @x402/paywall
+// Simple usage - auto-detects @x402-avm/paywall
 app.use(paymentMiddleware(routes, facilitators, schemes, {
   appName: 'My App',
   testnet: true
@@ -172,7 +193,7 @@ app.use(paymentMiddleware(routes, facilitators, schemes, {
 You can create custom handlers for new networks:
 
 ```typescript
-import { createPaywall, type PaywallNetworkHandler } from '@x402/paywall';
+import { createPaywall, type PaywallNetworkHandler } from '@x402-avm/paywall';
 
 const suiPaywall: PaywallNetworkHandler = {
   supports: (req) => req.network.startsWith('sui:'),

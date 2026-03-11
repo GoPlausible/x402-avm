@@ -1,5 +1,5 @@
 import type { CloudFrontRequest } from 'aws-lambda';
-import type { HTTPAdapter } from '@x402/core/server';
+import type { HTTPAdapter } from '@x402-avm/core/server';
 
 /**
  * CloudFront HTTPAdapter implementation for x402HTTPResourceServer

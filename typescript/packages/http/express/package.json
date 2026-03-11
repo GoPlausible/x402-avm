@@ -1,5 +1,5 @@
 {
-  "name": "@x402/express",
+  "name": "@x402-avm/express",
   "version": "2.6.0",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -18,8 +18,14 @@
   "keywords": [],
   "license": "Apache-2.0",
   "author": "Coinbase Inc.",
-  "repository": "https://github.com/coinbase/x402",
-  "description": "x402 Payment Protocol",
+  "contributors": [
+    {
+      "name": "GoPlausible"
+    }
+  ],
+  "repository": "https://github.com/GoPlausible/x402-avm",
+  "homepage": "https://x402.goplausible.xyz",
+  "description": "x402 Payment Protocol with Algorand integration - Express SDK",
   "devDependencies": {
     "@eslint/js": "^9.24.0",
     "@types/express": "^5.0.1",
@@ -40,17 +46,17 @@
     "vitest": "^3.0.5"
   },
   "dependencies": {
-    "@x402/core": "workspace:~",
-    "@x402/extensions": "workspace:~",
+    "@x402-avm/core": "workspace:~",
+    "@x402-avm/extensions": "workspace:~",
     "viem": "^2.39.3",
     "zod": "^3.24.2"
   },
   "peerDependencies": {
-    "@x402/paywall": "workspace:*",
+    "@x402-avm/paywall": "workspace:*",
     "express": "^4.0.0 || ^5.0.0"
   },
   "peerDependenciesMeta": {
-    "@x402/paywall": {
+    "@x402-avm/paywall": {
       "optional": true
     }
   },

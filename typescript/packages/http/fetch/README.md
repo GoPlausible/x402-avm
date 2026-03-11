@@ -5,14 +5,14 @@ A utility package that extends the native `fetch` API to automatically handle 40
 ## Installation
 
 ```bash
-pnpm install @x402/fetch
+pnpm install @x402-avm/fetch
 ```
 
 ## Quick Start
 
 ```typescript
-import { wrapFetchWithPaymentFromConfig } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm";
+import { wrapFetchWithPaymentFromConfig } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm";
 import { privateKeyToAccount } from "viem/accounts";
 
 // Create an account
@@ -56,7 +56,7 @@ Convenience wrapper that creates an x402Client from a configuration object.
 - `fetch`: The fetch function to wrap (typically `globalThis.fetch`)
 - `config`: Configuration object with the following properties:
   - `schemes`: Array of scheme registrations, each containing:
-    - `network`: Network identifier (e.g., 'eip155:8453', 'solana:mainnet', 'eip155:*' for wildcards)
+    - `network`: Network identifier (e.g., 'eip155:8453', 'solana:mainnet', 'algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=', 'eip155:*' for wildcards)
     - `client`: The scheme client implementation (e.g., `ExactEvmScheme`, `ExactSvmScheme`)
     - `x402Version`: Optional protocol version (defaults to 2, set to 1 for legacy support)
   - `paymentRequirementsSelector`: Optional function to select payment requirements from multiple options
@@ -75,9 +75,9 @@ A wrapped fetch function that automatically handles 402 responses by:
 
 ```typescript
 import { config } from "dotenv";
-import { wrapFetchWithPaymentFromConfig, decodePaymentResponseHeader } from "@x402/fetch";
+import { wrapFetchWithPaymentFromConfig, decodePaymentResponseHeader } from "@x402-avm/fetch";
 import { privateKeyToAccount } from "viem/accounts";
-import { ExactEvmScheme } from "@x402/evm";
+import { ExactEvmScheme } from "@x402-avm/evm";
 
 config();
 
@@ -120,9 +120,10 @@ fetchWithPayment(API_URL, {
 For more control, you can use the builder pattern to register multiple schemes:
 
 ```typescript
-import { wrapFetchWithPayment, x402Client } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
+import { wrapFetchWithPayment, x402Client } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import { base58 } from "@scure/base";
@@ -134,7 +135,8 @@ const svmSigner = await createKeyPairSignerFromBytes(base58.decode("YourSvmPriva
 // Build client with multiple schemes
 const client = new x402Client()
   .register("eip155:*", new ExactEvmScheme(evmSigner))
-  .register("solana:*", new ExactSvmScheme(svmSigner));
+  .register("solana:*", new ExactSvmScheme(svmSigner))
+  .register("algorand:*", new ExactAvmScheme(avmSigner));
 
 // Wrap fetch with the client
 const fetchWithPayment = wrapFetchWithPayment(fetch, client);
@@ -143,21 +145,27 @@ const fetchWithPayment = wrapFetchWithPayment(fetch, client);
 ### Multi-Chain Support
 
 ```typescript
-import { wrapFetchWithPaymentFromConfig } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm";
-import { ExactSvmScheme } from "@x402/svm";
+import { wrapFetchWithPaymentFromConfig } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm";
+import { ExactSvmScheme } from "@x402-avm/svm";
+import { ExactAvmScheme } from "@x402-avm/avm";
 
 const fetchWithPayment = wrapFetchWithPaymentFromConfig(fetch, {
   schemes: [
     // EVM chains
     {
-      network: "eip155:8453", // Base Sepolia
+      network: "eip155:8453", // Base Mainnet
       client: new ExactEvmScheme(evmAccount),
     },
     // SVM chains
     {
       network: "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1", // Solana devnet
       client: new ExactSvmScheme(svmSigner),
+    },
+    // AVM chains
+    {
+      network: "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", // Algorand testnet
+      client: new ExactAvmScheme(avmSigner),
     },
   ],
 });
@@ -166,8 +174,8 @@ const fetchWithPayment = wrapFetchWithPaymentFromConfig(fetch, {
 ### Custom Payment Requirements Selector
 
 ```typescript
-import { wrapFetchWithPaymentFromConfig, type SelectPaymentRequirements } from "@x402/fetch";
-import { ExactEvmScheme } from "@x402/evm";
+import { wrapFetchWithPaymentFromConfig, type SelectPaymentRequirements } from "@x402-avm/fetch";
+import { ExactEvmScheme } from "@x402-avm/evm";
 
 // Custom selector that prefers the cheapest option
 const selectCheapestOption: SelectPaymentRequirements = (version, accepts) => {

@@ -2,17 +2,17 @@ import { config } from "dotenv";
 import { privateKeyToAccount } from "viem/accounts";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import { base58 } from "@scure/base";
-import { x402Client } from "@x402/core/client";
+import { x402Client } from "@x402-avm/core/client";
 import {
   decodePaymentRequiredHeader,
   decodePaymentResponseHeader,
   encodePaymentSignatureHeader,
-} from "@x402/core/http";
-import { ExactEvmScheme } from "@x402/evm/exact/client";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
-import { toClientAvmSigner } from "@x402/avm";
-import { ExactAvmScheme } from "@x402/avm/exact/client";
-import type { PaymentRequirements } from "@x402/core/types";
+} from "@x402-avm/core/http";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { toClientAvmSigner } from "@x402-avm/avm";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
+import type { PaymentRequirements } from "@x402-avm/core/types";
 
 config();
 
@@ -20,7 +20,7 @@ config();
  * Custom x402 Client Implementation (v2 Protocol)
  *
  * This example demonstrates how to implement x402 payment handling manually
- * using only the core packages, without the convenience wrappers like @x402/fetch.
+ * using only the core packages, without the convenience wrappers like @x402-avm/fetch.
  *
  * x402 v2 Protocol Headers:
  * - PAYMENT-REQUIRED: Server → Client (402 response)

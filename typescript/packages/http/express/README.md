@@ -1,24 +1,24 @@
-# @x402/express
+# @x402-avm/express
 
 Express middleware integration for the x402 Payment Protocol. This package provides a simple middleware function for adding x402 payment requirements to your Express.js applications.
 
 ## Installation
 
 ```bash
-pnpm install @x402/express
+pnpm install @x402-avm/express
 ```
 
 ## Quick Start
 
 ```typescript
 import express from "express";
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
-import { HTTPFacilitatorClient } from "@x402/core/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
 
 const app = express();
 
-const facilitatorClient = new HTTPFacilitatorClient({ url: "https://facilitator.x402.org" });
+const facilitatorClient = new HTTPFacilitatorClient({ url: "https://facilitator.x402.goplausible.xyz" });
 const resourceServer = new x402ResourceServer(facilitatorClient)
   .register("eip155:84532", new ExactEvmScheme());
 
@@ -76,7 +76,7 @@ See the sections below for detailed configuration options.
 
 ### ExpressAdapter
 
-The `ExpressAdapter` class implements the `HTTPAdapter` interface from `@x402/core`, providing Express-specific request handling:
+The `ExpressAdapter` class implements the `HTTPAdapter` interface from `@x402-avm/core`, providing Express-specific request handling:
 
 ```typescript
 class ExpressAdapter implements HTTPAdapter {
@@ -137,10 +137,10 @@ The middleware automatically displays a paywall UI when browsers request protect
 
 **Option 1: Full Paywall UI (Recommended)**
 
-Install the optional `@x402/paywall` package for a complete wallet connection and payment UI:
+Install the optional `@x402-avm/paywall` package for a complete wallet connection and payment UI:
 
 ```bash
-pnpm add @x402/paywall
+pnpm add @x402-avm/paywall
 ```
 
 Then configure it:
@@ -159,13 +159,14 @@ The paywall includes:
 
 - EVM wallet support (MetaMask, Coinbase Wallet, etc.)
 - Solana wallet support (Phantom, Solflare, etc.)
+- Algorand wallet support (Pera, Defly, etc.)
 - USDC balance checking
 - Chain switching
 - Onramp integration for mainnet
 
 **Option 2: Basic Paywall (No Installation)**
 
-Without `@x402/paywall` installed, the middleware returns a basic HTML page with payment instructions. This works but doesn't include wallet connections.
+Without `@x402-avm/paywall` installed, the middleware returns a basic HTML page with payment instructions. This works but doesn't include wallet connections.
 
 **Option 3: Custom Paywall Provider**
 
@@ -177,7 +178,7 @@ app.use(paymentMiddleware(routes, resourceServer, paywallConfig, customPaywallPr
 
 This allows full customization of the paywall UI.
 
-**For advanced configuration** (builder pattern, network-specific bundles, custom handlers), see the [@x402/paywall README](../paywall/README.md).
+**For advanced configuration** (builder pattern, network-specific bundles, custom handlers), see the [@x402-avm/paywall README](../paywall/README.md).
 
 ## Advanced Usage
 
@@ -217,9 +218,9 @@ app.use(
 If you need to use a custom facilitator server, configure it when creating the x402ResourceServer:
 
 ```typescript
-import { HTTPFacilitatorClient } from "@x402/core/server";
-import { x402ResourceServer } from "@x402/express";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { x402ResourceServer } from "@x402-avm/express";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
 
 const customFacilitator = new HTTPFacilitatorClient({
   url: "https://your-facilitator.com",
@@ -239,7 +240,7 @@ app.use(paymentMiddleware(routes, resourceServer, paywallConfig));
 
 If you're migrating from the legacy `x402-express` package:
 
-1. **Update imports**: Change from `x402-express` to `@x402/express`
+1. **Update imports**: Change from `x402-express` to `@x402-avm/express`
 2. **New API**: Create an x402ResourceServer and register payment schemes
 3. **Parameter order**: Routes first, then resource server, then optional paywall config
 
@@ -258,12 +259,12 @@ app.use(
 );
 ```
 
-### After (@x402/express):
+### After (@x402-avm/express):
 
 ```typescript
-import { paymentMiddleware, x402ResourceServer } from "@x402/express";
-import { HTTPFacilitatorClient } from "@x402/core/server";
-import { ExactEvmScheme } from "@x402/evm/exact/server";
+import { paymentMiddleware, x402ResourceServer } from "@x402-avm/express";
+import { HTTPFacilitatorClient } from "@x402-avm/core/server";
+import { ExactEvmScheme } from "@x402-avm/evm/exact/server";
 
 const facilitator = new HTTPFacilitatorClient({ url: facilitatorUrl });
 const resourceServer = new x402ResourceServer(facilitator)

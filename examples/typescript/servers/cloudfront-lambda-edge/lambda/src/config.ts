@@ -5,10 +5,10 @@
  * Lambda@Edge doesn't support environment variables, so config is bundled.
  */
 
-import type { RoutesConfig } from '@x402/core/server';
+import type { RoutesConfig } from '@x402-avm/core/server';
 
 // Payment configuration
-export const FACILITATOR_URL = 'https://x402.org/facilitator';
+export const FACILITATOR_URL = 'https://facilitator.goplausible.xyz';
 export const PAY_TO = '0xYourPaymentAddressHere';
 export const NETWORK = 'eip155:84532'; // Base Sepolia testnet
 

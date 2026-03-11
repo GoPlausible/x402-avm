@@ -1,11 +1,11 @@
-# @x402/fetch Example Client
+# @x402-avm/fetch Example Client
 
-Example client demonstrating how to use `@x402/fetch` to make HTTP requests to endpoints protected by the x402 payment protocol.
+Example client demonstrating how to use `@x402-avm/fetch` to make HTTP requests to endpoints protected by the x402 payment protocol.
 
 ```typescript
-import { x402Client, wrapFetchWithPayment } from "@x402/fetch";
-import { registerExactEvmScheme } from "@x402/evm/exact/client";
-import { registerExactSvmScheme } from "@x402/svm/exact/client";
+import { x402Client, wrapFetchWithPayment } from "@x402-avm/fetch";
+import { registerExactEvmScheme } from "@x402-avm/evm/exact/client";
+import { registerExactSvmScheme } from "@x402-avm/svm/exact/client";
 import { privateKeyToAccount } from "viem/accounts";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
 import { base58 } from "@scure/base";
@@ -25,7 +25,7 @@ console.log(await response.json());
 - Node.js v20+ (install via [nvm](https://github.com/nvm-sh/nvm))
 - pnpm v10 (install via [pnpm.io/installation](https://pnpm.io/installation))
 - A running x402 server (see [express server example](../../servers/express))
-- Valid EVM and/or SVM private keys for making payments
+- Valid EVM, SVM, and/or AVM private keys for making payments
 
 ## Setup
 

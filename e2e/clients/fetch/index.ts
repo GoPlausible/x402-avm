@@ -1,22 +1,22 @@
 import { config } from "dotenv";
-import { wrapFetchWithPayment } from "@x402/fetch";
+import { wrapFetchWithPayment } from "@x402-avm/fetch";
 import { createPublicClient, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { baseSepolia } from "viem/chains";
-import { toClientAvmSigner } from "@x402/avm";
-import { ExactAvmScheme } from "@x402/avm/exact/client";
-import { ExactEvmScheme, type ExactEvmSchemeOptions } from "@x402/evm/exact/client";
-import { ExactEvmSchemeV1 } from "@x402/evm/v1";
-import { toClientEvmSigner } from "@x402/evm";
-import { ExactSvmScheme } from "@x402/svm/exact/client";
-import { ExactSvmSchemeV1 } from "@x402/svm/v1";
-import { ExactAptosScheme } from "@x402/aptos/exact/client";
+import { toClientAvmSigner } from "@x402-avm/avm";
+import { ExactAvmScheme } from "@x402-avm/avm/exact/client";
+import { ExactEvmScheme, type ExactEvmSchemeOptions } from "@x402-avm/evm/exact/client";
+import { ExactEvmSchemeV1 } from "@x402-avm/evm/v1";
+import { toClientEvmSigner } from "@x402-avm/evm";
+import { ExactSvmScheme } from "@x402-avm/svm/exact/client";
+import { ExactSvmSchemeV1 } from "@x402-avm/svm/v1";
+import { ExactAptosScheme } from "@x402-avm/aptos/exact/client";
 import { Account, Ed25519PrivateKey, PrivateKey, PrivateKeyVariants } from "@aptos-labs/ts-sdk";
-import { ExactStellarScheme } from "@x402/stellar/exact/client";
-import { createEd25519Signer, Ed25519Signer } from "@x402/stellar";
+import { ExactStellarScheme } from "@x402-avm/stellar/exact/client";
+import { createEd25519Signer, Ed25519Signer } from "@x402-avm/stellar";
 import { base58 } from "@scure/base";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
-import { x402Client, x402HTTPClient } from "@x402/core/client";
+import { x402Client, x402HTTPClient } from "@x402-avm/core/client";
 
 config();
 
