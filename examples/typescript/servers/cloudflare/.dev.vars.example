@@ -1,0 +1,7 @@
+# Copy this file to .dev.vars for local development
+# For production, set these as secrets: wrangler secret put <NAME>
+
+EVM_ADDRESS=
+SVM_ADDRESS=
+AVM_ADDRESS=
+FACILITATOR_URL=https://facilitator.goplausible.xyz

@@ -1,0 +1,28 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "x402-cloudflare-example",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-01",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Environment variables — set secrets via `wrangler secret put <NAME>`
+  // For local dev, create a `.dev.vars` file (see .dev.vars.example)
+  // "vars": {
+  //   "EVM_ADDRESS": "",
+  //   "SVM_ADDRESS": "",
+  //   "AVM_ADDRESS": "",
+  //   "FACILITATOR_URL": "",
+  // },
+
+  // Static assets served from public/ (favicon, logo)
+  "assets": {
+    "directory": "public",
+  },
+
+  // "routes": [
+  //   {
+  //     "pattern": "",
+  //     "zone_name": "",
+  //   },
+  // ],
+}
