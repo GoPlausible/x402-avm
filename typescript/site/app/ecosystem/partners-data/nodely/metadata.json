@@ -1,0 +1,8 @@
+{
+  "name": "Nodely",
+  "category": "Services/Endpoints",
+  "logoUrl": "/logos/nodely.png",
+  "description": "Globally distributed, low-latency Algorand API service providing free Algod and Indexer endpoints, plus a distributed IPFS gateway for all Algorand mainnet assets.",
+  "websiteUrl": "https://nodely.io",
+  "order": 3
+}

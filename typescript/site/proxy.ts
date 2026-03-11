@@ -8,11 +8,11 @@ import { createPaywall } from "@x402-avm/paywall";
 import { evmPaywall } from "@x402-avm/paywall/evm";
 import { svmPaywall } from "@x402-avm/paywall/svm";
 import { avmPaywall } from "@x402-avm/paywall/avm";
+import { createThemedPaywall } from "./themed-paywall";
 
 const evmPayeeAddress = process.env.RESOURCE_EVM_ADDRESS as `0x${string}`;
 const svmPayeeAddress = process.env.RESOURCE_SVM_ADDRESS as string;
-const avmPayeeAddress =
-  process.env.RESOURCE_AVM_ADDRESS || (process.env.RESOURCE_WALLET_ADDRESS as string);
+const avmPayeeAddress = process.env.RESOURCE_AVM_ADDRESS || process.env.RESOURCE_WALLET_ADDRESS as string;
 const facilitatorUrl = process.env.FACILITATOR_URL as string;
 
 const EVM_NETWORK = "eip155:84532" as const; // Base Sepolia
@@ -40,49 +40,59 @@ if (!facilitatorUrl) {
 // Create HTTP facilitator client
 const facilitatorClient = new HTTPFacilitatorClient({ url: facilitatorUrl });
 
-// Build the paywall provider
-const paywall = createPaywall()
+// Build the paywall provider with landing-page dark theme
+const basePaywall = createPaywall()
+  .withNetwork(avmPaywall)
   .withNetwork(evmPaywall)
   .withNetwork(svmPaywall)
-  .withNetwork(avmPaywall)
   .withConfig({
     appName: "x402 Demo",
     appLogo: "/logos/x402-examples.png",
   })
   .build();
 
+const paywall = createThemedPaywall(basePaywall);
+
+const accepts = [
+  {
+    payTo: avmPayeeAddress,
+    scheme: "exact",
+    price: "$0.01",
+    network: AVM_NETWORK,
+  },
+  {
+    payTo: evmPayeeAddress,
+    scheme: "exact",
+    price: "$0.01",
+    network: EVM_NETWORK,
+  },
+  {
+    payTo: svmPayeeAddress,
+    scheme: "exact",
+    price: "$0.01",
+    network: SVM_NETWORK,
+  },
+];
+
+const schemes = [
+  { network: AVM_NETWORK, server: new ExactAvmScheme() },
+  { network: EVM_NETWORK, server: new ExactEvmScheme() },
+  { network: SVM_NETWORK, server: new ExactSvmScheme() },
+];
+
 const x402PaymentProxy = paymentProxyFromConfig(
   {
     "/protected": {
-      accepts: [
-        {
-          payTo: evmPayeeAddress,
-          scheme: "exact",
-          price: "$0.01",
-          network: EVM_NETWORK,
-        },
-        {
-          payTo: svmPayeeAddress,
-          scheme: "exact",
-          price: "$0.01",
-          network: SVM_NETWORK,
-        },
-        {
-          payTo: avmPayeeAddress,
-          scheme: "exact",
-          price: "$0.01",
-          network: AVM_NETWORK,
-        },
-      ],
+      accepts,
       description: "Access to protected content",
+    },
+    "/examples/weather": {
+      accepts,
+      description: "Access to protected weather API",
     },
   },
   facilitatorClient,
-  [
-    { network: EVM_NETWORK, server: new ExactEvmScheme() },
-    { network: SVM_NETWORK, server: new ExactSvmScheme() },
-    { network: AVM_NETWORK, server: new ExactAvmScheme() },
-  ],
+  schemes,
   undefined, // paywallConfig
   paywall, // paywall provider
 );

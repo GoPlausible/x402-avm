@@ -1,23 +1,15 @@
-import { Account, Ed25519PrivateKey, PrivateKey, PrivateKeyVariants } from "@aptos-labs/ts-sdk";
 import { base58 } from "@scure/base";
 import { createKeyPairSignerFromBytes } from "@solana/kit";
-import { toFacilitatorAptosSigner } from "@x402-avm/aptos";
-import { ExactAptosScheme } from "@x402-avm/aptos/exact/facilitator";
 import { x402Facilitator } from "@x402-avm/core/facilitator";
 import { Network } from "@x402-avm/core/types";
 import { toFacilitatorEvmSigner } from "@x402-avm/evm";
 import { ExactEvmScheme } from "@x402-avm/evm/exact/facilitator";
 import { ExactEvmSchemeV1 } from "@x402-avm/evm/exact/v1/facilitator";
-import {
-  EIP2612_GAS_SPONSORING,
-  createErc20ApprovalGasSponsoringExtension,
-} from "@x402-avm/extensions";
-import { createEd25519Signer } from "@x402-avm/stellar";
-import { ExactStellarScheme } from "@x402-avm/stellar/exact/facilitator";
 import { toFacilitatorSvmSigner } from "@x402-avm/svm";
 import { ExactSvmScheme } from "@x402-avm/svm/exact/facilitator";
 import { ExactSvmSchemeV1 } from "@x402-avm/svm/exact/v1/facilitator";
-import { toFacilitatorAvmSigner } from "@x402-avm/avm";
+import { DEFAULT_ALGOD_TESTNET } from "@x402-avm/avm";
+import algosdk from "algosdk";
 import { ExactAvmScheme } from "@x402-avm/avm/exact/facilitator";
 import { ExactAvmSchemeV1 } from "@x402-avm/avm/exact/v1/facilitator";
 import { createWalletClient, http, publicActions } from "viem";
@@ -25,7 +17,7 @@ import { privateKeyToAccount } from "viem/accounts";
 import { baseSepolia } from "viem/chains";
 
 /**
- * Initialize and configure the x402 facilitator with EVM, SVM, AVM, Aptos, and Stellar support
+ * Initialize and configure the x402 facilitator with EVM, SVM, and AVM support
  * This is called lazily on first use to support Next.js module loading
  *
  * @returns A configured x402Facilitator instance
@@ -105,8 +97,47 @@ async function createFacilitator(): Promise<x402Facilitator> {
   // Initialize SVM signer - handles all Solana networks with automatic RPC creation
   const svmSigner = toFacilitatorSvmSigner(svmAccount);
 
-  // Initialize the AVM signer from private key
-  const avmSigner = toFacilitatorAvmSigner(avmPrivateKey);
+  // Initialize the AVM account from private key
+  const secretKey = Buffer.from(avmPrivateKey, "base64");
+  if (secretKey.length !== 64) {
+    throw new Error("FACILITATOR_AVM_PRIVATE_KEY must be a Base64-encoded 64-byte key (32-byte seed + 32-byte public key)");
+  }
+  const avmAddress = algosdk.encodeAddress(secretKey.slice(32));
+  const algodClient = new algosdk.Algodv2("", DEFAULT_ALGOD_TESTNET, "");
+
+  // Initialize AVM signer
+  const avmSigner = {
+    getAddresses: () => [avmAddress] as readonly string[],
+
+    signTransaction: async (txn: Uint8Array, _senderAddress: string) => {
+      const decoded = algosdk.decodeUnsignedTransaction(txn);
+      const signed = algosdk.signTransaction(decoded, secretKey);
+      return signed.blob;
+    },
+
+    getAlgodClient: (_network: string) => algodClient,
+
+    simulateTransactions: async (txns: Uint8Array[], _network: string) => {
+      const request = new algosdk.modelsv2.SimulateRequest({
+        txnGroups: [
+          new algosdk.modelsv2.SimulateRequestTransactionGroup({
+            txns: txns.map(txn => algosdk.decodeSignedTransaction(txn)),
+          }),
+        ],
+        allowUnnamedResources: true,
+      });
+      return await algodClient.simulateTransactions(request).do();
+    },
+
+    sendTransactions: async (signedTxns: Uint8Array[], _network: string) => {
+      const response = await algodClient.sendRawTransaction(signedTxns).do();
+      return response.txid;
+    },
+
+    waitForConfirmation: async (txId: string, _network: string, waitRounds: number = 4) => {
+      return await algosdk.waitForConfirmation(algodClient, txId, waitRounds);
+    },
+  };
 
   // Create and configure the facilitator with all networks
   const facilitator = new x402Facilitator()
@@ -114,70 +145,8 @@ async function createFacilitator(): Promise<x402Facilitator> {
     .registerV1("base-sepolia" as Network, new ExactEvmSchemeV1(evmSigner))
     .register("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1", new ExactSvmScheme(svmSigner))
     .registerV1("solana-devnet" as Network, new ExactSvmSchemeV1(svmSigner))
-    .register(
-      "algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=",
-      new ExactAvmScheme(avmSigner),
-    )
+    .register("algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=", new ExactAvmScheme(avmSigner))
     .registerV1("algorand-testnet" as Network, new ExactAvmSchemeV1(avmSigner));
-
-  // Optionally register Aptos if configured
-  if (process.env.FACILITATOR_APTOS_PRIVATE_KEY) {
-    const formattedAptosKey = PrivateKey.formatPrivateKey(
-      process.env.FACILITATOR_APTOS_PRIVATE_KEY,
-      PrivateKeyVariants.Ed25519,
-    );
-    const aptosPrivateKey = new Ed25519PrivateKey(formattedAptosKey);
-    const aptosAccount = Account.fromPrivateKey({ privateKey: aptosPrivateKey });
-    const aptosSigner = toFacilitatorAptosSigner(aptosAccount);
-    facilitator.register("aptos:2", new ExactAptosScheme(aptosSigner));
-  }
-
-  // Optionally register Stellar if configured
-  if (process.env.FACILITATOR_STELLAR_PRIVATE_KEY) {
-    const stellarSigners = process.env.FACILITATOR_STELLAR_PRIVATE_KEY.split(",")
-      .map(k => k.trim())
-      .filter(k => k.length > 0)
-      .map(k => createEd25519Signer(k));
-
-    const feeBumpSigner = process.env.FACILITATOR_STELLAR_FEEBUMP_PRIVATE_KEY
-      ? createEd25519Signer(process.env.FACILITATOR_STELLAR_FEEBUMP_PRIVATE_KEY)
-      : undefined;
-
-    facilitator.register(
-      "stellar:testnet",
-      new ExactStellarScheme(stellarSigners, { feeBumpSigner }),
-    );
-  }
-
-  // Build ERC-20 approval signer with sendTransactions for Permit2 gas sponsoring
-  const erc20ApprovalSigner = {
-    ...evmSigner,
-    sendTransactions: async (
-      transactions: (`0x${string}` | { to: `0x${string}`; data: `0x${string}`; gas?: bigint })[],
-    ): Promise<`0x${string}`[]> => {
-      const hashes: `0x${string}`[] = [];
-      for (const tx of transactions) {
-        let hash: `0x${string}`;
-        if (typeof tx === "string") {
-          hash = await viemClient.sendRawTransaction({ serializedTransaction: tx });
-        } else {
-          // eslint-disable-next-line @typescript-eslint/no-explicit-any
-          hash = await viemClient.sendTransaction(tx as any);
-        }
-        const receipt = await viemClient.waitForTransactionReceipt({ hash });
-        if (receipt.status !== "success") {
-          throw new Error(`transaction_failed: ${hash}`);
-        }
-        hashes.push(hash);
-      }
-      return hashes;
-    },
-  };
-
-  // Register gas sponsorship extensions for Permit2 support
-  facilitator
-    .registerExtension(EIP2612_GAS_SPONSORING)
-    .registerExtension(createErc20ApprovalGasSponsoringExtension(erc20ApprovalSigner));
 
   return facilitator;
 }

@@ -1,0 +1,8 @@
+{
+  "name": "Algorand DevRel",
+  "category": "Learning & Community Resources",
+  "logoUrl": "/logos/algorand-devrel.png",
+  "description": "Algorand Developer Relations team building agentic skills, tools, and resources for AI agents on Algorand. Explore the Algorand Agent Skills repository for ready-to-use agent capabilities.",
+  "websiteUrl": "https://github.com/algorand-devrel/algorand-agent-skills",
+  "order": 4
+}

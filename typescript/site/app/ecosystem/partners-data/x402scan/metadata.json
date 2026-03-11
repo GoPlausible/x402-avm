@@ -1,7 +1,8 @@
 {
   "name": "x402scan",
-  "category": "Infrastructure & Tooling",
+  "category": "Indexing & Monitoring Services",
   "logoUrl": "/logos/x402scan.png",
-  "description": "An ecosystem explorer for x402 resources and analytics",
-  "websiteUrl": "https://x402scan.com"
+  "description": "x402 Ecosystem Explorer. Browse x402 servers, track transaction volumes, discover API resources, and monitor facilitator activity — all with an embedded wallet for direct stablecoin payments.",
+  "websiteUrl": "https://www.x402scan.com",
+  "order": 6
 }
