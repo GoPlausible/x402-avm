@@ -1,6 +1,8 @@
-# x402
+# x402-avm
 
-x402 is an open standard for internet native payments. It aims to support all networks (both crypto & fiat) and forms of value (stablecoins, tokens, fiat).
+x402-avm is an open standard for internet native payments with first-class Algorand (AVM) support alongside EVM and SVM networks. It supports all networks and forms of value (stablecoins, tokens, fiat).
+
+This is the [GoPlausible](https://goplausible.com) fork of x402, adding full Algorand Virtual Machine (AVM) support as a first-class citizen — identical to EVM and SVM integration.
 
 ```typescript
 app.use(
@@ -23,25 +25,19 @@ app.use(
 
 ```shell
 # All available reference sdks
-npm install @x402/core @x402/evm @x402/svm @x402/axios @x402/fetch @x402/express @x402/hono @x402/next @x402/paywall @x402/extensions
+npm install @x402-avm/core @x402-avm/evm @x402-avm/svm @x402-avm/avm @x402-avm/axios @x402-avm/fetch @x402-avm/express @x402-avm/hono @x402-avm/next @x402-avm/paywall @x402-avm/extensions
 
-# Minimal Fetch client
-npm install @x402/core @x402/evm @x402/svm @x402/fetch
+# Minimal Fetch client (EVM + SVM + AVM)
+npm install @x402-avm/core @x402-avm/evm @x402-avm/svm @x402-avm/avm @x402-avm/fetch
 
-# Minimal express Server
-npm install @x402/core @x402/evm @x402/svm @x402/express
+# Minimal express Server (EVM + SVM + AVM)
+npm install @x402-avm/core @x402-avm/evm @x402-avm/svm @x402-avm/avm @x402-avm/express
 ```
 
 ### Python
 
 ```shell
-pip install x402
-```
-
-### Go
-
-```shell
-go get github.com/coinbase/x402/go
+pip install x402-avm
 ```
 
 </details>
@@ -50,25 +46,31 @@ go get github.com/coinbase/x402/go
 
 - **Open standard:** x402 is an open standard, freely accessible and usable by anyone. It will never force reliance on a single party.
 - **HTTP / Transport Native:** x402 is meant to seamlessly complement existing data transportation. It should whenever possible not mandate additional requests outside the scope of a typical client / server flow.
-- **Network, token, and currency agnostic:** we welcome contributions that add support for new networks (both crypto and fiat), signing standards, or schemes, so long as they meet our acceptance criteria laid out in [CONTRIBUTING.md](https://github.com/coinbase/x402/blob/main/CONTRIBUTING.md). x402 may extend support to fiat based networks, but will never deprioritize onchain payments in favor of fiat payments.
+- **Network, token, and currency agnostic:** we welcome contributions that add support for new networks (both crypto and fiat), signing standards, or schemes, so long as they meet our acceptance criteria laid out in [CONTRIBUTING.md](https://github.com/GoPlausible/x402-avm/blob/main/CONTRIBUTING.md). x402 may extend support to fiat based networks, but will never deprioritize onchain payments in favor of fiat payments.
 - **Backwards Compatible:** x402 will not deprecate support for any existing networks unless such removal is deemed necessary for the security of the standard. Whenever possible, x402 will aim for backwards compatibility for non-major version changes.
 - **Trust minimizing:** all payment schemes must not allow for the facilitator or resource server to move funds, other than in accordance with client intentions
 - **Easy to use:** It is the goal of the x402 community to improve ease of use relative to other forms of payment on the Internet. This means abstracting as many details of crypto as possible away from the client and resource server, and into the facilitator. This means the client/server should not need to think about gas, rpc, etc.
 
 ## Ecosystem
 
-The x402 ecosystem is growing! Check out our [ecosystem page](https://x402.org/ecosystem) to see projects building with x402, including:
+The x402-avm ecosystem is growing! Check out our [ecosystem page](https://x402.goplausible.xyz/ecosystem) to see projects building with x402-avm, including:
 
 - Client-side integrations
 - Services and endpoints
 - Ecosystem infrastructure and tooling
 - Learning and community resources
 
-Want to add your project to the ecosystem? See our [demo site README](https://github.com/coinbase/x402/tree/main/typescript/site#adding-your-project-to-the-ecosystem) for detailed instructions on how to submit your project.
-
-**Roadmap:** see [ROADMAP.md](https://github.com/coinbase/x402/blob/main/ROADMAP.md)
+**Roadmap:** see [ROADMAP.md](https://github.com/GoPlausible/x402-avm/blob/main/ROADMAP.md)
 
 **Documentation:** see [docs/](./docs/) for the GitBook documentation source
+
+## Supported Networks
+
+| Network | Package | CAIP-2 Identifier |
+|---------|---------|-------------------|
+| Algorand (AVM) | `@x402-avm/avm` | `algorand:SGO1GKSzyE7IEPItTxCByw9x8FmnrCDexi9/cOUJOiI=` (testnet) |
+| EVM (Base Sepolia) | `@x402-avm/evm` | `eip155:84532` |
+| Solana (SVM) | `@x402-avm/svm` | `solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1` (devnet) |
 
 ## Terms:
 
@@ -133,6 +135,6 @@ See `specs/schemes` for more details on schemes, and see `specs/schemes/exact/sc
 
 ### Schemes vs Networks
 
-Because a scheme is a logical way of moving money, the way a scheme is implemented can be different for different blockchains. (ex: the way you need to implement `exact` on Ethereum is very different from the way you need to implement `exact` on Solana).
+Because a scheme is a logical way of moving money, the way a scheme is implemented can be different for different blockchains. (ex: the way you need to implement `exact` on Ethereum is very different from the way you need to implement `exact` on Solana or Algorand).
 
 Clients and facilitators must explicitly support different `(scheme, network)` pairs in order to be able to create proper payloads and verify / settle payments.
