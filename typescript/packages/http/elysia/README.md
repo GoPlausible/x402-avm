@@ -4,6 +4,8 @@ Elysia plugin for the [x402 Payment Protocol](https://x402.org). Protect any rou
 
 Part of the [`x402-avm`](https://github.com/GoPlausible/x402-avm) ecosystem.
 
+Requires **Elysia ^1.2.0** (uses `{ as: "global" }` hook scoping and `.state()` typing introduced in 1.2).
+
 ## Installation
 
 ```bash
@@ -130,7 +132,16 @@ httpServer.server.onAfterSettle(async ctx => {
 app.use(paymentMiddlewareFromHTTPServer(httpServer, paywallConfig));
 ```
 
-## Settlement Overrides
+## Settlement Overrides (forward-compat shim)
+
+> **Note:** This API is currently a no-op in `@x402/elysia` on top of the
+> `GoPlausible/x402-avm` fork of `@x402/core`. The helper writes a
+> `Settlement-Overrides` header that the middleware reads and strips before
+> sending the response, and forwards a `responseHeaders` field on the settlement
+> transport context. Neither is consumed by this fork's core yet. The surface is
+> kept stable for forward compatibility with `x402-foundation/express` v2.9.0; it
+> will activate automatically when core exports `SETTLEMENT_OVERRIDES_HEADER` and
+> reads `responseHeaders` in `processSettlement`.
 
 You can pass optional overrides into the settlement call from inside a route handler:
 
@@ -169,9 +180,9 @@ Convenience variant that creates the `x402ResourceServer` internally.
 
 Implements `HTTPAdapter` from `@x402/core`. Wraps an Elysia `Context` for use with x402 core internals.
 
-### `setSettlementOverrides(set, overrides)`
+### `setSettlementOverrides(set, overrides)` _(forward-compat shim; no-op today)_
 
-Attaches settlement overrides to the outgoing response. The middleware strips the header before forwarding to the client.
+Attaches settlement overrides to the outgoing response. The middleware strips the header before forwarding to the client. Currently a no-op — see the [Settlement Overrides](#settlement-overrides-forward-compat-shim) section above.
 
 ## How It Works
 

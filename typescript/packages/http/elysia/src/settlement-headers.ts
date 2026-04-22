@@ -1,22 +1,42 @@
 /**
+ * Forward-compat shim — settlement overrides helpers.
+ *
+ * `@x402/core` in this fork does not yet consume the `Settlement-Overrides`
+ * header nor the `responseHeaders` field on `HTTPTransportContext`. Calls to
+ * `setSettlementOverrides` write a header that the middleware reads and strips
+ * before the response ships, but the value is never forwarded to
+ * `processSettlement`. The API surface is kept stable for forward compatibility
+ * with `x402-foundation/express` v2.9.0 and will activate automatically once
+ * upstream core exports `SETTLEMENT_OVERRIDES_HEADER` and reads `responseHeaders`
+ * in `processSettlement`.
+ *
+ * When upstream exports the constant, replace this file with:
+ *   export { SETTLEMENT_OVERRIDES_HEADER, type SettlementOverrides } from "@x402/core/server";
+ */
+
+/**
  * Header used to pass partial settlement overrides, matching the x402-foundation/x402 convention.
  *
  * Defined locally because @x402/core does not yet export this constant.
- * When upstream exports it, replace with:
- *   export { SETTLEMENT_OVERRIDES_HEADER, type SettlementOverrides } from "@x402/core/server";
+ * Forward-compat shim — no-op in x402-avm today; see file-level note above.
  */
 export const SETTLEMENT_OVERRIDES_HEADER = "Settlement-Overrides";
 
 /**
  * A map of optional override values for the settlement call.
+ *
+ * Forward-compat shim — no-op in x402-avm today; see file-level note above.
  */
 export type SettlementOverrides = Record<string, string | number | undefined>;
 
 /**
  * Attaches settlement overrides to the outgoing response headers before settlement runs.
  *
- * The Elysia middleware strips this header from the wire response after reading it
- * for `processSettlement`, so it is never exposed to the client.
+ * The Elysia middleware strips this header from the wire response after reading it,
+ * so it is never exposed to the client. The value is currently not forwarded to
+ * `processSettlement` by this fork's `@x402/core`.
+ *
+ * Forward-compat shim — no-op in x402-avm today; see file-level note above.
  *
  * @param set - The Elysia set object containing mutable response headers.
  * @param set.headers - The mutable headers record on the set object.

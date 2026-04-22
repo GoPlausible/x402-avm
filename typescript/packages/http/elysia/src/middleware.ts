@@ -251,9 +251,10 @@ export function paymentMiddlewareFromHTTPServer(
         );
         stripSettlementOverridesHeader(ctx.set.headers as Record<string, unknown>);
 
-        // responseHeaders is passed for parity with x402-foundation/express v2.9.0.
-        // @x402/core's HTTPTransportContext does not yet include this field;
-        // cast it through to pass it opaquely until the upstream core type is updated.
+        // Forward-compat shim — `responseHeaders` is ignored by this fork's `@x402/core`.
+        // Kept on the transport context so that `processSettlement` will pick it up
+        // automatically when core adopts the upstream field from x402-foundation/express v2.9.0.
+        // See `settlement-headers.ts` for the paired `setSettlementOverrides` helper.
         const transportContext = {
           request: context,
           responseBody,
