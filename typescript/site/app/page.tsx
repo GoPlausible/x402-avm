@@ -17,10 +17,7 @@ import {
   LockOpenIcon,
   ArrowPathIcon,
   CommandLineIcon,
-  UserGroupIcon,
   GlobeAltIcon,
-  PuzzlePieceIcon,
-  CircleStackIcon,
 } from "@heroicons/react/24/outline";
 
 import { FeatureItem } from "./components/FeatureItem";
@@ -174,18 +171,14 @@ export default function Home() {
                 Protected API (TestNet)
               </Link>
               <Link
-                href="/ecosystem"
+                href="https://facilitator.goplausible.xyz"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-6 py-4 bg-blue-600 hover:bg-blue-700 rounded-lg font-mono transition-colors flex items-center gap-2 text-lg"
               >
-                <CodeBracketIcon className="w-5 h-5 mr-1" />
-                x402 Algorand Ecosystem
+                <ServerIcon className="w-5 h-5 mr-1" />
+                Facilitator
               </Link>
-              {/* <Link
-                href="/ecosystem"
-                className="font-mono hover:text-blue-400 transition-colors flex items-center gap-1 text-sm"
-              >
-                Ecosystem
-              </Link> */}
             </div>
             <div className="flex flex-wrap gap-4 mb-8 justify-center">
               <Link
@@ -195,25 +188,7 @@ export default function Home() {
                 className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
               >
                 <DocumentTextIcon className="w-5 h-5 mr-1" />
-                Documentation
-              </Link>
-              <Link
-                href="https://github.com/algorand-devrel/algorand-agent-skills"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
-              >
-                <UserGroupIcon className="w-5 h-5 mr-1" />
-                Agent Skills
-              </Link>
-              <Link
-                href="https://facilitator.goplausible.xyz"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
-              >
-                <ServerIcon className="w-5 h-5 mr-1" />
-                Facilitator
+                Algorand x402 Docs
               </Link>
               <Link
                 href="https://facilitator.goplausible.xyz/docs"
@@ -224,8 +199,6 @@ export default function Home() {
                 <WrenchScrewdriverIcon className="w-5 h-5 mr-1" />
                 Facilitator Docs
               </Link>
-            </div>
-            <div className="flex flex-wrap gap-4 mb-8 justify-center">
               <Link
                 href="https://example.x402.goplausible.xyz/"
                 target="_blank"
@@ -236,31 +209,11 @@ export default function Home() {
                 Testing x402 Resources
               </Link>
               <Link
-                href="https://www.npmjs.com/package/@goplausible/openclaw-algorand-plugin"
-                target="_blank"
-                rel="noopener noreferrer"
+                href="/ecosystem"
                 className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
               >
-                <PuzzlePieceIcon className="w-5 h-5 mr-1" />
-                OpenClaw Plugin
-              </Link>
-              <Link
-                href="https://github.com/GoPlausible/claude-algorand-plugin"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
-              >
-                <CommandLineIcon className="w-5 h-5 mr-1" />
-                Claude Code Plugin
-              </Link>
-              <Link
-                href="https://www.npmjs.com/package/@goplausible/algorand-mcp"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-3 border-2 border-transparent hover:border-blue-600 rounded-lg font-mono transition-colors flex items-center gap-2 text-sm"
-              >
-                <CircleStackIcon className="w-5 h-5 mr-1" />
-                Algorand MCP Server
+                <CodeBracketIcon className="w-5 h-5 mr-1" />
+                x402 Algorand Ecosystem
               </Link>
             </div>
           </div>
@@ -527,100 +480,100 @@ export default function Home() {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/@x402-avm/core"
+                    href="https://www.npmjs.com/package/@x402/core"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    @x402-avm/core
+                    @x402/core
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/@x402-avm/avm"
+                    href="https://www.npmjs.com/package/@x402/avm"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    @x402-avm/avm
+                    @x402/avm
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/@x402-avm/express"
+                    href="https://www.npmjs.com/package/@x402/express"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    @x402-avm/express
+                    @x402/express
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/@x402-avm/hono"
+                    href="https://www.npmjs.com/package/@x402/hono"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    @x402-avm/hono
+                    @x402/hono
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/@x402-avm/next"
+                    href="https://www.npmjs.com/package/@x402/next"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    @x402-avm/next
+                    @x402/next
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/@x402-avm/fetch"
+                    href="https://www.npmjs.com/package/@x402/fetch"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    @x402-avm/fetch
+                    @x402/fetch
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/@x402-avm/axios"
+                    href="https://www.npmjs.com/package/@x402/axios"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    @x402-avm/axios
+                    @x402/axios
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/@x402-avm/paywall"
+                    href="https://www.npmjs.com/package/@x402/paywall"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    @x402-avm/paywall
+                    @x402/paywall
                   </a>
                 </div>
 
                 <div className="bg-black/50 rounded-lg p-4">
                   <a
-                    href="https://www.npmjs.com/package/@x402-avm/extensions"
+                    href="https://www.npmjs.com/package/@x402/extensions"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-400 font-bold block mb-2"
                   >
-                    @x402-avm/extensions
+                    @x402/extensions
                   </a>
                 </div>
               </div>
@@ -865,14 +818,14 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install @x402-avm/core @x402-avm/avm</span>
+                    <span className="text-green-400">npm install @x402/core @x402/avm</span>
                     {"\n"}
                     <span className="text-gray-400">// Core protocol + Algorand mechanism</span>
                   </pre>
                 </div>
               </div>
               <p className="text-gray-300 leading-relaxed text-xl mb-8">
-                Built atop @x402-avm/core, integration packages exist for the most popular backend
+                Built atop @x402/core, integration packages exist for the most popular backend
                 and frontend frameworks:{" "}
                 <span className="font-bold">Express, Hono, Next.js, Fetch, and Axios</span>.
               </p>
@@ -883,7 +836,7 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install @x402-avm/express</span>
+                    <span className="text-green-400">npm install @x402/express</span>
                     {"\n"}
                     <span className="text-gray-400">// x402 payment middleware for Express.js</span>
                   </pre>
@@ -892,7 +845,7 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install @x402-avm/hono</span>
+                    <span className="text-green-400">npm install @x402/hono</span>
                     {"\n"}
                     <span className="text-gray-400">
                       // x402 payment middleware for Hono (Cloudflare Workers, Deno)
@@ -903,7 +856,7 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install @x402-avm/next</span>
+                    <span className="text-green-400">npm install @x402/next</span>
                     {"\n"}
                     <span className="text-gray-400">
                       // x402 payment middleware for Next.js (App Router)
@@ -918,7 +871,7 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install @x402-avm/fetch</span>
+                    <span className="text-green-400">npm install @x402/fetch</span>
                     {"\n"}
                     <span className="text-gray-400">// x402 client wrapper for the Fetch API</span>
                   </pre>
@@ -927,7 +880,7 @@ export default function Home() {
               <div className="mb-8">
                 <div className="bg-black/50 rounded-lg p-4 font-mono text-sm text-gray-300 relative overflow-hidden">
                   <pre className="syntax-highlight">
-                    <span className="text-green-400">npm install @x402-avm/axios</span>
+                    <span className="text-green-400">npm install @x402/axios</span>
                     {"\n"}
                     <span className="text-gray-400">// x402 client wrapper for Axios</span>
                   </pre>
@@ -956,6 +909,97 @@ export default function Home() {
         </Section>
 
         {/* x402 Button Section */}
+        {/* AI / Agents — GoPlausible agentic tooling with native x402 support */}
+        <section id="ai-agents" className="max-w-6xl mx-auto px-4 py-16">
+          <h3 className="text-3xl font-bold text-blue-400 text-center mb-6">
+            AI / Agents
+          </h3>
+          <p className="text-gray-300 leading-relaxed text-xl mb-10 text-center max-w-3xl mx-auto">
+            All of these tools from GoPlausible have internal support for x402
+            operations — directly and in one shot: your agent discovers, pays
+            and consumes paid Algorand resources without any extra wiring.
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                name: "Algorand MCP Server",
+                desc: "The full Algorand MCP for AI agents and IDEs.",
+                href: "https://www.npmjs.com/package/@goplausible/algorand-mcp",
+                logo: "/logos/goplausible.png",
+              },
+              {
+                name: "Algorand Remote MCP Server",
+                desc: "Hosted remote MCP — connect any MCP client, zero install.",
+                href: "https://github.com/GoPlausible/algorand-remote-mcp",
+                logo: "/logos/goplausible.png",
+              },
+              {
+                name: "Algorand Remote MCP Lite (Wallet Edition)",
+                desc: "Lightweight remote MCP built around wallet flows.",
+                href: "https://github.com/GoPlausible/algorand-remote-mcp-lite",
+                logo: "/logos/goplausible.png",
+              },
+              {
+                name: "Algorand Claude Plugin",
+                desc: "Algorand tooling as a Claude Code plugin.",
+                href: "https://github.com/GoPlausible/claude-plugins",
+                logo: "/logos/claude.svg",
+              },
+              {
+                name: "Algorand Codex Plugin",
+                desc: "Algorand tooling as a Codex plugin.",
+                href: "https://github.com/GoPlausible/codex-plugins",
+                logo: "/logos/codex.svg",
+              },
+              {
+                name: "Algorand OpenClaw Plugin",
+                desc: "Algorand + x402 skills for OpenClaw agents.",
+                href: "https://www.npmjs.com/package/@goplausible/openclaw-algorand-plugin",
+                logo: "/logos/openclaw.svg",
+              },
+              {
+                name: "Algorand Agent Skills (Claude)",
+                desc: "Algorand agent skills for Claude by GoPlausible.",
+                href: "https://github.com/GoPlausible/claude-plugins",
+                logo: "/logos/claude.svg",
+              },
+              {
+                name: "Algorand Agent Skills (Codex)",
+                desc: "Algorand agent skills for Codex by GoPlausible.",
+                href: "https://github.com/GoPlausible/codex-plugins",
+                logo: "/logos/codex.svg",
+              },
+              {
+                name: "Algorand Agent Skills (DevRel)",
+                desc: "Agent skills for x402 by GoPlausible.",
+                href: "https://github.com/algorand-devrel/algorand-agent-skills",
+                logo: "/logos/algorand-devrel.png",
+              },
+            ].map((t) => (
+              <Link
+                key={t.name}
+                href={t.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-gray-800/30 rounded-2xl p-6 backdrop-blur-2xl border border-gray-700/50 hover:border-blue-600 transition-colors flex items-start gap-4"
+              >
+                <Image
+                  src={t.logo}
+                  alt={`${t.name} logo`}
+                  width={44}
+                  height={44}
+                  unoptimized
+                  className="rounded-lg bg-white/90 p-1 shrink-0"
+                />
+                <span>
+                  <span className="block font-mono font-bold mb-1">{t.name}</span>
+                  <span className="block text-sm text-gray-400">{t.desc}</span>
+                </span>
+              </Link>
+            ))}
+          </div>
+        </section>
+
         <div className="relative z-10 text-center py-12">
           <Image
             src="/x402-button-large.png"

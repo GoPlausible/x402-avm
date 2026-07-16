@@ -39,6 +39,13 @@ const NavBar = () => {
           GoPlausible
         </Link>
 
+        <Link
+          href="/#ai-agents"
+          className="font-mono hover:text-blue-400 transition-colors flex items-center gap-1 text-sm"
+        >
+          AI/Agents
+        </Link>
+
         {/* Coinbase x402 dropdown */}
         <div className="relative" ref={menuRef}>
           <button

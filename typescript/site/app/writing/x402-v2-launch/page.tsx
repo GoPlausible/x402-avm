@@ -272,7 +272,7 @@ export default function X402V2LaunchPage() {
                 <li>
                   <strong>Modular Paywall Package</strong>: The paywall has been completely
                   overhauled and extracted into a dedicated, modular package:{" "}
-                  <code className="bg-green-100 px-1 rounded">@x402-avm/paywall</code>. This allows
+                  <code className="bg-green-100 px-1 rounded">@x402/paywall</code>. This allows
                   developers to easily contribute new payment backends and create custom paywall
                   variations (with built-in support for EVM and Solana).
                 </li>
